@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		<title>
+			{% block title %}
+				Welcome!
+			{% endblock %}
+		</title>
+		{# <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>"> #}
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/> {% block stylesheets %}{% endblock %}
+
+		{% block javascripts %}
+			{% block importmap %}
+				{{ importmap('app') }}
+			{% endblock %}
+		{% endblock %}
+	</head>
+	<body>
+		{# Ajout du menu latéral qui sera caché par défaut #}
+		<div id="sidebar" class="fixed top-0 right-0 w-0 h-full bg-white shadow-2xl transition-all duration-300 z-50 overflow-hidden">
+			<div class="flex flex-col p-8">
+
+				<div class="flex justify-end  mb-8">
+					<button id="closeMenu" class="text-black hover:text-gray-500">
+						<i class="fa-solid fa-xmark text-[20px]"></i>
+					</button>
+				</div>
+				<nav class="flex flex-col gap-6">
+					{% if app.user %}
+						<a href="{{path('app_home')}}" class="text-[20px] font-Roboto hover:text-gray-500 border-b border-gray-200 pb-4">Accueil</a>
+						<a href="{{ path('app_profile') }}" class="text-[20px] font-Roboto hover:text-gray-500 border-b border-gray-200 pb-4">
+							<i class="fa-solid fa-user"></i>
+							{{ app.user.name}}</a>
+						<a href="{{ path('app_register') }}" class="text-[20px] font-Roboto hover:text-gray-500 border-b border-gray-200 pb-4">Déconexion</a>
+					{% else %}
+						<a href="{{path('app_home')}}" class="text-[20px] font-Roboto hover:text-gray-500 border-b border-gray-200 pb-4">Accueil</a>
+						<a href="{{ path('app_register') }}" class="text-[20px] font-Roboto hover:text-gray-500 border-b border-gray-200 pb-4">Connexion</a>
+					{% endif %}
+				</nav>
+			</div>
+		</div>
+
+		{# Overlay sombre qui apparaît derrière le menu #}
+		<div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 z-40"></div>
+
+		<header
+			class="bg-[#FDEDD5]  flex items-center p-3 justify-between gap-4 sm:justify-between sm:px-6 xl:justify-around ">
+			<!-- Logo -->
+			<img
+			src="{{asset('img/Logo.png')}}" alt="Logo" class="w-32">
+
+			<!-- Input de recherche -->
+
+			<input type="text" name="recherche" placeholder="Recherchez" class="bg-[#F5702B] px-5 placeholder-white w-[180px] text-white text-sm
+				                rounded-3xl h-7 placeholder:text-sm sm:w-[250px] sm:h-8 md:w-[150px] lg:w-[250px] xl:w-[350px]">
+
+
+			<div class="md:flex md:items-center">
+				<ul
+					class="hidden md:flex md:gap-8 md:items-center">
+					<!-- Liens de navigation -->
+					<li>
+						<a href="#" class="font-principale text-gray-700 hover:text-[#F5702B] transition">Livre</a>
+					</li>
+					<li>
+						<a href="#" class="font-principale text-gray-700 hover:text-[#F5702B] transition">Support</a>
+					</li>
+					<li>
+						<a href="#" class="font-principale text-gray-700 hover:text-[#F5702B] transition">Contact</a>
+					</li>
+				</ul>
+
+				<!-- Bouton Connectez-vous -->
+				<div class="hidden md:flex md:ml-6">
+					{% if app.user %}
+						<a href="{{path('app_profile')}}" class="w-[130px] h-8 bg-[#F5702B] text-white font-principale flex items-center justify-center  hover:bg-[#d45920] transition">
+							{{app.user.name}}
+						</a>
+					{% else %}
+						<a href="{{path('app_register')}}" class="w-[130px] h-8 bg-[#F5702B] text-white font-principale flex items-center justify-center  hover:bg-[#d45920] transition">
+							Connexion
+						</a>
+					{% endif %}
+
+				</div>
+
+
+			</div>
+
+
+			<!--  menu burger -->
+			<a id="openMenu" href="#" class="text-xl text-black md:hidden">
+				<i class="fa-solid fa-bars"></i>
+			</a>
+		</header>
+
+
+		{% block body %}{% endblock %}
+
+		{# script pour le menu burger #}
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.querySelector('#sidebar');
+        const overlay = document.querySelector('#overlay')
+        const openMenuBtn = document.querySelector('#openMenu')
+        const closeMenuBtn = document.querySelector('#closeMenu')
+
+        console.log(sidebar);
+        console.log(overlay);
+        console.log(openMenuBtn);
+        console.log(closeMenuBtn);
+
+
+        // Fonction pour ouvrir le menu
+        openMenuBtn.addEventListener('click', function () {
+          sidebar.classList.remove('w-0');
+          sidebar.classList.add('w-4/5', 'sm:w-1/2', 'md:w-1/3');
+          overlay.classList.remove('opacity-0');
+          overlay.classList.add('opacity-50');
+        })
+
+        // Fonction pour fermer le menu
+        function closeMenu() {
+          sidebar.classList.remove('w-4/5', 'sm:w-1/2', 'md:w-1/3')
+          sidebar.classList.add('w-0')
+          overlay.classList.remove('opacity-50')
+          overlay.classList.add('opacity-0')
+        }
+
+        closeMenuBtn.addEventListener('click', closeMenu)
+        overlay.addEventListener('click', closeMenu)
+      })
+		</script>
+		{# fin du script #}
+	</body>
+</html>

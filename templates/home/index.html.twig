@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Accueil
+{% endblock %}
+
+{% block body %}
+
+
+    <main class="flex flex-col justify-center">
+
+        
+                 
+                    <div class="flex flex-wrap gap-2 justify-center">
+                        <span class="bg-[#F48023] text-white px-3 py-1 rounded-full text-sm">slug1</span>
+                        <span class="bg-[#F48023] text-white px-3 py-1 rounded-full text-sm">slug2</span>
+                        <span class="bg-[#F48023] text-white px-3 py-1 rounded-full text-sm">slug3</span>
+                      
+                    </div>
+                
+                {# fin de slug #}
+        
+        
+        </section>
+
+        <section class="flex flex-col p-6 gap-16">
+            <article class="shadow-lg flex gap-8 p-11 flex-col ">
+                <div class="flex gap-11">
+                    <img class="rounded-full w-[15%] aspect-square object-cover lg:w-[10%]" src="{{ asset('img/ammar.png') }}" alt="">
+                    <div class="flex flex-col">
+                        <h3 class="text-[20px] font-Roboto  font-light sm:text-[20px]">Oussama</h3>
+                        <p class="text-[15px] text-[#808080] font-Roboto sm:text-[15px]">il y a 3 min</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col">
+                    <p class="text-[23px] font-Roboto font-bold sm:text-[20px]">Mettre le titre ici</p>
+                    <p class="text-[15px] font-Roboto font-light text-[#000000]">mettre la description la solution etc...</p>
+                </div>
+
+                {# parti category  #}
+                 <div class="flex gap-2 justify-center">
+                        <span class="bg-so-light-blue text-so-blue px-3 py-1 rounded-full text-sm">category1</span>
+                        <span class="bg-so-light-blue text-so-blue px-3 py-1 rounded-full text-sm">category2</span>
+                        <span class="bg-so-light-blue text-so-blue px-3 py-1 rounded-full text-sm">category3</span>
+                      
+                    </div>
+                {# fin de category #}
+            </article>
+        </section>
+    </main>
+
+ 
+ 
+{% endblock %}

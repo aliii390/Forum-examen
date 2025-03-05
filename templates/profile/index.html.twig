@@ -1,0 +1,128 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto px-4 py-8">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <!-- Profile Sidebar -->
+            <div class="md:col-span-1">
+                <div class="bg-white shadow-md rounded-lg p-6 sticky top-8">
+                    <div class="flex flex-col items-center">
+                        <img src="{{asset('img/ammar.png')}}" alt="Profile" class="w-24 sm:w-28 md:w-32 rounded-full mb-4 object-cover aspect-square">
+                        <h2 class="text-xl sm:text-2xl font-bold text-gray-800">John Doe</h2>
+                        <p class="text-sm sm:text-base text-gray-600">Développeur Web</p>
+                        
+                        <div class="mt-4 text-center">
+                            <p class="text-xs sm:text-sm text-gray-500">depuis: Janvier 2023</p>
+                        </div>
+                        
+                        <div class="mt-6 w-full">
+                            <button onclick="openModal()" class="w-full bg-[#F48023] hover:bg-[#E47013] transition-colors text-white py-2 rounded">
+                                Modifiez le profile
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="md:col-span-2">
+                <!-- Stats Section -->
+                <div class="bg-white shadow-md rounded-lg p-4 sm:p-5 md:p-6 mb-4 sm:mb-5 md:mb-6">
+                    <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 md:gap-4">
+                        <div class="text-center p-2 sm:p-3 md:p-4">
+                            <div class="text-lg sm:text-xl md:text-2xl font-bold text-[#F48023]">1.2K</div>
+                            <div class="text-xs sm:text-sm text-gray-600">Abonnées</div>
+                        </div>
+                        <div class="text-center p-2 sm:p-3 md:p-4">
+                            <div class="text-lg sm:text-xl md:text-2xl font-bold text-[#F48023]">128</div>
+                            <div class="text-xs sm:text-sm text-gray-600">Questions</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Skills Section -->
+                <div class="bg-white shadow-md rounded-lg p-4 sm:p-5 md:p-6">
+                    <h3 class="text-lg sm:text-xl font-semibold mb-3 sm:mb-4">Skills</h3>
+                    <div class="flex flex-wrap gap-2 sm:gap-3">
+                        <span class="bg-so-light-blue text-so-blue px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">JavaScript</span>
+                        <span class="bg-so-light-blue text-so-blue px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">React</span>
+                        <span class="bg-so-light-blue text-so-blue px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">Python</span>
+                        <span class="bg-so-light-blue text-so-blue px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">Tailwind CSS</span>
+                        <span class="bg-so-light-blue text-so-blue px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">Node.js</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div id="profileModal" class="fixed inset-0 bg-black bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg p-6 sm:p-8 max-w-md w-full mx-4 sm:mx-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-xl sm:text-2xl font-semibold text-gray-800">Modifier le profil</h3>
+                <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+            
+            <form class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                        Nom complet
+                    </label>
+                    <input type="text" id="name" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F48023]" value="John Doe">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="job">
+                        Profession
+                    </label>
+                    <input type="text" id="job" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F48023]" value="Développeur Web">
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 text-sm font-bold mb-2" for="photo">
+                        Photo de profil
+                    </label>
+                    <input type="file" id="photo" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#F48023] file:text-white hover:file:bg-[#E47013]">
+                </div>
+                
+                <div class="flex justify-end space-x-4 mt-6">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 text-gray-600 bg-gray-100 rounded hover:bg-gray-200">
+                        Annuler
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-[#F48023] text-white rounded hover:bg-[#E47013]">
+                        Sauvegarder
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function openModal() {
+            const modal = document.getElementById('profileModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('profileModal');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Fermer la modal en cliquant en dehors
+        document.getElementById('profileModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    </script>
+{% endblock %}
