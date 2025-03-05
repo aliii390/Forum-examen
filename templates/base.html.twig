@@ -48,8 +48,11 @@
 		<header
 			class="bg-[#FDEDD5]  flex items-center p-3 justify-between gap-4 sm:justify-between sm:px-6 xl:justify-around ">
 			<!-- Logo -->
-			<img
-			src="{{asset('img/Logo.png')}}" alt="Logo" class="w-32">
+      <a href="{{path('app_home')}}">
+        <img
+            src="{{asset('img/Logo.png')}}" alt="Logo" class="w-32">
+      </a>
+		
 
 			<!-- Input de recherche -->
 
@@ -62,10 +65,10 @@
 					class="hidden md:flex md:gap-8 md:items-center">
 					<!-- Liens de navigation -->
 					<li>
-						<a href="#" class="font-principale text-gray-700 hover:text-[#F5702B] transition">Livre</a>
+						<a href="#" class="font-principale text-gray-700 hover:text-[#F5702B] transition">Accueil</a>
 					</li>
 					<li>
-						<a href="#" class="font-principale text-gray-700 hover:text-[#F5702B] transition">Support</a>
+						<a href="#" class="font-principale text-gray-700 hover:text-[#F5702B] transition">Posez votre question</a>
 					</li>
 					<li>
 						<a href="#" class="font-principale text-gray-700 hover:text-[#F5702B] transition">Contact</a>
@@ -91,13 +94,17 @@
 
 
 			<!--  menu burger -->
-			<a id="openMenu" href="#" class="text-xl text-black md:hidden">
+			<a id="openMenu" class="text-xl text-black md:hidden">
 				<i class="fa-solid fa-bars"></i>
 			</a>
 		</header>
 
 
 		{% block body %}{% endblock %}
+
+
+
+			{% block js %}
 
 		{# script pour le menu burger #}
 		<script>
@@ -134,5 +141,6 @@
       })
 		</script>
 		{# fin du script #}
+		  {% endblock %}
 	</body>
 </html>
