@@ -25,7 +25,7 @@ class Publication
     #[ORM\ManyToOne(inversedBy: 'publications')]
     private ?Category $category = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255 , nullable: true)]
     private ?string $title = null;
 
     public function getId(): ?int
@@ -86,7 +86,7 @@ class Publication
         return $this->title;
     }
 
-    public function setTitle(string $title): static
+    public function setTitle(?string $title): static
     {
         $this->title = $title;
 
