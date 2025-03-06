@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Sign Up | Stack Overflow
+{% block title %}s'inscrire | Forum
 {% endblock %}
 
 {% block body %}
@@ -8,13 +8,11 @@
 		<div class="w-full max-w-md bg-white shadow-md rounded-lg border border-slate-200">
 			<div class="p-8">
 				<div class="text-center mb-6">
-					<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewbox="0 0 512 512" class="mx-auto mb-4 text-orange-500" fill="currentColor">
-						<path d="M392 32H119.84a48 48 0 0 0-48 48v336a48 48 0 0 0 48 48H392a48 48 0 0 0 48-48V80a48 48 0 0 0-48-48zm-32 272H160v-48h200zm0-80H160v-48h200zm0-80H160V96h200z"/>
-					</svg>
-					<h1 class="text-2xl font-semibold text-slate-800">Create an account</h1>
+					<img class="w-[180px] mb-4" src="{{asset('img/Logo.png')}}" alt="Logo">
+					<h1 class="text-2xl font-semibold text-slate-800">Créer votre compte</h1>
 					<p class="mt-2 text-sm text-slate-600">
-						Already have an account?
-						<a href="#" class="font-medium text-orange-600 hover:text-orange-500">Log in</a>
+						Vous avez déja un compte?
+						<a href="{{path('app_login')}}" class="font-medium text-orange-600 hover:text-orange-500">Connectez vous</a>
 					</p>
 				</div>
 
@@ -71,19 +69,19 @@
 						{{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'h-4 w-4 text-orange-600 focus:ring-orange-500 border-slate-300 rounded'}}) }}
 					</div>
 					<div class="ml-3 text-sm">
-						{{ form_label(registrationForm.agreeTerms, "I agree to the Terms of Service", {'label_attr': {'class': 'font-medium text-slate-700'}}) }}
+						{{ form_label(registrationForm.agreeTerms, "J'accepte les conditions d'utilisation", {'label_attr': {'class': 'font-medium text-slate-700'}}) }}
 						<p class="text-slate-500">
-							By creating an account, you agree to our
-							<a href="#" class="text-orange-600 hover:text-orange-500">Terms of Service</a>
-							and
-							<a href="#" class="text-orange-600 hover:text-orange-500">Privacy Policy</a>.
+							En créant un compte, vous acceptez nos
+							<a href="#" class="text-orange-600 hover:text-orange-500">Conditions d'utilisation</a>
+							et
+							<a href="#" class="text-orange-600 hover:text-orange-500">politique de confidentialité</a>.
 						</p>
 					</div>
 				</div>
 
 				<div>
 					<button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-orange-500">
-						Sign Up
+						s'inscrire
 					</button>
 				</div>
 				{{ form_end(registrationForm) }}
