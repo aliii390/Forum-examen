@@ -28,7 +28,7 @@ final class QuestionsController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash('success', 'Question publiée avec succès.');
-            return $this->redirectToRoute('app_questions');
+            return $this->redirectToRoute('app_home');
         }
 
         return $this->render('questions/index.html.twig', [

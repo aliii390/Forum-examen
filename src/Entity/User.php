@@ -53,6 +53,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Publication::class, mappedBy: 'user')]
     private Collection $publications;
 
+
+
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     public function __construct()
     {
         $this->categories = new ArrayCollection();
