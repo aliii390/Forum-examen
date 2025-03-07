@@ -15,22 +15,22 @@ use Symfony\Component\Routing\Attribute\Route;
 final class QuestionsController extends AbstractController
 {
     #[Route('/questions', name: 'app_questions')]
-    public function index(CategoryRepository $categoryRepo, Request $request, EntityManagerInterface $entityManager): Response
+    public function index(CategoryRepository $categoryRepo , Request $request , EntityManagerInterface $entityManager): Response
     {
-        $category = $categoryRepo->findAll();
-        $question = new Publication();
-        $form = $this->createForm(PublicationType::class, $question);
+        $category =  $categoryRepo->findAll();
+        $form = $this->createForm(PublicationType::class);
         $form->handleRequest($request);
+        $question = new Publication();
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $question->setUser($this->getUser());
-            $entityManager->persist($question);
-            $entityManager->flush();
-
-            $this->addFlash('success', 'Question publiée avec succès.');
-            return $this->redirectToRoute('app_home');
+        if($form->isSubmitted() && $form->isValid()){
+            dd($form);
+           $question->setUser($this->getUser());
+        
+           $entityManager->persist($question);
+           $entityManager->flush();
+           
         }
-
+        // dd($form);
         return $this->render('questions/index.html.twig', [
             'category' => $category,
             'publicationType' => $form->createView(),

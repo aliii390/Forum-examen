@@ -53,6 +53,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Publication::class, mappedBy: 'user')]
     private Collection $publications;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
+
 
 
 
@@ -222,6 +225,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $publication->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }
