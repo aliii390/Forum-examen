@@ -32,100 +32,95 @@
 	</head>
 	<body>
 		{# Ajout du menu latéral qui sera caché par défaut #}
-		<div id="sidebar" class="fixed top-0 right-0 w-0 h-full bg-white shadow-2xl transition-all duration-300 z-50 overflow-hidden">
-			<div class="flex flex-col p-8">
+	{# Sidebar menu latéral #}
+<div id="sidebar" class="fixed top-0 right-0 w-0 h-full bg-white shadow-2xl transition-all duration-300 z-50 overflow-hidden">
+    <div class="flex flex-col p-6">
+        <div class="flex justify-end mb-6">
+            <button id="closeMenu" class="text-gray-800 hover:text-gray-500 transition-colors p-2">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+        </div>
+        <nav class="flex flex-col gap-5">
+            {% if app.user %}
+                <a href="{{ path('app_profile') }}" class="text-lg font-medium flex items-center gap-3 hover:text-orange-500 transition-colors border-b border-gray-200 pb-4">
+                    <i class="fa-solid fa-user p-2 bg-gray-100 rounded-full"></i>
+                    <span>{{ app.user.name }}</span>
+                </a>
+                <a href="{{ path('app_home') }}" class="text-lg font-medium hover:text-orange-500 transition-colors border-b border-gray-200 pb-4">Accueil</a>
+                <a href="{{ path('app_questions') }}" class="text-lg font-medium hover:text-orange-500 transition-colors border-b border-gray-200 pb-4">Poser une question</a>
+                <a href="{{ path('app_logout') }}" class="text-lg font-medium hover:text-orange-500 transition-colors border-b border-gray-200 pb-4">Déconnexion</a>
+            {% else %}
+                <a href="{{ path('app_home') }}" class="text-lg font-medium hover:text-orange-500 transition-colors border-b border-gray-200 pb-4">Accueil</a>
+                <a href="{{ path('app_register') }}" class="text-lg font-medium hover:text-orange-500 transition-colors border-b border-gray-200 pb-4">Connexion</a>
+            {% endif %}
+        </nav>
+    </div>
+</div>
 
-				<div class="flex justify-end  mb-8">
-					<button id="closeMenu" class="text-black hover:text-gray-500">
-						<i class="fa-solid fa-xmark text-[20px]"></i>
-					</button>
-				</div>
-				<nav class="flex flex-col gap-6">
-					{% if app.user %}
-						<a href="{{ path('app_profile') }}" class="text-[20px] font-Roboto hover:text-gray-500 border-b border-gray-200 pb-4">
-							<i class="fa-solid fa-user p-2 bg-gray-200 rounded-full"></i>
-							{{ app.user.name}}</a>
-						<a href="{{path('app_home')}}" class="text-[20px] font-Roboto hover:text-gray-500 border-b border-gray-200 pb-4">Accueil</a>
+{# Overlay pour le background du menu mobile #}
+<div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 z-40"></div>
 
-						<a href="{{ path('app_register') }}" class="text-[20px] font-Roboto hover:text-gray-500 border-b border-gray-200 pb-4">Déconexion</a>
-					{% else %}
-						<a href="{{path('app_home')}}" class="text-[20px] font-Roboto hover:text-gray-500 border-b border-gray-200 pb-4">Accueil</a>
-						<a href="{{ path('app_register') }}" class="text-[20px] font-Roboto hover:text-gray-500 border-b border-gray-200 pb-4">Connexion</a>
-					{% endif %}
-				</nav>
-			</div>
-		</div>
+{# Header principal #}
+<header class="bg-[#FDEDD5] py-3 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+        {# Logo #}
+        <a href="{{ path('app_home') }}" class="flex-shrink-0">
+            <img src="{{ asset('img/Logo.png') }}" alt="Logo" class="w-28 sm:w-32">
+        </a>
 
-		{# Overlay sombre qui apparaît derrière le menu #}
-		<div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 z-40"></div>
+        {# Barre de recherche #}
+        <div class="flex-1 max-w-md mx-4 hidden sm:block">
+            <div class="relative">
+                <input 
+                    type="text" 
+                    name="recherche" 
+                    placeholder="Recherchez" 
+                    class="bg-[#F5702B] w-full px-4 py-2 text-white text-sm rounded-full placeholder-white focus:outline-none focus:ring-2 focus:ring-orange-400"
+                >
+                <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+                    <i class="fa-solid fa-search text-white text-sm"></i>
+                </div>
+            </div>
+        </div>
 
-		<header
-			class="bg-[#FDEDD5]  flex items-center p-3 justify-between gap-4 sm:justify-between sm:px-6 xl:justify-around ">
-			<!-- Logo -->
-			<a href="{{path('app_home')}}">
-				<img src="{{asset('img/Logo.png')}}" alt="Logo" class="w-32">
-			</a>
+        {# Navigation desktop #}
+        <div class="hidden md:flex md:items-center md:space-x-4">
+            {% if app.user %}
+                <a href="{{ path('app_profile') }}" class="p-2 hover:bg-gray-100 rounded-full transition-colors">
+                    <i class="fa-solid fa-user text-gray-800"></i>
+                </a>
+                <a href="{{ path('app_logout') }}" class="p-2 text-gray-800 hover:text-orange-600 transition-colors">
+                    <i class="fa-solid fa-sign-out-alt"></i>
+                </a>
+                <a href="{{ path('app_questions') }}" class="relative inline-flex items-center justify-center px-6 py-2 overflow-hidden text-white bg-[#F5702B] rounded-full group hover:bg-orange-700 transition-colors">
+                    <span class="relative flex items-center gap-2 text-sm font-medium">
+                        <i class="fa-solid fa-plus"></i>
+                        Poser votre question
+                    </span>
+                </a>
+            {% else %}
+                <a href="{{ path('app_register') }}" class="px-5 py-2 bg-[#F5702B] text-white text-sm font-medium rounded-md hover:bg-orange-700 transition-colors">
+                    Connexion
+                </a>
+            {% endif %}
+        </div>
 
+        {# Barre de recherche mobile #}
+        <div class="sm:hidden flex-1 mx-3">
+            <input 
+                type="text" 
+                name="recherche" 
+                placeholder="Recherchez" 
+                class="bg-[#F5702B] w-full px-3 py-1 text-white text-xs rounded-full placeholder-white focus:outline-none"
+            >
+        </div>
 
-			<!-- Input de recherche -->
-
-			<input type="text" name="recherche" placeholder="Recherchez" class="bg-[#F5702B] px-5 placeholder-white w-[180px] text-white text-sm rounded-3xl h-7 placeholder:text-sm sm:w-[250px] sm:h-8 md:w-[150px] lg:w-[250px] xl:w-[350px]">
-
-
-			<div class="md:flex md:items-center">
-				<ul
-					class="hidden md:flex md:gap-8 md:items-center ">
-					<!-- Liens de navigation -->
-					{% if app.user %}
-						<li>
-							<a href="{{path('app_profile')}}">
-								<i class="fa-solid fa-user p-2 bg-gray-200 rounded-full"></i>
-							</a>
-						</li>
-
-					</ul>
-					<a href="{{path('app_questions')}}" class="relative inline-flex items-center justify-center px-4 py-2 md:px-8 md:py-2.5 overflow-hidden tracking-tighter text-white bg-orange-600 rounded-full group  max-md:hidden">
-						<span class="absolute w-0 h-0 transition-all duration-500 ease-out  bg-gray-800 rounded-full group-hover:w-56 group-hover:h-56"></span>
-						<span class="absolute bottom-0 left-0 h-full -ml-2">
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-auto h-full opacity-100 object-stretch" viewbox="0 0 487 487">
-								<path fill-opacity=".1" fill-rule="nonzero" fill="#FFF" d="M0 .3c67 2.1 134.1 4.3 186.3 37 52.2 32.7 89.6 95.8 112.8 150.6 23.2 54.8 32.3 101.4 61.2 149.9 28.9 48.4 77.7 98.8 126.4 149.2H0V.3z"></path>
-							</svg>
-						</span>
-						<span class="absolute top-0 right-0 w-12 h-full -mr-3">
-							<svg xmlns="http://www.w3.org/2000/svg" class="object-cover w-full h-full" viewbox="0 0 487 487">
-								<path fill-opacity=".1" fill-rule="nonzero" fill="#FFF" d="M487 486.7c-66.1-3.6-132.3-7.3-186.3-37s-95.9-85.3-126.2-137.2c-30.4-51.8-49.3-99.9-76.5-151.4C70.9 109.6 35.6 54.8.3 0H487v486.7z"></path>
-							</svg>
-						</span>
-						<span class="absolute inset-0 w-full h-full -mt-1 rounded-full opacity-30 bg-gradient-to-b from-transparent via-transparent to-gray-200"></span>
-						<span class="relative text-sm md:text-base font-semibold">
-							<i class="fa-solid fa-plus" style="color: #ffffff;"></i>
-							Poser votre question</span>
-					</a>
-
-
-				{% else %}
-					<!-- Bouton Connectez-vous -->
-					<div class="hidden md:flex md:ml-6">
-
-						<a href="{{path('app_register')}}" class="w-[130px] h-8 bg-[#F5702B] text-white font-principale flex items-center justify-center  hover:bg-[#d45920] transition">
-							Connectez-vous
-						</a>
-
-
-					{% endif %}
-
-				</div>
-
-
-			</div>
-
-
-			<!--  menu burger -->
-			<a id="openMenu" class="text-xl text-black md:hidden">
-				<i class="fa-solid fa-bars"></i>
-			</a>
-		</header>
-
+        {# Bouton menu burger mobile #}
+        <button id="openMenu" class="p-2 text-gray-800 hover:text-orange-600 transition-colors md:hidden">
+            <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+    </div>
+</header>
 
 		{% block body %}{% endblock %}
 

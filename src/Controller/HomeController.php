@@ -15,7 +15,7 @@ final class HomeController extends AbstractController
     {
 
         $publication = $publicationRepository->findAll();
-        $category = $categoryRepository;
+        $category = $categoryRepository->findAll();
 
         return $this->render('home/index.html.twig', [
              'publication' => $publication,
