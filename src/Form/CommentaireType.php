@@ -15,16 +15,7 @@ class CommentaireType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('message')
-            ->add('user', EntityType::class, [
-                'class' => User::class,
-                'choice_label' => 'id',
-            ])
-            ->add('publication', EntityType::class, [
-                'class' => Publication::class,
-                'choice_label' => 'id',
-            ])
-        ;
+            ->add('message');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

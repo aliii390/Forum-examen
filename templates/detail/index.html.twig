@@ -105,16 +105,16 @@
   <!-- Comments List Section -->
   <div class="space-y-4 mb-6">
     {# {% if comments is defined and comments|length > 0 %} #}
-      {# {% for comment in comments %} #}
+       {% for comment in commentaireFin %} 
         <div class="border-b border-gray-200 pb-4 last:border-b-0">
           <div class="flex items-start">
             <img src="{{ asset('img/ammar.png') }}" alt="Avatar" class="w-8 h-8 rounded-full mr-3">
             <div class="flex-1">
               <div class="flex items-center justify-between">
-                <h4 class="font-medium text-blue-600"> mettre le nom de l'user</h4>
-                <span class="text-gray-500 text-xs">mettre la date</span>
+                <h4 class="font-medium text-blue-600"> {{comment.user.name}}</h4>
+                <span class="text-gray-500 text-xs">{{ comment.createdAt|date('d M Y à H:i') }}</span>
               </div>
-              <p class="text-gray-800 mt-1">description commentaire</p>
+              <p class="text-gray-800 mt-1">{{comment.message}}</p>
               
               <!-- Comment Actions -->
               <div class="flex items-center mt-2 space-x-4">
@@ -148,7 +148,7 @@
                         </div>
                       </div>
                     </div>
-                  {# {% endfor %} #}
+                   {% endfor %} 
                 </div>
               {# {% endif %} #}
               
@@ -174,17 +174,22 @@
     {# {% endif %} #}
   </div>
 
-  <!-- Comment Form (Existing, but slightly modified) -->
-  <form class="w-full">
+  {{ form_start(commentaireType, {'attr': {'class': 'w-full'}}) }}
     <div class="mb-4">
-      <input type="text" placeholder="Écrivez votre commentaire" class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+        {{ form_widget(commentaireType.message, {
+            'attr': {
+                'placeholder': 'Écrivez votre commentaire',
+                'class': 'w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+            }
+        }) }}
     </div>
     <div class="flex justify-end">
-      <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition duration-200">
-        Poster
-      </button>
+        <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition duration-200">
+            Poster
+        </button>
     </div>
-  </form>
+{{ form_end(commentaireType) }}
+
 </div>
 </section>
 {% endblock %}

@@ -22,6 +22,9 @@ class Commentaire
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $message = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?\DateTimeImmutable $createdAt = null;
+
  
 
     public function getId(): ?int
@@ -61,6 +64,18 @@ class Commentaire
     public function setMessage(?string $message): static
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Commentaire;
 use App\Entity\Publication;
 use App\Form\CommentaireType;
+use App\Repository\CommentaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,28 +15,34 @@ use Symfony\Component\Routing\Annotation\Route;
 final class DetailController extends AbstractController
 {
     #[Route('/detail/{id}', name: 'app_detail')]
-    public function index(Publication $publication , Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Publication $publication , Request $request, EntityManagerInterface $entityManager , CommentaireRepository $commentaireRepo ): Response
     {
 
-// pour postez un commentaire
-$commentaire = new Commentaire();
-$formCommentaire =  $this->createForm(CommentaireType::class, $commentaire);
-$formCommentaire->handleRequest($request);
+        
+    $commentaire = new Commentaire();
+    $form = $this->createForm(CommentaireType::class, $commentaire);
+    $form->handleRequest($request);
 
-if($formCommentaire->isSubmitted() && $formCommentaire->isValid()){
-    $commentaire->setUser($this->getUser());
+    if ($form->isSubmitted() && $form->isValid()) {
+        $commentaire->setUser($this->getUser());
+        $commentaire->setPublication($publication);
+        $commentaire->setCreatedAt(new \DateTimeImmutable());
+        
+        $entityManager->persist($commentaire);
+        $entityManager->flush();
 
-    $commentaire->setMessage($formCommentaire->get('message')->getData());
-    $entityManager->persist($commentaire);
-    $entityManager->flush();
-}
+        $this->addFlash('success', 'Votre commentaire a été ajouté avec succès!');
 
-// fin du code pour postez un commentaire 
-
-        return $this->render('detail/index.html.twig', [
-            'publication' => $publication,
-            'commentaireType' =>  $formCommentaire->createView(),
-
-        ]);
+        return $this->redirectToRoute('app_detail', ['id' => $publication->getId()]);
     }
+
+    $commentaires = $commentaireRepo->findBy(['publication' => $publication]);
+
+    return $this->render('detail/index.html.twig', [
+        'publication' => $publication,
+        'commentaireType' => $form->createView(),
+        'commentaireFin' => $commentaires
+    ]);
+    }
+
 }
