@@ -31,7 +31,7 @@
                         />
                         <div class="flex-1">
                             <h3 class="text-lg sm:text-xl font-medium text-gray-800">{{ question.user.name }}</h3>
-                            <p class="text-sm text-gray-500">il y a 3 min</p>
+                            <p class="text-sm text-gray-500">{{question.createdAt|date('d M Y à H:i')}}</p>
                         </div>
                         <div class="relative">
                             <button 

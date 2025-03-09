@@ -36,9 +36,13 @@ class Publication
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'publication')]
     private Collection $commentaires;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
   
@@ -134,6 +138,18 @@ class Publication
                 $commentaire->setPublication(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }
