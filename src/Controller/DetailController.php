@@ -36,6 +36,8 @@ final class DetailController extends AbstractController
         return $this->redirectToRoute('app_detail', ['id' => $publication->getId()]);
     }
 
+
+    // sa c'est pour affichez les commentaires apres l'envoi du formulaire
     $commentaires = $commentaireRepo->findBy(['publication' => $publication]);
 
     return $this->render('detail/index.html.twig', [
