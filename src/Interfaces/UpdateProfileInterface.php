@@ -6,7 +6,7 @@ use App\Entity\User;
 
 interface UpdateProfileInterface
 {
-    public function updateProfile(User $user, string $name, string $email): void;
+    public function updateProfile(User $user, string $name, string $email ): void;
 }
 
 

@@ -70,35 +70,28 @@
             </div>
             
            
-            {{ form_start(updateForm, {'attr': {'class': 'space-y-4'}})}}
-                <div>
-                {{ form_label(updateForm.name, null, {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
-                {{ form_widget(updateForm.name, {'attr': {'id': 'name' ,'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F48023]', 'placeholder': 'Adresse mail', 'value': app.user.name}}) }}
+           {{ form_start(updateForm, {'attr': {'class': 'space-y-4', 'enctype': 'multipart/form-data'}}) }}
+    <div>
+        {{ form_label(updateForm.name, null, {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+        {{ form_widget(updateForm.name, {'attr': {'id': 'name' ,'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F48023]', 'placeholder': 'Votre nom', 'value': app.user.name}}) }}
+    </div>
+    
+    <div>
+        {{ form_label(updateForm.email, null, {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+        {{ form_widget(updateForm.email, {'attr': {'id': 'email' ,'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F48023]', 'placeholder': 'Votre email', 'value': app.user.email}}) }}
+    </div>
+    
 
-                </div>
-                
-                <div>
-                  {{ form_label(updateForm.email, null, {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
-                {{ form_widget(updateForm.email, {'attr': {'id': 'job' ,'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F48023]', 'placeholder': 'Adresse mail', 'value': app.user.email}}) }}
-                  
-                </div>
-                
-                <div>
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="photo">
-                        Photo de profil
-                    </label>
-                    <input type="file" id="photo" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-[#F48023] file:text-white hover:file:bg-[#E47013]">
-                </div>
-                
-                <div class="flex justify-end space-x-4 mt-6">
-                    <button type="button" onclick="closeModal()" class="px-4 py-2 text-gray-600 bg-gray-100 rounded hover:bg-gray-200">
-                        Annuler
-                    </button>
-                    <button type="submit" class="px-4 py-2 bg-[#F48023] text-white rounded hover:bg-[#E47013]">
-                        Sauvegarder
-                    </button>
-                </div>
-         {{ form_end(updateForm) }}
+    
+    <div class="flex justify-end space-x-4 mt-6">
+        <button type="button" onclick="closeModal()" class="px-4 py-2 text-gray-600 bg-gray-100 rounded hover:bg-gray-200 transition-colors duration-200">
+            Annuler
+        </button>
+        <button type="submit" class="px-4 py-2 bg-[#F48023] text-white rounded hover:bg-[#E47013] transition-colors duration-200">
+            Sauvegarder
+        </button>
+    </div>
+{{ form_end(updateForm) }}
         </div>
     </div>
 
@@ -123,5 +116,10 @@
                 closeModal();
             }
         });
+
+
+
+
+        
     </script>
 {% endblock %}

@@ -8,8 +8,8 @@
     <section class="container mx-auto mb-8">
         <div class="flex flex-wrap gap-2 sm:gap-3 justify-center">
      {% for theme in category  %}
-            <a href="#" class="transition-transform hover:scale-105 duration-300">
-                <span class="bg-[#F48023] hover:bg-[#e67620] text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-sm" data-group="{{theme.slug}}">{{theme.name}}</span>
+            <a href="#" class="transition-transform hover:scale-105 duration-300" data-group="{{ theme.slug }}" onclick="filterPosts(event, '{{ theme.slug }}')">
+                <span class="bg-[#F48023] hover:bg-[#e67620] text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-sm" >{{theme.name}}</span>
             </a>
             {% endfor %}
         </div>
@@ -19,7 +19,7 @@
     {# Publications #}
     <div class="container mx-auto">
         {% for question in publication %}
-        <section class="mb-10 md:mb-14 lg:mb-16 flex justify-center">
+        <section class="mb-10 md:mb-14 lg:mb-16 flex justify-center" data-group="{{ question.category.slug }}"> 
             <article class="bg-white shadow-lg rounded-xl w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl overflow-hidden"  data-groups='["all" , "{{question.category.slug}}"]'>
                 {# En-tête avec profil utilisateur #}
                 <div class="p-5 sm:p-6 md:p-8 border-b border-gray-100">

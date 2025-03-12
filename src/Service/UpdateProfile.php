@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Service;
 
 use App\Entity\User;
 use App\Interfaces\UpdateProfileInterface;
@@ -26,6 +26,7 @@ class UpdateProfile implements UpdateProfileInterface
      
 
         $this->entityManager->flush();
+        
     }
 }
 

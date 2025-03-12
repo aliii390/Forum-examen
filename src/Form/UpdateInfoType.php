@@ -14,6 +14,7 @@ class UpdateInfoType extends AbstractType
         $builder
             ->add('email')
             ->add('name')
+            ->add('photo')
            
         ;
     }
