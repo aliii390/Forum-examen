@@ -140,5 +140,19 @@ document.addEventListener('click', function(event) {
         });
     }
 });
+
+
+{# code js pour les category  #}
+
+function filterPosts(event, group) {
+    event.preventDefault();
+    document.querySelectorAll('section[data-group]').forEach(section => {
+        if (section.getAttribute('data-group') === group || group === 'all') {
+            section.style.display = 'flex';
+        } else {
+            section.style.display = 'none';
+        }
+    });
+}
 </script>
 {% endblock %}
