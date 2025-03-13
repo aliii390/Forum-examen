@@ -9,6 +9,7 @@ use App\Form\CommentaireType;
 use App\Form\PublicationType;
 use App\Repository\CategoryRepository;
 use App\Repository\CommentaireRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,7 +19,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class QuestionsController extends AbstractController
 {
     #[Route('/questions', name: 'app_questions')]
-    public function index(CategoryRepository $categoryRepo , Request $request , EntityManagerInterface $entityManager): Response
+    public function index(CategoryRepository $categoryRepo , Request $request , EntityManagerInterface $entityManager ,): Response
     {
       
 
@@ -37,9 +38,13 @@ final class QuestionsController extends AbstractController
            $question->setDescription($form->get('description')->getData());
            $question->setCategory($form->get('category')->getData());
 
-           
+      
+           // rajoutez l'upload de photo 
 
-           
+       
+
+        //modifiez le code  upload
+
            $entityManager->persist($question);
            $entityManager->flush();
            

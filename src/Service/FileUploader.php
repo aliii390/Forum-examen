@@ -20,8 +20,11 @@ class FileUploader
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $safeFilename = $this->slugger->slug($originalFilename);
         $fileName = $safeFilename.'-'.uniqid().'.'.$file->guessExtension();
+    
 
         try {
+          
+            
             $file->move($this->getTargetDirectory() . '/' . $folder, $fileName);
         } catch (FileException $e) {
             throw new Exception('There was a problem uploading your file. Please try again.');

@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Form\UpdateInfoType;
 use App\Interfaces\UpdateProfileInterface;
 use App\Service\FileUploader;
@@ -15,42 +16,44 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
-    public function index(EntityManagerInterface $entityManager , UpdateProfileInterface $updateProfilService , Request $request ,FileUploader $fileUploader ): Response
+    public function index(EntityManagerInterface $entityManager, UpdateProfileInterface $updateProfilService, Request $request, FileUploader $fileUploader): Response
     {
-
-
+        /**
+         * @var User $user
+         */
         $user = $this->getUser();
+        
 
         $form = $this->createForm(UpdateInfoType::class, $user);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $name = $form->get('name')->getData();
             // $plainPassword = $form->get('plainPassword')->getData(); 
             $email = $form->get('email')->getData();
-          
-            
+
+            // le code pour upload une photo de profil 
+            $photo = $form->get('photo')->getData();
+
+            if ($photo) {
+                $postPhoto = $fileUploader->upload($photo, $user, 'photo', 'uploads');
+                $user->setPhoto($postPhoto);
+            }
+
+            // fin du code pour upload une photo
+
             $updateProfilService->updateProfile($user, $name, $email);
             $this->addFlash('success', 'User updated successfully.');
-            
+
             return $this->redirectToRoute('app_profile');
         }
 
 
-        // le code pour upload une photo de profil 
 
-        $photo = $form->get('photo')->getData();
-             /**
-         * @var User $user
-         */
-        if($photo){
-            $postPhoto = $fileUploader->upload($photo, $user, 'photo', 'profile_pictures');
-            $user->setPhoto($postPhoto);
-        }
 
 
         return $this->render('profile/index.html.twig', [
-          'updateForm' => $form->createView(),
+            'updateForm' => $form->createView(),
         ]);
     }
 }

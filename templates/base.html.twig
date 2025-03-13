@@ -118,10 +118,7 @@
 
 		{% block body %}{% endblock %}
 
-
-		{% block js %}
-
-			{# script pour le menu burger #}
+	{# script pour le menu burger #}
 			<script>
 				document.addEventListener('DOMContentLoaded', function () {
 const sidebar = document.querySelector('#sidebar');
@@ -156,6 +153,7 @@ overlay.addEventListener('click', closeMenu)
 })
 			</script>
 			{# fin du script #}
-		{% endblock %}
+
+		{% block js %}				{% endblock %}
 	</body>
 </html>

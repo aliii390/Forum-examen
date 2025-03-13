@@ -7,6 +7,9 @@
     {# Catégories (Tags) #}
     <section class="container mx-auto mb-8">
         <div class="flex flex-wrap gap-2 sm:gap-3 justify-center">
+        <a href="#" class="transition-transform hover:scale-105 duration-300" data-group="all">
+         <span class="bg-[#F48023] hover:bg-[#e67620] text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-sm"  >tout</span>
+        </a>
      {% for theme in category  %}
             <a href="#" class="transition-transform hover:scale-105 duration-300" data-group="{{ theme.slug }}" onclick="filterPosts(event, '{{ theme.slug }}')">
                 <span class="bg-[#F48023] hover:bg-[#e67620] text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-sm" >{{theme.name}}</span>
@@ -24,9 +27,10 @@
                 {# En-tête avec profil utilisateur #}
                 <div class="p-5 sm:p-6 md:p-8 border-b border-gray-100">
                     <div class="flex items-center gap-4">
+                    
                         <img 
                             class="rounded-full w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-cover ring-2 ring-[#F48023]/20" 
-                            src="{{ asset('img/ammar.png') }}" 
+                            src="{{ asset('uploads/uploads/' ~ question.user.photo) }}" 
                             alt="Photo de profil de {{ question.user.name }}"
                         />
                         <div class="flex-1">
@@ -94,7 +98,14 @@
     </div>
 </main>
 
+{% endblock %}
+
+
+{% block js %}
+
 <script>
+
+
 function togglePopup(event) {
     // Fermer tous les popups d'abord
     document.querySelectorAll('.popup.block').forEach(p => {
@@ -142,8 +153,14 @@ document.addEventListener('click', function(event) {
 });
 
 
-{# code js pour les category  #}
 
+
+
+
+
+
+
+{# code js pour les category  #}
 function filterPosts(event, group) {
     event.preventDefault();
     document.querySelectorAll('section[data-group]').forEach(section => {
