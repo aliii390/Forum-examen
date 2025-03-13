@@ -55,29 +55,23 @@
   {% endif %}
 </div>
 
-    {# Champ caché pour l'image #}
-    <div>
-      {% if publicationType.image is defined %}
-        {{ form_widget(publicationType.image, {
-          'attr': {
-            'class': 'hidden',
-            'id': 'publication_image'
-          }
-        }) }}
-        {{ form_errors(publicationType.image) }}
-      {% else %}
-        <input type="file" name="publication_image" id="publication_image" class="hidden">
-      {% endif %}
-    </div>
-
+  
+		{{ form_label(publicationType.photo, null, {'label_attr': {'class': 'block text-gray-700 text-sm font-bold mb-2'}}) }}
+				{{ form_widget(publicationType.photo, {
+    'attr': {
+        'id': 'photo-upload',
+        'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[#F48023]',
+        'accept': 'image/*'
+    }
+}) }}
     {# Boutons d'actions #}
     <div class="flex flex-col sm:flex-row items-center pt-4 space-y-3 sm:space-y-0">
-      <button type="button" id="add-image-btn" class="flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200" onclick="document.getElementById('publication_image').click()">
+      {# <button type="button" id="add-image-btn" class="flex items-center justify-center w-full sm:w-auto px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors duration-200" onclick="document.getElementById('publication_image').click()">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M4 5a2 2 0 00-2 2v8a2 2 0 002 2h12a2 2 0 002-2V7a2 2 0 00-2-2h-1.586a1 1 0 01-.707-.293l-1.121-1.121A2 2 0 0011.172 3H8.828a2 2 0 00-1.414.586L6.293 4.707A1 1 0 015.586 5H4zm6 9a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
         </svg>
         Ajoutez une image
-      </button>
+      </button> #}
       <div class="flex-grow"></div>
       <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-3 w-full sm:w-auto">
         <button type="submit" class="w-full sm:w-auto px-4 py-2 bg-orange-400 text-white rounded-lg hover:bg-orange-500 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 transition-colors duration-200 flex items-center justify-center">

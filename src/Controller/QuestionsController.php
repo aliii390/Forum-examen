@@ -8,7 +8,6 @@ use App\Entity\Publication;
 use App\Form\CommentaireType;
 use App\Form\PublicationType;
 use App\Repository\CategoryRepository;
-use App\Repository\CommentaireRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,7 +18,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class QuestionsController extends AbstractController
 {
     #[Route('/questions', name: 'app_questions')]
-    public function index(CategoryRepository $categoryRepo , Request $request , EntityManagerInterface $entityManager ,): Response
+    public function index(CategoryRepository $categoryRepo , Request $request , EntityManagerInterface $entityManager , FileUploader $fileUploader): Response
     {
       
 
@@ -41,7 +40,19 @@ final class QuestionsController extends AbstractController
       
            // rajoutez l'upload de photo 
 
-       
+            /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+
+         $photo = $form->get('photo')->getData();
+
+            if ($photo) {
+                // nickel le dd passe bien dans le if et récupere bien l'image 
+                // dd($photo);
+                $postPhoto = $fileUploader->upload($photo, $user, 'photo', 'uploads');
+                $user->setPhoto($postPhoto);
+            }
 
         //modifiez le code  upload
 
