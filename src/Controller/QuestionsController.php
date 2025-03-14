@@ -40,18 +40,16 @@ final class QuestionsController extends AbstractController
       
            // rajoutez l'upload de photo 
 
-            /**
-         * @var User $user
-         */
-        $user = $this->getUser();
+       
+        // modifiez user par la bonne entity
 
          $photo = $form->get('photo')->getData();
 
             if ($photo) {
                 // nickel le dd passe bien dans le if et récupere bien l'image 
                 // dd($photo);
-                $postPhoto = $fileUploader->upload($photo, $user, 'photo', 'uploads');
-                $user->setPhoto($postPhoto);
+                $postPhoto = $fileUploader->upload($photo, $question, 'photo', 'uploads');
+                $question->setPhoto($postPhoto);
             }
 
         //modifiez le code  upload
