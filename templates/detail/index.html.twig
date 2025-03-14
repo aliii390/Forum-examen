@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}How to patch KDE on FreeBSD?{% endblock %}
+{% block title %} {{publication.title}} {% endblock %}
 
 {% block body %}
 <section class="max-w-4xl mx-auto p-4 md:p-6">
@@ -19,25 +19,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" stroke="none">
           <path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.2-6.3 4.2 2.3-7.1-6-4.5h7.6z" />
         </svg>
-        <span class="ml-2 font-medium">125 [ 8 ]</span>
-      </div>
-      <div class="flex gap-4">
-        <button class="text-gray-500 hover:text-gray-700">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-          </svg>
-        </button>
-        <button class="text-gray-500 hover:text-gray-700">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-        </button>
-        <button class="text-gray-500 hover:text-gray-700" >
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-          </svg>
-        </button>
+        <a href="{{ path('app_profile', {'id': publication.user.id}) }}"><span class="ml-2 font-medium">Voir le Profil</span></a>
       </div>
     </div>
   </div>
@@ -98,104 +80,72 @@
   
   
   <!-- Comment Section -->
-<!-- Existing Comment Section Header -->
 <div class="bg-white rounded-lg shadow-md p-6">
-  <h3 class="text-gray-500 mb-4">commentaire</h3>
+  <h3 class="text-gray-700 text-lg font-semibold mb-6">Commentaires</h3>
   
   <!-- Comments List Section -->
-  <div class="space-y-4 mb-6">
-    {# {% if comments is defined and comments|length > 0 %} #}
-       {% for comment in commentaireFin %} 
-        <div class="border-b border-gray-200 pb-4 last:border-b-0">
-          <div class="flex items-start">
-            <img src="{{ asset('uploads/uploads/' ~ comment.user.photo) }}" alt="Avatar" class="w-8 h-8 rounded-full mr-3">
-            <div class="flex-1">
-              <div class="flex items-center justify-between">
-                <h4 class="font-medium text-blue-600"> {{comment.user.name}}</h4>
-                <span class="text-gray-500 text-xs">{{ comment.createdAt|date('d M Y à H:i') }}</span>
-              </div>
-              <p class="text-gray-800 mt-1">{{comment.message}}</p>
-              
-              <!-- Comment Actions -->
-              <div class="flex items-center mt-2 space-x-4">
-                <button class="text-gray-500 hover:text-gray-700 text-sm flex items-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905a3.61 3.61 0 01-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                  </svg>
-                  <span>J'aime</span>
-                </button>
-                <button class="text-gray-500 hover:text-gray-700 text-sm flex items-center reply-btn" data-comment-id="">  {# comment.id#}
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6" />
-                  </svg>
-                  <span>Répondre</span>
-                </button>
-              </div>
-              
-              <!-- Nested Replies (if any) -->
-              {# {% if comment.replies is defined and comment.replies|length > 0 %} #}
-                <div class="pl-8 mt-3 space-y-3">
-                  {# {% for reply in comment.replies %} #}
-                    <div class="border-t border-gray-100 pt-3">
-                      <div class="flex items-start">
-                        <img src="{{ asset('img/ammar.png') }}" alt="Avatar" class="w-6 h-6 rounded-full mr-2">
-                        <div>
-                          <div class="flex items-center">
-                            <h5 class="font-medium text-blue-600 text-sm">la reponse</h5>
-                            <span class="text-gray-500 text-xs ml-2">date de la reponse</span>
-                          </div>
-                          <p class="text-gray-800 text-sm mt-1">description reponse</p>
-                        </div>
-                      </div>
-                    </div>
-                   {% endfor %} 
-                </div>
-              {# {% endif %} #}
-              
-              <!-- Reply Form (initially hidden) -->
-              <div id="" class="hidden mt-3 pl-8">
-                <form class="w-full">
-                  <div class="flex">
-                    <input type="text" placeholder="Écrivez votre réponse..." class="flex-1 px-3 py-1 text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-transparent">
-                    <button type="submit" class="ml-2 px-3 py-1 bg-orange-500 text-white text-sm rounded-md hover:bg-orange-600 transition duration-200">
-                      Répondre
-                    </button>
-                  </div>
-                </form>
-              </div>
+  <div class="space-y-6">
+    {% for comment in commentaireFin %} 
+      <div class="border-b border-gray-200 pb-6 last:border-b-0">
+        <div class="flex items-start space-x-4">
+          <img src="{{ asset('uploads/uploads/' ~ comment.user.photo) }}" 
+               alt="Avatar" 
+               class="w-10 h-10 rounded-full object-cover">
+          
+          <div class="flex-1">
+            <div class="flex items-center justify-between mb-2">
+              <h4 class="font-medium text-blue-600">{{comment.user.name}}</h4>
+              <span class="text-gray-500 text-sm">{{ comment.createdAt|date('d M Y à H:i') }}</span>
+            </div>
+            
+            <p class="text-gray-800 text-sm sm:text-base">{{comment.message}}</p>
+            
+            <!-- Comment Actions -->
+            <div class="flex items-center mt-3">
+              <button class="text-gray-500 hover:text-blue-600 text-sm flex items-center transition-colors duration-200">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905a3.61 3.61 0 01-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
+                </svg>
+                <span>J'aime</span>
+              </button>
             </div>
           </div>
         </div>
-      {# {% endfor %} #}
-    {# {% else %} #}
-      <div class="text-center py-4 text-gray-500">
-        <p>Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
       </div>
-    {# {% endif %} #}
+    {% else %}
+      <div class="text-center py-8">
+        <p class="text-gray-500">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+      </div>
+    {% endfor %}
   </div>
 
-{% if app.user %}
-  {{ form_start(commentaireType, {'attr': {'class': 'w-full'}}) }}
-    <div class="mb-4">
-        {{ form_widget(commentaireType.message, {
+  <!-- Comment Form -->
+  <div class="mt-8 pt-6 border-t border-gray-100">
+    {% if app.user %}
+      {{ form_start(commentaireType, {'attr': {'class': 'w-full'}}) }}
+        <div class="mb-4">
+          {{ form_widget(commentaireType.message, {
             'attr': {
-                'placeholder': 'Écrivez votre commentaire',
-                'class': 'w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent'
+              'placeholder': 'Écrivez votre commentaire',
+              'class': 'w-full px-4 py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-y min-h-[100px]'
             }
-        }) }}
-    </div>
-    <div class="flex justify-end">
-        <button type="submit" class="px-4 py-2 bg-orange-500 text-white rounded-md hover:bg-orange-600 transition duration-200">
+          }) }}
+        </div>
+        <div class="flex justify-end">
+          <button type="submit" class="px-6 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors duration-200">
             Poster
-        </button>
-    </div>
-{{ form_end(commentaireType) }}
-{% else %}
-  <div class="text-center py-4 text-gray-500">
-        <p><a href="{{path('app_register')}}" class="text-orange-500">Connectez vous</a> a votre compte pour pouvoir postez des commentaires</p>
+          </button>
+        </div>
+      {{ form_end(commentaireType) }}
+    {% else %}
+      <div class="text-center py-6">
+        <p class="text-gray-600">
+          <a href="{{path('app_register')}}" class="text-orange-500 hover:text-orange-600 font-medium">Connectez-vous</a> 
+          pour participer à la discussion
+        </p>
       </div>
-      {% endif %}
-
+    {% endif %}
+  </div>
 </div>
 </section>
 {% endblock %}

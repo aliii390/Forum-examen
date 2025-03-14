@@ -68,6 +68,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Reponse::class, mappedBy: 'user')]
     private Collection $reponses;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $createdAt;
+
   
 
 
@@ -84,6 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->publications = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
         $this->reponses = new ArrayCollection();
+        $this->createdAt = new \DateTimeImmutable();
     }
 
     public function getId(): ?int
@@ -313,6 +317,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $reponse->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
 
         return $this;
     }

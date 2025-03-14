@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UpdateInfoType;
 use App\Interfaces\UpdateProfileInterface;
+use App\Repository\PublicationRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,7 +17,8 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ProfileController extends AbstractController
 {
     #[Route('/profile', name: 'app_profile')]
-    public function index(EntityManagerInterface $entityManager, UpdateProfileInterface $updateProfilService, Request $request, FileUploader $fileUploader): Response
+    public function index(EntityManagerInterface $entityManager, UpdateProfileInterface $updateProfilService, 
+                        Request $request, FileUploader $fileUploader , PublicationRepository $publicationRepo): Response
     {
         /**
          * @var User $user
@@ -32,7 +34,7 @@ final class ProfileController extends AbstractController
             // $plainPassword = $form->get('plainPassword')->getData(); 
             $email = $form->get('email')->getData();
 
-            // le code pour upload une photo de profil 
+                // le code pour upload une photo de profil 
             $photo = $form->get('photo')->getData();
 
             if ($photo) {
@@ -49,11 +51,13 @@ final class ProfileController extends AbstractController
         }
 
 
+        $publications = $publicationRepo->findBy(['user' => $user]);
 
 
 
         return $this->render('profile/index.html.twig', [
             'updateForm' => $form->createView(),
+            'publication' => $publications,
         ]);
     }
 }
