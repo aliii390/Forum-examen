@@ -71,6 +71,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt;
 
+    /**
+     * @var Collection<int, PostLiker>
+     */
+    #[ORM\OneToMany(targetEntity: PostLiker::class, mappedBy: 'user')]
+    private Collection $postLikers;
+
   
 
 
@@ -88,6 +94,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->commentaires = new ArrayCollection();
         $this->reponses = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+        $this->postLikers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -329,6 +336,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostLiker>
+     */
+    public function getPostLikers(): Collection
+    {
+        return $this->postLikers;
+    }
+
+    public function addPostLiker(PostLiker $postLiker): static
+    {
+        if (!$this->postLikers->contains($postLiker)) {
+            $this->postLikers->add($postLiker);
+            $postLiker->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostLiker(PostLiker $postLiker): static
+    {
+        if ($this->postLikers->removeElement($postLiker)) {
+            // set the owning side to null (unless already changed)
+            if ($postLiker->getUser() === $this) {
+                $postLiker->setUser(null);
+            }
+        }
 
         return $this;
     }

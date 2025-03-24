@@ -39,10 +39,17 @@ class Publication
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt;
 
+    /**
+     * @var Collection<int, PostLiker>
+     */
+    #[ORM\OneToMany(targetEntity: PostLiker::class, mappedBy: 'publication')]
+    private Collection $postLikers;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
+        $this->postLikers = new ArrayCollection();
     }
 
   
@@ -150,6 +157,36 @@ class Publication
     public function setCreatedAt(\DateTimeImmutable $createdAt): static
     {
         $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PostLiker>
+     */
+    public function getPostLikers(): Collection
+    {
+        return $this->postLikers;
+    }
+
+    public function addPostLiker(PostLiker $postLiker): static
+    {
+        if (!$this->postLikers->contains($postLiker)) {
+            $this->postLikers->add($postLiker);
+            $postLiker->setPublication($this);
+        }
+
+        return $this;
+    }
+
+    public function removePostLiker(PostLiker $postLiker): static
+    {
+        if ($this->postLikers->removeElement($postLiker)) {
+            // set the owning side to null (unless already changed)
+            if ($postLiker->getPublication() === $this) {
+                $postLiker->setPublication(null);
+            }
+        }
 
         return $this;
     }
