@@ -1,20 +1,132 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Profile de {{app.user.name}}{% endblock %}
+{% block title %}Profile de
+	{{profileUser.name}}
+{% endblock %}
 
 {% block body %}
+	<div class="min-h-screen bg-gray-50">
+		<div class="container mx-auto px-4 py-8 lg:py-12">
+			<div
+				class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+				<!-- Sidebar -->
+				<div class="lg:col-span-1">
+					<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8 sticky top-8">
+						<div
+							class="flex flex-col items-center">
+							<!-- Photo de profil avec effet de hover -->
+							<div class="relative group">
+								<div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden ring-4 ring-orange-100">
+									<img src="{{ profileUser.photo ? asset('uploads/uploads/' ~ profileUser.photo) : asset('img/icon.jpg') }}" alt="Photo de profil de {{ profileUser.name }}" class="w-full h-full object-cover transition duration-300 group-hover:scale-110">
+								</div>
+
+								{% if app.user == profileUser %}
+									<button onclick="openModal()" class="absolute bottom-0 right-0 bg-[#F48023] hover:bg-[#E47013] p-2 rounded-full text-white shadow-lg transition-all duration-300 transform hover:scale-110">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewbox="0 0 20 20" fill="currentColor">
+											<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
+										</svg>
+									</button>
+								{% endif %}
+							</div>
+
+							<!-- Informations utilisateur -->
+							<div class="mt-6 text-center">
+								<h1 class="text-2xl sm:text-3xl font-bold text-gray-900">{{ profileUser.name }}</h1>
+								<p class="mt-2 text-gray-600 font-medium">Développeur Web</p>
+								<p class="mt-1 text-sm text-gray-500">Membre depuis
+									{{ profileUser.createdAt|date('d M Y') }}</p>
+							</div>
+
+							<!-- Stats rapides -->
+							{# <div class="mt-8 w-full grid grid-cols-2 gap-4">
+																																		                            <div class="text-center p-4 bg-orange-50 rounded-xl">
+																																		                                <span class="block text-2xl font-bold text-[#F48023]">128</span>
+																																		                                <span class="text-sm text-gray-600">Questions</span>
+																																		                            </div>
+																																		                            <div class="text-center p-4 bg-orange-50 rounded-xl">
+																																		                                <span class="block text-2xl font-bold text-[#F48023]">1.2K</span>
+																																		                                <span class="text-sm text-gray-600">Abonnés</span>
+																																		                            </div>
+																																		                        </div> #}
+
+							<!-- Bouton Modifier -->
+					
+								{% block actionProfil %}{% endblock %}
 
 
-{% if app.user %}
+						</div>
+					</div>
+				</div>
 
-{% include 'partials/profile.html.twig' %}
+				<!-- Main Content -->
+				<div
+					class="lg:col-span-3">
+					<!-- Questions Section -->
+					<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8">
+						<h2 class="text-2xl font-bold text-gray-900 mb-6">
+                        {% if app.user == profileUser %}
+                        Vos 
+                        {% else %}
+                        Les 
+                        {% endif %}
+                        questions</h2>
 
-{% else %}
-{% include 'partials/profileAjout.html.twig' %}
-{% endif %}
+						<div class="space-y-6">
+							{% for question in publication %}
+								<article
+									class="bg-white border border-gray-100 rounded-xl overflow-hidden ">
+									<!-- Header -->
+									<div class="p-6 border-b border-gray-50">
+										<div class="flex items-center justify-between">
+											<div class="flex items-center space-x-4">
+												<img class="w-12 h-12 rounded-full object-cover ring-2 ring-[#F48023]/20" src="{{ question.user.photo ? asset('uploads/uploads/' ~ question.user.photo) : asset('img/icon.jpg') }}" alt="Photo de {{ question.user.name }}">
+												<div>
+													<h3 class="font-semibold text-gray-900">{{ question.user.name }}</h3>
+													<p class="text-sm text-gray-500">{{ question.createdAt|date('d M Y à H:i') }}</p>
+												</div>
+											</div>
 
-      
-	  {# trouvez la solution pourquoi sa ne marche pas quand je clique sur un user  #}
+											<div class="flex items-center space-x-2">
+												<span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">
+													{{ question.category.slug }}
+												</span>
+											</div>
+										</div>
+									</div>
 
+									<!-- Content -->
+									<div class="p-6">
+										<h4 class="text-xl font-bold text-gray-900 mb-3">{{ question.title }}</h4>
+										<p class="text-gray-600 mb-6">{{ question.description }}</p>
+
+										{% if question.photo %}
+											<img src="{{ asset('uploads/uploads/' ~ question.photo) }}" alt="Image de la question" class="w-full h-64 object-cover rounded-xl mb-6">
+										{% endif %}
+
+										<!-- Actions -->
+										<div class="flex items-center justify-between">
+											<a href="{{ path('app_detail', {'id': question.id}) }}" class="inline-flex items-center space-x-2 text-[#F48023] hover:text-[#E47013] font-medium transition-colors duration-300">
+												<span>Voir les détails</span>
+												<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewbox="0 0 20 20" fill="currentColor">
+													<path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+												</svg>
+											</a>
+										</div>
+									</div>
+								</article>
+							{% else %}
+								<div class="text-center py-12">
+									<p class="text-gray-500">Vous n'avez pas encore posé de questions.</p>
+								</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+    
 
 {% endblock %}

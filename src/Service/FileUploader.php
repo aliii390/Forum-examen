@@ -13,8 +13,9 @@ class FileUploader
         private string $targetDirectory,
         private SluggerInterface $slugger,
     ) {
-    }
 
+    }
+    
     public function upload(UploadedFile $file, object $entity, string $fieldName, string $folder): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
