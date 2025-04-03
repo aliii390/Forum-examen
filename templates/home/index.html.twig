@@ -1,183 +1,199 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil
-{% endblock %}
+{% block title %}Accueil{% endblock %}
 
 {% block body %}
-	<main
-		class="min-h-screen bg-gradient-to-b from-white to-gray-50 py-8 px-4 md:py-12 lg:py-16">
-		{# Catégories (Tags) #}
-		<section class="container mx-auto mb-8">
-			<div class="flex flex-wrap gap-2 sm:gap-3 justify-center">
-				<a href="#" class="transition-transform hover:scale-105 duration-300" data-group="all" onclick="filterPosts(event, 'all')">
-					<span class="bg-[#F48023] hover:bg-[#e67620] text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-sm">tout</span>
-				</a>
-				{% for theme in category %}
-					<a href="#" class="transition-transform hover:scale-105 duration-300" data-group="{{ theme.slug }}" onclick="filterPosts(event, '{{ theme.slug }}')">
-						<span class="bg-[#F48023] hover:bg-[#e67620] text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-sm">{{theme.name}}</span>
-					</a>
-				{% endfor %}
-			</div>
-		</section>
+<main class="min-h-screen bg-gradient-to-b from-white to-gray-50 py-8 px-4 md:py-12 lg:py-16">
+    {# Catégories (Tags) #}
+    <section class="container mx-auto mb-8">
+        <div class="flex flex-wrap gap-2 sm:gap-3 justify-center">
+            <a href="#" class="transition-transform hover:scale-105 duration-300" data-group="all" onclick="filterPosts(event, 'all')">
+                <span class="bg-[#F48023] hover:bg-[#e67620] text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-sm">tout</span>
+            </a>
+            {% for theme in category %}
+            <a href="#" class="transition-transform hover:scale-105 duration-300" data-group="{{ theme.slug }}" onclick="filterPosts(event, '{{ theme.slug }}')">
+                <span class="bg-[#F48023] hover:bg-[#e67620] text-white px-3 py-1.5 rounded-full text-sm font-medium shadow-sm">{{theme.name}}</span>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
 
-		{# Publications #}
-		<div class="container mx-auto">
-			{% for question in publication %}
-				<section class="mb-10 md:mb-14 lg:mb-16 flex justify-center" data-group="{{ question.category.slug }}">
-					<article
-						class="bg-white shadow-lg rounded-xl w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl overflow-hidden transition-all duration-300 hover:shadow-xl" data-groups='["all", "{{question.category.slug}}"]'>
-						{# En-tête avec profil utilisateur #}
-						<div class="p-5 sm:p-6 md:p-8 border-b border-gray-100">
-							<div class="flex items-center gap-4">
-								<img class="rounded-full w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-cover ring-2 ring-[#F48023]/20" src="{{ asset('uploads/uploads/' ~ question.user.photo) }}" alt="Photo de profil de {{ question.user.name }}"/>
-								<div class="flex-1">
-									<a href="{{path('app_user_profile', {'name': question.user.name})}}">
-										<h3 class="text-lg sm:text-xl font-medium text-gray-800">{{ question.user.name }}</h3>
-									</a>
-									<p class="text-sm text-gray-500">{{question.createdAt|date('d M Y à H:i')}}</p>
-								</div>
-								<div class="relative">
-									<button class="h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-200" onclick="togglePopup(event)" aria-label="Options">
-										<i class="fa-solid fa-ellipsis text-gray-700 hover:text-[#F48023]"></i>
-									</button>
+    {# Publications #}
+    <div class="container mx-auto">
+        {% for question in publication %}
+        <section class="mb-10 md:mb-14 lg:mb-16 flex justify-center" data-group="{{ question.category.slug }}"> 
+            <article class="bg-white shadow-lg rounded-xl w-full max-w-sm sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl overflow-hidden transition-all duration-300 hover:shadow-xl" data-groups='["all", "{{question.category.slug}}"]'>
+                {# En-tête avec profil utilisateur #}
+                <div class="p-5 sm:p-6 md:p-8 border-b border-gray-100">
+                    <div class="flex items-center gap-4">
+                        <img 
+                            class="rounded-full w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 object-cover ring-2 ring-[#F48023]/20" 
+                            src="{{ asset('uploads/uploads/' ~ question.user.photo) }}" 
+                            alt="Photo de profil de {{ question.user.name }}"
+                        />
+                        <div class="flex-1">
+                        <a href="{{path('app_user_profile', {'name': question.user.name})}}">
+                        <h3 class="text-lg sm:text-xl font-medium text-gray-800">{{ question.user.name }}</h3>
 
-									<div class="popup hidden absolute z-10 bg-white shadow-xl rounded-lg p-3 -right-2 mt-1 w-36 transform transition-all duration-200 ease-in-out">
-										<div
-											class="relative">
-											{# Flèche du popup #}
-											<div class="absolute w-3 h-3 bg-white transform rotate-45 -top-1 right-3"></div>
-											{# Contenu #}
-											<div class="flex flex-col gap-3">
-												<button class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1">
-													<i class="fas fa-user-plus text-xs"></i>
-													<span>Ajouter</span>
-												</button>
-												<button class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1">
-													<i class="fas fa-ban text-xs"></i>
-													<span>Bloquer</span>
-												</button>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+                        </a>
+                            <p class="text-sm text-gray-500">{{question.createdAt|date('d M Y à H:i')}}</p>
+                        </div>
+                        <div class="relative">
+                            <button 
+                                class="h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-200" 
+                                onclick="togglePopup(event)" 
+                                aria-label="Options"
+                            >
+                                <i class="fa-solid fa-ellipsis text-gray-700 hover:text-[#F48023]"></i>
+                            </button>
+                            
+                            <div class="popup hidden absolute z-10 bg-white shadow-xl rounded-lg p-3 -right-2 mt-1 w-36 transform transition-all duration-200 ease-in-out">
+                                <div class="relative">
+                                    {# Flèche du popup #}
+                                    <div class="absolute w-3 h-3 bg-white transform rotate-45 -top-1 right-3"></div>
+                                    {# Contenu #}
+                                    <div class="flex flex-col gap-3">
+                                        <button class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1">
+                                            <i class="fas fa-user-plus text-xs"></i>
+                                            <span>Ajouter</span>
+                                        </button>
+                                        <button class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1">
+                                            <i class="fas fa-ban text-xs"></i>
+                                            <span>Bloquer</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+{# Corps de la publication #}
+<div class="p-5 sm:p-6 md:p-8">
+    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3">{{ question.title }}</h2>
+    
+    {% if question.category.name == 'Programmation' and question.langage %}
+        <pre class="mb-6 bg-gray-900 rounded-lg overflow-x-auto">
+            <code class="language-{{ question.langage.name|lower }} block p-4 text-sm text-gray-100 font-mono leading-relaxed">
+                {{- question.description -}}
+            </code>
+        </pre>
+    {% else %}
+        <p class="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed whitespace-pre-line break-words">{{ question.description }}</p>
+    {% endif %}
+</div>
+                    
+              
 
-						{# Corps de la publication #}
-						<div class="p-5 sm:p-6 md:p-8">
-							<h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3">{{ question.title }}</h2>
+{# Catégorie et nombre de likes #}
+<div class="flex items-center justify-between mb-6">
+    <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg text-xs">{{ question.category.name }}</span>
+    <span class="text-sm text-gray-500">
+        <i class="fas fa-heart text-red-500 mr-1"></i>
+        <span>{{ question.postLikers|length }}</span> j'aime
+    </span>
+</div>
 
-							{% if question.category.name == 'Programmation' and question.langage %}
-								<pre class="mb-6 bg-gray-900 rounded-lg overflow-x-auto">
-                            <code class="language-{{ question.langage.name|lower }} block p-4 text-sm text-gray-100 font-mono leading-relaxed">
-                                {{- question.description -}}
-                            </code>
-                        </pre>
-							{% else %}
-								<p class="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed whitespace-pre-line break-words">{{ question.description }}</p>
-							{% endif %}
+{# Actions: J'aime et En savoir plus #}
+<div class="flex items-center justify-between">
+    <form action="{{ path('app_like', {'id': question.id}) }}" method="POST" class="inline">
+    {# {% if app.user and question.isLikedByUser(app.user) %}text-red-500{% else %}text-gray-700{% endif %} #}
+        <button type="submit" 
+                class="flex items-center gap-2 px-4 py-2 rounded-lg  hover:bg-gray-100 transition-all duration-200">
+                {# {% if app.user and question.isLikedByUser(app.user) %}fas{% else %}far{% endif %} #}
+            <i class=" fa-heart transition-all duration-300"></i>
+            <span>J'aime</span>
+        </button>
+    </form>
 
-							{# Catégorie et nombre de likes #}
-							<div class="flex items-center justify-between mb-6">
-								<span class="inline-block bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg text-xs">{{ question.category.name }}</span>
-								<span class="text-sm text-gray-500">
-									<i class="fas fa-heart text-red-500 mr-1"></i>
-									<span>{{ question.postLikers|length }}</span>
-									j'aime
-								</span>
-							</div>
+    <a href="{{ path('app_detail', {'id': question.id}) }}" 
+        class="inline-flex items-center justify-center gap-2 px-4 py-2.5 
+            font-medium text-white bg-[#F48023] hover:bg-[#e67620] 
+            rounded-lg transition-all duration-300
+            transform hover:scale-105 hover:shadow-md
+            focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
+        <span>En savoir plus</span>
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+        </svg>
+    </a>
+</div>
 
-							{# Actions: J'aime et En savoir plus #}
-							<div class="flex items-center justify-between">
-								<form
-									action="{{ path('app_like', {'id': question.id}) }}" method="POST" class="inline">
-									{# {% if app.user and question.isLikedByUser(app.user) %}text-red-500{% else %}text-gray-700{% endif %} #}
-									<button
-										type="submit" class="flex items-center gap-2 px-4 py-2 rounded-lg  hover:bg-gray-100 transition-all duration-200">
-										{# {% if app.user and question.isLikedByUser(app.user) %}fas{% else %}far{% endif %} #}
-										<i class=" fa-heart transition-all duration-300"></i>
-										<span>J'aime</span>
-									</button>
-								</form>
-
-								<a href="{{ path('app_detail', {'id': question.id}) }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5
-										                                font-medium text-white bg-[#F48023] hover:bg-[#e67620]
-										                                rounded-lg transition-all duration-300
-										                                transform hover:scale-105 hover:shadow-md
-										                                focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
-									<span>En savoir plus</span>
-									<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-									</svg>
-								</a>
-							</div>
-						</div>
-					</article>
-				</section>
-			{% endfor %}
-		</div>
-	</main>
+                </div>
+            </article>
+        </section>
+        {% endfor %}
+    </div>
+</main>
 {% endblock %}
 
 {% block js %}
-	<script>
-		function togglePopup(event) { // Fermer tous les popups d'abord
-document.querySelectorAll('.popup.block').forEach(p => {
-if (p !== event.currentTarget.nextElementSibling) {
-p.classList.remove('block');
-p.classList.add('hidden');
-}
-});
+<script>
+function togglePopup(event) {
+    // Fermer tous les popups d'abord
+    document.querySelectorAll('.popup.block').forEach(p => {
+        if (p !== event.currentTarget.nextElementSibling) {
+            p.classList.remove('block');
+            p.classList.add('hidden');
+        }
+    });
 
-const popup = event.currentTarget.nextElementSibling;
-
-if (popup.classList.contains('hidden')) { // Afficher le popup
-popup.classList.remove('hidden');
-popup.classList.add('block');
-// Animation d'apparition
-popup.classList.add('opacity-0', 'translate-y-1');
-setTimeout(() => {
-popup.classList.remove('opacity-0', 'translate-y-1');
-popup.classList.add('opacity-100', 'translate-y-0');
-}, 50);
-} else { // Animation de disparition
-popup.classList.remove('opacity-100', 'translate-y-0');
-popup.classList.add('opacity-0', 'translate-y-1');
-setTimeout(() => {
-popup.classList.remove('block');
-popup.classList.add('hidden');
-}, 200);
-}
+    const popup = event.currentTarget.nextElementSibling;
+    
+    if (popup.classList.contains('hidden')) {
+        // Afficher le popup
+        popup.classList.remove('hidden');
+        popup.classList.add('block');
+        // Animation d'apparition
+        popup.classList.add('opacity-0', 'translate-y-1');
+        setTimeout(() => {
+            popup.classList.remove('opacity-0', 'translate-y-1');
+            popup.classList.add('opacity-100', 'translate-y-0');
+        }, 50);
+    } else {
+        // Animation de disparition
+        popup.classList.remove('opacity-100', 'translate-y-0');
+        popup.classList.add('opacity-0', 'translate-y-1');
+        setTimeout(() => {
+            popup.classList.remove('block');
+            popup.classList.add('hidden');
+        }, 200);
+    }
 }
 
 // Fermer les popups lors d'un clic à l'extérieur
-document.addEventListener('click', function (event) {
-if (! event.target.closest('.popup') && ! event.target.closest('button[onclick="togglePopup(event)"]')) {
-document.querySelectorAll('.popup:not(.hidden)').forEach(popup => {
-popup.classList.remove('opacity-100', 'translate-y-0');
-popup.classList.add('opacity-0', 'translate-y-1');
-setTimeout(() => {
-popup.classList.remove('block');
-popup.classList.add('hidden');
-}, 200);
-});
-}
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.popup') && !event.target.closest('button[onclick="togglePopup(event)"]')) {
+        document.querySelectorAll('.popup:not(.hidden)').forEach(popup => {
+            popup.classList.remove('opacity-100', 'translate-y-0');
+            popup.classList.add('opacity-0', 'translate-y-1');
+            setTimeout(() => {
+                popup.classList.remove('block');
+                popup.classList.add('hidden');
+            }, 200);
+        });
+    }
 });
 
 // Fonction de filtre des publications par catégorie
 function filterPosts(event, group) {
-event.preventDefault();
-document.querySelectorAll('section[data-group]').forEach(section => {
-if (section.getAttribute('data-group') === group || group === 'all') {
-section.style.display = 'flex';
-} else {
-section.style.display = 'none';
-}
-});
+    event.preventDefault();
+    document.querySelectorAll('section[data-group]').forEach(section => {
+        if (section.getAttribute('data-group') === group || group === 'all') {
+            section.style.display = 'flex';
+        } else {
+            section.style.display = 'none';
+        }
+    });
 }
 
-document.addEventListener('DOMContentLoaded', function () { // Initialise highlight.js
-hljs.highlightAll();
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialise highlight.js
+    hljs.highlightAll();
 });
-	</script>
+
+</script>
 {% endblock %}
