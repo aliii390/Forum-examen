@@ -62,7 +62,8 @@
     'attr': {
       'class': 'w-full px-4 py-3 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent',
       'rows': 12,
-      'style': 'min-height: 250px;'
+      'style': 'min-height: 250px;',
+      'id': 'code-editor'
     }
   }) }}
   
@@ -119,8 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const langageField = document.getElementById('langage-field');
 
     // Debug pour voir si les éléments sont trouvés
-    console.log('Category Select:', categorySelect);
-    console.log('Langage Field:', langageField);
+    //console.log('Category Select:', categorySelect);
+    //console.log('Langage Field:', langageField);
 
     if (!categorySelect || !langageField) {
         console.error('Éléments non trouvés:', {
