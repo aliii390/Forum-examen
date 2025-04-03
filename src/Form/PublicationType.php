@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Category;
+use App\Entity\Langage;
 use App\Entity\Publication;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -19,6 +20,10 @@ class PublicationType extends AbstractType
             ->add('title')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
+            ])
+            ->add('langage', EntityType::class, [
+                'class' => Langage::class,
+            
             ])
             ->add('photo', FileType::class,[
                 'mapped' => false,

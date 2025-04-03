@@ -8,6 +8,7 @@ use App\Entity\Publication;
 use App\Form\CommentaireType;
 use App\Form\PublicationType;
 use App\Repository\CategoryRepository;
+use App\Repository\LangageRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -18,13 +19,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class QuestionsController extends AbstractController
 {
     #[Route('/questions', name: 'app_questions')]
-    public function index(CategoryRepository $categoryRepo , Request $request , EntityManagerInterface $entityManager , FileUploader $fileUploader): Response
+    public function index(CategoryRepository $categoryRepo , LangageRepository $langageRepo ,Request $request , EntityManagerInterface $entityManager , FileUploader $fileUploader): Response
     {
       
 
         
 
         $category = $categoryRepo->findAll();
+        $langage = $langageRepo->findAll();
         $question = new Publication();
         
         $form = $this->createForm(PublicationType::class, $question);
@@ -36,6 +38,7 @@ final class QuestionsController extends AbstractController
            $question->setTitle($form->get('title')->getData());
            $question->setDescription($form->get('description')->getData());
            $question->setCategory($form->get('category')->getData());
+           $question->setLangage($form->get('langage')->getData());
 
       
            // rajoutez l'upload de photo 
@@ -61,6 +64,7 @@ final class QuestionsController extends AbstractController
         }
 
         return $this->render('questions/index.html.twig', [
+            'langage' => $langage,
             'category' => $category,
             'publicationType' => $form->createView(),
         ]);

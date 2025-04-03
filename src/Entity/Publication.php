@@ -45,6 +45,9 @@ class Publication
     #[ORM\OneToMany(targetEntity: PostLiker::class, mappedBy: 'publication')]
     private Collection $postLikers;
 
+    #[ORM\ManyToOne(inversedBy: 'publications')]
+    private ?Langage $langage = null;
+
     public function __construct()
     {
         $this->commentaires = new ArrayCollection();
@@ -187,6 +190,18 @@ class Publication
                 $postLiker->setPublication(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getLangage(): ?Langage
+    {
+        return $this->langage;
+    }
+
+    public function setLangage(?Langage $langage): static
+    {
+        $this->langage = $langage;
 
         return $this;
     }
