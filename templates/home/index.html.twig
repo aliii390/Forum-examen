@@ -32,10 +32,9 @@
                             alt="Photo de profil de {{ question.user.name }}"
                         />
                         <div class="flex-1">
-                        <a href="{{path('app_user_profile', {'name': question.user.name})}}">
-                        <h3 class="text-lg sm:text-xl font-medium text-gray-800">{{ question.user.name }}</h3>
-
-                        </a>
+                            <a href="{{path('app_user_profile', {'name': question.user.name})}}">
+                                <h3 class="text-lg sm:text-xl font-medium text-gray-800">{{ question.user.name }}</h3>
+                            </a>
                             <p class="text-sm text-gray-500">{{question.createdAt|date('d M Y à H:i')}}</p>
                         </div>
                         <div class="relative">
@@ -68,35 +67,33 @@
                     </div>
                 </div>
                 
-{# Corps de la publication #}
-<div class="p-5 sm:p-6 md:p-8">
-    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3">{{ question.title }}</h2>
-    
-    {% if question.category.name == 'Programmation' and question.langage %}
-        <pre class="mb-6 bg-gray-900 rounded-lg overflow-x-auto">
-            <code class="language-{{ question.langage.name|lower }} block p-4 text-sm text-gray-100 font-mono leading-relaxed">
-                {{- question.description -}}
-            </code>
-        </pre>
-    {% else %}
-        <p class="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed whitespace-pre-line break-words">{{ question.description }}</p>
-    {% endif %}
-</div>
+                {# Corps de la publication #}
+                <div class="p-5 sm:p-6 md:p-8">
+                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-3">{{ question.title }}</h2>
                     
-              
+                    {% if question.category.name == 'Programmation' and question.langage %}
+                        <pre class="mb-6 bg-gray-900 rounded-lg overflow-x-auto">
+                            <code class="language-{{ question.langage.name|lower }} block p-4 text-sm text-gray-100 font-mono leading-relaxed">
+                                {{- question.description -}}
+                            </code>
+                        </pre>
+                    {% else %}
+                        <p class="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed whitespace-pre-line break-words">{{ question.description }}</p>
+                           <img class="h-16 w-16 rounded-lg object-cover ring-2 ring-[#F48023]/20 sm:h-20 sm:w-20 md:h-24 md:w-24 lg:h-28 lg:w-28 xl:h-32 xl:w-32" src="{{ asset('uploads/uploads/' ~ question.photo) }}"/>                        
+                    {% endif %}
+                    
+                    {# Catégorie et nombre de likes #}
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg text-xs">{{ question.category.name }}</span>
+                        <span class="text-sm text-gray-500">
+                            <i class="fas fa-heart text-red-500 mr-1"></i>
+                            <span>{{ question.postLikers|length }}</span> j'aime
+                        </span>
+                    </div>
 
-{# Catégorie et nombre de likes #}
-<div class="flex items-center justify-between mb-6">
-    <span class="inline-block bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg text-xs">{{ question.category.name }}</span>
-    <span class="text-sm text-gray-500">
-        <i class="fas fa-heart text-red-500 mr-1"></i>
-        <span>{{ question.postLikers|length }}</span> j'aime
-    </span>
-</div>
-
-{# Actions: J'aime et En savoir plus #}
-<div class="flex items-center justify-between">
-    <form action="{{ path('app_like', {'id': question.id}) }}" method="POST" class="inline">
+                    {# Actions: J'aime et En savoir plus #}
+                    <div class="flex items-center justify-between">
+                          <form action="{{ path('app_like', {'id': question.id}) }}" method="POST" class="inline">
     {# {% if app.user and question.isLikedByUser(app.user) %}text-red-500{% else %}text-gray-700{% endif %} #}
         <button type="submit" 
                 class="flex items-center gap-2 px-4 py-2 rounded-lg  hover:bg-gray-100 transition-all duration-200">
@@ -106,19 +103,18 @@
         </button>
     </form>
 
-    <a href="{{ path('app_detail', {'id': question.id}) }}" 
-        class="inline-flex items-center justify-center gap-2 px-4 py-2.5 
-            font-medium text-white bg-[#F48023] hover:bg-[#e67620] 
-            rounded-lg transition-all duration-300
-            transform hover:scale-105 hover:shadow-md
-            focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
-        <span>En savoir plus</span>
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-        </svg>
-    </a>
-</div>
-
+                        <a href="{{ path('app_detail', {'id': question.id}) }}" 
+                            class="inline-flex items-center justify-center gap-2 px-4 py-2.5 
+                                font-medium text-white bg-[#F48023] hover:bg-[#e67620] 
+                                rounded-lg transition-all duration-300
+                                transform hover:scale-105 hover:shadow-md
+                                focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
+                            <span>En savoir plus</span>
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>
+                        </a>
+                    </div>
                 </div>
             </article>
         </section>
@@ -187,13 +183,9 @@ function filterPosts(event, group) {
     });
 }
 
-
-
-
 document.addEventListener('DOMContentLoaded', function() {
     // Initialise highlight.js
     hljs.highlightAll();
 });
-
 </script>
 {% endblock %}
