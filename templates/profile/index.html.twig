@@ -39,15 +39,15 @@
 
 							<!-- Stats rapides -->
 							{# <div class="mt-8 w-full grid grid-cols-2 gap-4">
-															   <div class="text-center p-4 bg-orange-50 rounded-xl">
-																																																                                <span class="block text-2xl font-bold text-[#F48023]">128</span>
-																																																                                <span class="text-sm text-gray-600">Questions</span>
-																																																                            </div>
-																																																                            <div class="text-center p-4 bg-orange-50 rounded-xl">
-																																																                                <span class="block text-2xl font-bold text-[#F48023]">1.2K</span>
-																																																                                <span class="text-sm text-gray-600">Abonnés</span>
-																																																                            </div>
-																																																                        </div> #}
+																						   <div class="text-center p-4 bg-orange-50 rounded-xl">
+																																																							                                <span class="block text-2xl font-bold text-[#F48023]">128</span>
+																																																							                                <span class="text-sm text-gray-600">Questions</span>
+																																																							                            </div>
+																																																							                            <div class="text-center p-4 bg-orange-50 rounded-xl">
+																																																							                                <span class="block text-2xl font-bold text-[#F48023]">1.2K</span>
+																																																							                                <span class="text-sm text-gray-600">Abonnés</span>
+																																																							                            </div>
+																																																							                        </div> #}
 
 							<!-- Bouton Modifier -->{% block actionProfil %}
 						{% endblock %}
@@ -98,10 +98,10 @@
 
 										{% if question.category.name == 'Programmation' and question.langage %}
 											<pre class="mb-6 bg-gray-900 rounded-lg overflow-x-auto">
-            <code class="language-{{ question.langage.name|lower }} block p-4 text-sm text-gray-100 font-mono leading-relaxed">
-                {{- question.description -}}
-            </code>
-        </pre>
+											<code class="language-{{ question.langage.name|lower }} block p-4 text-sm text-gray-100 font-mono leading-relaxed">
+												{{- question.description -}}
+											</code>
+										</pre>
 										{% else %}
 											<p class="text-sm sm:text-base text-gray-700 mb-6 leading-relaxed whitespace-pre-line break-words">{{ question.description }}</p>
 										{% endif %}
@@ -140,14 +140,13 @@
 	</div>
 
 
-<script>
+	<script>
 
- document.addEventListener('DOMContentLoaded', function() {
-        // Initialise highlight.js (une seule fois)
-        if (typeof hljs !== 'undefined') {
-            hljs.highlightAll();
-        }
-    });
-</script>
+		document.addEventListener('DOMContentLoaded', function () { // Initialise highlight.js (une seule fois)
+if (typeof hljs !== 'undefined') {
+hljs.highlightAll();
+}
+});
+	</script>
 
 {% endblock %}
