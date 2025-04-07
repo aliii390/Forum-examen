@@ -1,151 +1,149 @@
 {% extends 'base.html.twig' %}
 
-{% block title %} {{publication.title}} {% endblock %}
+{% block title %}
+	{{publication.title}}
+{% endblock %}
 
 {% block body %}
-<section class="max-w-4xl mx-auto p-4 md:p-6">
+	<section
+		class="max-w-4xl mx-auto p-4 md:p-6">
 
 
+		<!-- User Profile Card -->
+		<div class="bg-white rounded-lg shadow-md p-6 mb-6">
+			<div class="flex flex-col items-center">
+				<div class="relative w-24 h-24 mb-4">
+					<img src="{{ publication.user.photo ? asset('uploads/uploads/' ~ publication.user.photo) : asset('img/icon.jpg') }}" alt="Photo de profil de {{ publication.user.name }}" class="w-full h-full rounded-full object-cover">
+				</div>
+				<h2 class="text-xl font-medium mb-2">{{publication.user.name}}</h2>
+				<div class="flex items-center text-amber-500 mb-4">
+					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24" stroke="none">
+						<path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.2-6.3 4.2 2.3-7.1-6-4.5h7.6z"/>
+					</svg>
+					<a href="{{ path('app_profile', {'id': publication.user.id}) }}">
+						<span class="ml-2 font-medium">Voir le Profil</span>
+					</a>
+				</div>
+			</div>
+		</div>
+
+		{# fin de la partie user card #}
 
 
-<!-- User Profile Card -->
-  <div class="bg-white rounded-lg shadow-md p-6 mb-6">
-    <div class="flex flex-col items-center">
-      <div class="relative w-24 h-24 mb-4">
-        <img src="{{ asset('uploads/uploads/' ~ publication.user.photo) }}" alt="Profile" class="w-full h-full rounded-full object-cover">
-      </div>
-      <h2 class="text-xl font-medium mb-2">{{publication.user.name}}</h2>
-      <div class="flex items-center text-amber-500 mb-4">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" stroke="none">
-          <path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.2-6.3 4.2 2.3-7.1-6-4.5h7.6z" />
-        </svg>
-        <a href="{{ path('app_profile', {'id': publication.user.id}) }}"><span class="ml-2 font-medium">Voir le Profil</span></a>
-      </div>
-    </div>
-  </div>
-  
-{# fin de la partie user card #}
+		<!-- Main Post Container -->
+		<div
+			class="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
+			<!-- Post Header with User Info -->
+			<div class="p-4 md:p-6">
+				<div class="flex items-start justify-between">
+					<div class="flex items-center">
+						<img src="{{ asset('uploads/uploads/' ~ publication.user.photo) }}" alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
+						<div>
+							<div class="font-medium text-blue-600">{{publication.user.name}}</div>
+							<div class="text-gray-500 text-sm">12 November 2020 19:35</div>
+						</div>
+					</div>
+					<button class="text-gray-400 hover:text-gray-600">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
+						</svg>
+					</button>
+				</div>
+
+				<!-- Post Title -->
+				<h1 class="text-xl font-bold mt-4 mb-3">{{publication.title}}
+				</h1>
+
+				<!-- First Paragraph -->
+				<p class="text-gray-800 mb-4">
+					{{publication.description}}
+				</p>
+
+				<!-- Code Block -->
+				{# <div class="bg-gray-100 rounded-md p-4 mb-4 overflow-x-auto">
+				        <pre class="text-sm"><code><span class="text-gray-500">1</span> package mian
+				<span class="text-gray-500">2</span> 
+				<span class="text-gray-500">3</span> import "fmt"
+				<span class="text-gray-500">4</span> 
+				<span class="text-gray-500">5</span> func main() {
+				<span class="text-gray-500">6</span>   fmt.Println("Hello, world!")
+				<span class="text-gray-500">7</span> }</code></pre>
+				      </div> #}
 
 
+				<!-- Tags -->
+					<div class="flex flex-wrap gap-2 mt-6"> <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">{{publication.category.name}}</span>
+
+				</div>
+			</div>
+		</div>
 
 
-  <!-- Main Post Container -->
-  <div class="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
-    <!-- Post Header with User Info -->
-    <div class="p-4 md:p-6">
-      <div class="flex items-start justify-between">
-        <div class="flex items-center">
-          <img src="{{ asset('uploads/uploads/' ~ publication.user.photo) }}" alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
-          <div>
-            <div class="font-medium text-blue-600">{{publication.user.name}}</div>
-            <div class="text-gray-500 text-sm">12 November 2020 19:35</div>
-          </div>
-        </div>
-        <button class="text-gray-400 hover:text-gray-600">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-          </svg>
-        </button>
-      </div>
-      
-      <!-- Post Title -->
-      <h1 class="text-xl font-bold mt-4 mb-3">{{publication.title}} </h1>
-      
-      <!-- First Paragraph -->
-      <p class="text-gray-800 mb-4">
-       {{publication.description}}
-      </p>
-      
-      <!-- Code Block -->
-      {# <div class="bg-gray-100 rounded-md p-4 mb-4 overflow-x-auto">
-        <pre class="text-sm"><code><span class="text-gray-500">1</span> package mian
-<span class="text-gray-500">2</span> 
-<span class="text-gray-500">3</span> import "fmt"
-<span class="text-gray-500">4</span> 
-<span class="text-gray-500">5</span> func main() {
-<span class="text-gray-500">6</span>   fmt.Println("Hello, world!")
-<span class="text-gray-500">7</span> }</code></pre>
-      </div> #}
-      
-    
-      
-      <!-- Tags -->
-      <div class="flex flex-wrap gap-2 mt-6">
-        <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">{{publication.category.name}}</span>
-    
-      </div>
-    </div>
-  </div>
-  
-  
-  
-  <!-- Comment Section -->
-<div class="bg-white rounded-lg shadow-md p-6">
-  <h3 class="text-gray-700 text-lg font-semibold mb-6">Commentaires</h3>
-  
-  <!-- Comments List Section -->
-  <div class="space-y-6">
-    {% for comment in commentaireFin %} 
-      <div class="border-b border-gray-200 pb-6 last:border-b-0">
-        <div class="flex items-start space-x-4">
-          <img src="{{ asset('uploads/uploads/' ~ comment.user.photo) }}" 
-               alt="Avatar" 
-               class="w-10 h-10 rounded-full object-cover">
-          
-          <div class="flex-1">
-            <div class="flex items-center justify-between mb-2">
-              <h4 class="font-medium text-blue-600">{{comment.user.name}}</h4>
-              <span class="text-gray-500 text-sm">{{ comment.createdAt|date('d M Y à H:i') }}</span>
-            </div>
-            
-            <p class="text-gray-800 text-sm sm:text-base">{{comment.message}}</p>
-            
-            <!-- Comment Actions -->
-            <div class="flex items-center mt-3">
-              <button class="text-gray-500 hover:text-blue-600 text-sm flex items-center transition-colors duration-200">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905a3.61 3.61 0 01-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" />
-                </svg>
-                <span>J'aime</span>
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    {% else %}
-      <div class="text-center py-8">
-        <p class="text-gray-500">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
-      </div>
-    {% endfor %}
-  </div>
+		<!-- Comment Section -->
+		<div class="bg-white rounded-lg shadow-md p-6">
+			<h3 class="text-gray-700 text-lg font-semibold mb-6">Commentaires</h3>
 
-  <!-- Comment Form -->
-  <div class="mt-8 pt-6 border-t border-gray-100">
-    {% if app.user %}
-      {{ form_start(commentaireType, {'attr': {'class': 'w-full'}}) }}
-        <div class="mb-4">
-          {{ form_widget(commentaireType.message, {
+			<!-- Comments List Section -->
+			<div class="space-y-6">
+				{% for comment in commentaireFin %}
+					<div class="border-b border-gray-200 pb-6 last:border-b-0">
+						<div class="flex items-start space-x-4">
+							<img src="{{ asset('uploads/uploads/' ~ comment.user.photo) }}" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+
+							<div class="flex-1">
+								<div class="flex items-center justify-between mb-2">
+									<h4 class="font-medium text-blue-600">{{comment.user.name}}</h4>
+									<span class="text-gray-500 text-sm">{{ comment.createdAt|date('d M Y à H:i') }}</span>
+								</div>
+
+								<p class="text-gray-800 text-sm sm:text-base">{{comment.message}}</p>
+
+								<!-- Comment Actions -->
+								<div class="flex items-center mt-3">
+									<button class="text-gray-500 hover:text-blue-600 text-sm flex items-center transition-colors duration-200">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5" fill="none" viewbox="0 0 24 24" stroke="currentColor">
+											<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905a3.61 3.61 0 01-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"/>
+										</svg>
+										<span>J'aime</span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% else %}
+					<div class="text-center py-8">
+						<p class="text-gray-500">Aucun commentaire pour le moment. Soyez le premier à commenter !</p>
+					</div>
+				{% endfor %}
+			</div>
+
+			<!-- Comment Form -->
+			<div class="mt-8 pt-6 border-t border-gray-100">
+				{% if app.user %}
+					{{ form_start(commentaireType, {'attr': {'class': 'w-full'}}) }}
+					<div class="mb-4">
+						{{ form_widget(commentaireType.message, {
             'attr': {
               'placeholder': 'Écrivez votre commentaire',
               'class': 'w-full px-4 py-3 text-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent resize-y min-h-[100px]'
             }
           }) }}
-        </div>
-        <div class="flex justify-end">
-          <button type="submit" class="px-6 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors duration-200">
-            Poster
-          </button>
-        </div>
-      {{ form_end(commentaireType) }}
-    {% else %}
-      <div class="text-center py-6">
-        <p class="text-gray-600">
-          <a href="{{path('app_register')}}" class="text-orange-500 hover:text-orange-600 font-medium">Connectez-vous</a> 
-          pour participer à la discussion
-        </p>
-      </div>
-    {% endif %}
-  </div>
-</div>
-</section>
+					</div>
+					<div class="flex justify-end">
+						<button type="submit" class="px-6 py-2.5 bg-orange-500 text-white font-medium rounded-lg hover:bg-orange-600 transition-colors duration-200">
+							Poster
+						</button>
+					</div>
+					{{ form_end(commentaireType) }}
+				{% else %}
+					<div class="text-center py-6">
+						<p class="text-gray-600">
+							<a href="{{path('app_register')}}" class="text-orange-500 hover:text-orange-600 font-medium">Connectez-vous</a>
+							pour participer à la discussion
+						</p>
+					</div>
+				{% endif %}
+			</div>
+		</div>
+	</section>
 {% endblock %}
