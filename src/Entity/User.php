@@ -78,6 +78,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: PostLiker::class, mappedBy: 'user')]
     private Collection $postLikers;
 
+    /**
+     * @var Collection<int, Bloquer>
+     */
+    #[ORM\OneToMany(targetEntity: Bloquer::class, mappedBy: 'user')]
+    private Collection $bloquers;
+
   
 
 
@@ -96,6 +102,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reponses = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->postLikers = new ArrayCollection();
+        $this->bloquers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -365,6 +372,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($postLiker->getUser() === $this) {
                 $postLiker->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Bloquer>
+     */
+    public function getBloquers(): Collection
+    {
+        return $this->bloquers;
+    }
+
+    public function addBloquer(Bloquer $bloquer): static
+    {
+        if (!$this->bloquers->contains($bloquer)) {
+            $this->bloquers->add($bloquer);
+            $bloquer->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBloquer(Bloquer $bloquer): static
+    {
+        if ($this->bloquers->removeElement($bloquer)) {
+            // set the owning side to null (unless already changed)
+            if ($bloquer->getUser() === $this) {
+                $bloquer->setUser(null);
             }
         }
 
