@@ -2,39 +2,39 @@
 
 namespace App\Repository;
 
-use App\Entity\Bloquer;
+use App\Entity\CompteBloquer;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Bloquer>
+ * @extends ServiceEntityRepository<CompteBloquer>
  */
-class BloquerRepository extends ServiceEntityRepository
+class CompteBloquerRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Bloquer::class);
+        parent::__construct($registry, CompteBloquer::class);
     }
 
     //    /**
-    //     * @return Bloquer[] Returns an array of Bloquer objects
+    //     * @return CompteBloquer[] Returns an array of CompteBloquer objects
     //     */
     //    public function findByExampleField($value): array
     //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
     //            ->setParameter('val', $value)
-    //            ->orderBy('b.id', 'ASC')
+    //            ->orderBy('c.id', 'ASC')
     //            ->setMaxResults(10)
     //            ->getQuery()
     //            ->getResult()
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Bloquer
+    //    public function findOneBySomeField($value): ?CompteBloquer
     //    {
-    //        return $this->createQueryBuilder('b')
-    //            ->andWhere('b.exampleField = :val')
+    //        return $this->createQueryBuilder('c')
+    //            ->andWhere('c.exampleField = :val')
     //            ->setParameter('val', $value)
     //            ->getQuery()
     //            ->getOneOrNullResult()

@@ -79,10 +79,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $postLikers;
 
     /**
-     * @var Collection<int, Bloquer>
+     * @var Collection<int, CompteBloquer>
      */
-    #[ORM\OneToMany(targetEntity: Bloquer::class, mappedBy: 'user')]
-    private Collection $bloquers;
+    #[ORM\OneToMany(targetEntity: CompteBloquer::class, mappedBy: 'user')]
+    private Collection $compteBloquers;
+
+ 
 
   
 
@@ -102,7 +104,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->reponses = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->postLikers = new ArrayCollection();
-        $this->bloquers = new ArrayCollection();
+        $this->compteBloquers = new ArrayCollection();
+       
     }
 
     public function getId(): ?int
@@ -381,32 +384,37 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, Bloquer>
      */
-    public function getBloquers(): Collection
+
+    /**
+     * @return Collection<int, CompteBloquer>
+     */
+    public function getCompteBloquers(): Collection
     {
-        return $this->bloquers;
+        return $this->compteBloquers;
     }
 
-    public function addBloquer(Bloquer $bloquer): static
+    public function addCompteBloquer(CompteBloquer $compteBloquer): static
     {
-        if (!$this->bloquers->contains($bloquer)) {
-            $this->bloquers->add($bloquer);
-            $bloquer->setUser($this);
+        if (!$this->compteBloquers->contains($compteBloquer)) {
+            $this->compteBloquers->add($compteBloquer);
+            $compteBloquer->setUser($this);
         }
 
         return $this;
     }
 
-    public function removeBloquer(Bloquer $bloquer): static
+    public function removeCompteBloquer(CompteBloquer $compteBloquer): static
     {
-        if ($this->bloquers->removeElement($bloquer)) {
+        if ($this->compteBloquers->removeElement($compteBloquer)) {
             // set the owning side to null (unless already changed)
-            if ($bloquer->getUser() === $this) {
-                $bloquer->setUser(null);
+            if ($compteBloquer->getUser() === $this) {
+                $compteBloquer->setUser(null);
             }
         }
 
         return $this;
     }
+   
 
   
 

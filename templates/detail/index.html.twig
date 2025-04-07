@@ -20,7 +20,9 @@
 					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24" stroke="none">
 						<path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.2-6.3 4.2 2.3-7.1-6-4.5h7.6z"/>
 					</svg>
-					<a href="{{ path('app_profile', {'id': publication.user.id}) }}">
+					                              
+
+					<a href="{{path('app_user_profile', {'name': publication.user.name})}}">
 						<span class="ml-2 font-medium">Voir le Profil</span>
 					</a>
 				</div>
@@ -37,7 +39,8 @@
 			<div class="p-4 md:p-6">
 				<div class="flex items-start justify-between">
 					<div class="flex items-center">
-						<img src="{{ asset('uploads/uploads/' ~ publication.user.photo) }}" alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
+						<img src="{{ publication.user.photo ? asset('uploads/uploads/' ~ publication.user.photo) : asset('img/icon.jpg') }}" alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
+
 						<div>
 							<div class="font-medium text-blue-600">{{publication.user.name}}</div>
 							<div class="text-gray-500 text-sm">12 November 2020 19:35</div>
@@ -59,16 +62,7 @@
 					{{publication.description}}
 				</p>
 
-				<!-- Code Block -->
-				{# <div class="bg-gray-100 rounded-md p-4 mb-4 overflow-x-auto">
-				        <pre class="text-sm"><code><span class="text-gray-500">1</span> package mian
-				<span class="text-gray-500">2</span> 
-				<span class="text-gray-500">3</span> import "fmt"
-				<span class="text-gray-500">4</span> 
-				<span class="text-gray-500">5</span> func main() {
-				<span class="text-gray-500">6</span>   fmt.Println("Hello, world!")
-				<span class="text-gray-500">7</span> }</code></pre>
-				      </div> #}
+				
 
 
 				<!-- Tags -->
@@ -88,7 +82,7 @@
 				{% for comment in commentaireFin %}
 					<div class="border-b border-gray-200 pb-6 last:border-b-0">
 						<div class="flex items-start space-x-4">
-							<img src="{{ asset('uploads/uploads/' ~ comment.user.photo) }}" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
+							<img src="{{ comment.user.photo ? asset('uploads/uploads/' ~ comment.user.photo) : asset('img/icon.jpg') }}" alt="Avatar" class="w-10 h-10 rounded-full object-cover">
 
 							<div class="flex-1">
 								<div class="flex items-center justify-between mb-2">
