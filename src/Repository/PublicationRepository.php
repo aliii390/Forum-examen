@@ -38,20 +38,20 @@ class PublicationRepository extends ServiceEntityRepository
     /**
      * Récupère les publications d'un utilisateur spécifique s'il n'est pas bloqué
      */
-    public function findPublicationsNoBloquer(User $author, User $currentUser): array
-    {
-        return $this->createQueryBuilder('p')
-            ->leftJoin('p.author', 'a')
-            ->where('p.author = :author')
-            ->andWhere('NOT EXISTS (
-                SELECT 1 FROM App\Entity\User u 
-                JOIN u.blockedUsers b 
-                WHERE u.id = :currentUser AND b.id = :author
-            )')
-            ->setParameter('author', $author)
-            ->setParameter('currentUser', $currentUser)
-            ->orderBy('p.createdAt', 'DESC')
-            ->getQuery()
-            ->getResult();
-    }
+    // public function findPublicationsNoBloquer(User $author, User $currentUser): array
+    // {
+    //     return $this->createQueryBuilder('p')
+    //         ->leftJoin('p.author', 'a')
+    //         ->where('p.author = :author')
+    //         ->andWhere('NOT EXISTS (
+    //             SELECT 1 FROM App\Entity\User u 
+    //             JOIN u.blockedUsers b 
+    //             WHERE u.id = :currentUser AND b.id = :author
+    //         )')
+    //         ->setParameter('author', $author)
+    //         ->setParameter('currentUser', $currentUser)
+    //         ->orderBy('p.createdAt', 'DESC')
+    //         ->getQuery()
+    //         ->getResult();
+    // }
 }
