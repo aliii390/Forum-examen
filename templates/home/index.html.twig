@@ -57,11 +57,11 @@
                                                 <i class="fas fa-user-plus text-xs"></i>
                                                 <span>Ajouter</span>
                                             </button>
-                                            <button class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1"
+                                            <a href="{{path('app_block',{id: question.user.id})}}" class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1"
                                                 onclick="blockUser('{{ question.user.id }}')">
                                                 <i class="fas fa-ban text-xs"></i>
                                                 <span>Bloquer</span>
-                                            </button>
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

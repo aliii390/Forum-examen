@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Publication;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,28 +17,41 @@ class PublicationRepository extends ServiceEntityRepository
         parent::__construct($registry, Publication::class);
     }
 
-//    /**
-//     * @return Publication[] Returns an array of Publication objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('p.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * Récupère toutes les publications sauf celles des utilisateurs bloqués
+     */
+    public function findePublicationsBloquer(User $currentUser): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.user', 'u')
+            ->where('NOT EXISTS (
+                SELECT 1 FROM App\Entity\CompteBloquer cb 
+                WHERE cb.user = :currentUser 
+                AND cb.userBlocked = u.id
+            )')
+            ->setParameter('currentUser', $currentUser)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?Publication
-//    {
-//        return $this->createQueryBuilder('p')
-//            ->andWhere('p.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    /**
+     * Récupère les publications d'un utilisateur spécifique s'il n'est pas bloqué
+     */
+    public function findPublicationsNoBloquer(User $author, User $currentUser): array
+    {
+        return $this->createQueryBuilder('p')
+            ->leftJoin('p.author', 'a')
+            ->where('p.author = :author')
+            ->andWhere('NOT EXISTS (
+                SELECT 1 FROM App\Entity\User u 
+                JOIN u.blockedUsers b 
+                WHERE u.id = :currentUser AND b.id = :author
+            )')
+            ->setParameter('author', $author)
+            ->setParameter('currentUser', $currentUser)
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }
