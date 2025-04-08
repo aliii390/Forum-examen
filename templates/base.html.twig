@@ -3,19 +3,22 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		{# <meta name="turbo-visit-control" content="reload"> #}
 		<title>
 			{% block title %}
 				Welcome!
 			{% endblock %}
 		</title>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer"/> {% block stylesheets %}{% endblock %}
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
- <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/javascript.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/php.min.js"></script>
 
-
+        {# Notre script personnalisé #}
+        <script src="{{ asset('js/highlight.js') }}"></script>
 
 
 
@@ -29,7 +32,7 @@
 	<body>
 		{# Ajout du menu latéral qui sera caché par défaut #}
 	{# Sidebar menu latéral #}
-<div id="sidebar" class="fixed top-0 right-0 w-0 h-full bg-white shadow-2xl transition-all duration-300 z-50 overflow-hidden">
+<header id="sidebar" class="fixed top-0 right-0 w-0 h-full bg-white shadow-2xl transition-all duration-300 z-50 overflow-hidden">
     <div class="flex flex-col p-6">
         <div class="flex justify-end mb-6">
             <button id="closeMenu" class="text-gray-800 hover:text-gray-500 transition-colors p-2">
@@ -51,7 +54,7 @@
             {% endif %}
         </nav>
     </div>
-</div>
+</header>
 
 {# Overlay pour le background du menu mobile #}
 <div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 z-40"></div>
