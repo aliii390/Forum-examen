@@ -59,7 +59,43 @@
 
 				<!-- Main Content -->
 					<div
-					class="lg:col-span-3"> <!-- Questions Section -->
+					class="lg:col-span-3">
+                    
+                    {% if app.user == profileUser %}
+                    <!-- Utilisateurs bloqués Section -->
+                    <div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8 mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Utilisateurs bloqués</h2>
+                        
+                        <div class="space-y-4">
+						{# le code pour voir les bloquez #}
+                            {% if users is defined and users|length > 0 %}
+                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                    {% for user in users %}
+                                        <div class="bg-gray-50 border border-gray-100 rounded-xl p-4 flex items-center justify-between">
+                                            <div class="flex items-center space-x-3">
+                                                <img class="w-10 h-10 rounded-full object-cover" src="{{ user.photo ? asset('uploads/uploads/' ~ user.photo) : asset('img/icon.jpg') }}" alt="Photo de {{ blockedUser.name }}">
+                                                <span class="font-medium text-gray-900">{{ user.name }}</span>
+                                            </div>
+                                            <button 
+                                                class="text-sm px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-300"
+                                                onclick="unblockUser('{{ user.id }}')"
+                                            >
+                                                Débloquer
+                                            </button>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                <div class="text-center py-8 bg-gray-50 rounded-xl">
+                                    <p class="text-gray-500">Vous n'avez bloqué aucun utilisateur.</p>
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    {% endif %}
+					{# fin du code  #}
+                    
+                    <!-- Questions Section -->
 					<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8">
 						<h2 class="text-2xl font-bold text-gray-900 mb-6">
 							{% if app.user == profileUser %}
@@ -126,12 +162,6 @@
 									<p class="text-gray-500">Vous n'avez pas encore posé de questions.</p>
 								</div>
 							{% endfor %}
-
-
-							{# adaptadion du code refacto #}
-
-
-							{# fin de la refacto #}
 						</div>
 					</div>
 				</div>
@@ -141,12 +171,37 @@
 
 
 	<script>
-
-		document.addEventListener('DOMContentLoaded', function () { // Initialise highlight.js (une seule fois)
-if (typeof hljs !== 'undefined') {
-hljs.highlightAll();
-}
-});
+		document.addEventListener('DOMContentLoaded', function () {
+            // Initialise highlight.js (une seule fois)
+            if (typeof hljs !== 'undefined') {
+                hljs.highlightAll();
+            }
+        });
+        
+        // Fonction pour débloquer un utilisateur
+        function unblockUser(userId) {
+            // Ici vous pouvez implémenter la logique AJAX pour débloquer un utilisateur
+            if (confirm('Êtes-vous sûr de vouloir débloquer cet utilisateur ?')) {
+                // Exemple de requête fetch
+                fetch('/user/unblock/' + userId, {
+                    method: 'POST',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        _token: '{{ csrf_token("unblock_user") }}'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Rechargez la page ou mettez à jour l'UI
+                        window.location.reload();
+                    }
+                });
+            }
+        }
 	</script>
 
 {% endblock %}

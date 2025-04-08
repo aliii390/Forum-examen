@@ -88,41 +88,15 @@ final class ProfileController extends AbstractController
         ]);
     }
 
-    //     #[Route('/publication/delete/{id}', name: 'app_publication_delete', methods: ['POST'])]
 
-    // public function deletePublication(Publication $publication, EntityManagerInterface $entityManager): Response
-    // {
-    //     // verif si l'utilisateur est l'auteur de la publication
-    //     if ($publication->getUser() !== $this->getUser()) {
-    //         $this->addFlash('error', 'Vous n\'êtes pas autorisé à supprimer cette publication');
-    //         return $this->redirectToRoute('app_home');
-    //     }
+    // fonction pour voir tout les user bloquer
+    #[Route('/users', name: 'app_users_list')]
+    public function showAllUsers(UserRepository $userRepository): Response
+    {
+        $users = $userRepository->findAll();
 
-    //     try {
-    //         // supprimer la photo associée si elle existe
-    //         if ($publication->getPhoto()) {
-    //             $photoPath = $this->getParameter('uploads_directory') . '/' . $publication->getPhoto();
-    //             if (file_exists($photoPath)) {
-    //                 unlink($photoPath);
-    //             }
-    //         }
-
-    //         // supprimer tous les likes associés
-    //         foreach ($publication->getPostLikers() as $like) {
-    //             $entityManager->remove($like);
-    //         }
-
-    //         // supprimer la publication
-    //         $entityManager->remove($publication);
-    //         $entityManager->flush();
-
-    //         $this->addFlash('success', 'Publication supprimée avec succès');
-    //     } catch (\Exception $e) {
-    //         $this->addFlash('error', 'Une erreur est survenue lors de la suppression');
-    //     }
-
-    //     return $this->redirectToRoute('app_home');
-    // }
-
-
+        return $this->render('profile/users-list.html.twig', [
+            'users' => $users
+        ]);
+    }
 }
