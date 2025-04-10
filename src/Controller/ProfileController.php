@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\CompteBloquer;
 use App\Entity\User;
 use App\Form\UpdateInfoType;
 use App\Interfaces\UpdateProfileInterface;
 use App\Repository\PublicationRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,6 +29,7 @@ final class ProfileController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
+        $blockedUsers = $user->getCompteBloquers();
 
 
         $form = $this->createForm(UpdateInfoType::class, $user);
@@ -62,6 +65,7 @@ final class ProfileController extends AbstractController
             'profileUser' => $user,
             'updateForm' => $form->createView(),
             'publication' => $publications,
+            'users'=> $blockedUsers
         ]);
     }
 
@@ -89,7 +93,7 @@ final class ProfileController extends AbstractController
     }
 
 
-    // fonction pour voir tout les user bloquer
+    // route pour voir tout les user bloquer
     #[Route('/users', name: 'app_users_list')]
     public function showAllUsers(UserRepository $userRepository): Response
     {
@@ -99,4 +103,29 @@ final class ProfileController extends AbstractController
             'users' => $users
         ]);
     }
+
+
+
+    // route pour débloquer un user 
+    #[Route('/unblock/{id}', name: 'app_unblock_user', methods: ['POST'])]
+public function unblock(User $user, Request $request, EntityManagerInterface $em): Response
+{
+    if ($this->isCsrfTokenValid('unblock' . $user->getId(), $request->request->get('_token'))) {
+        // Supprimer l'entrée de blocage
+        $block = $em->getRepository(CompteBloquer::class)->findOneBy([
+            'userBlocked' => $user,
+            // Optionnel : 'author' => $this->getUser(),
+        ]);
+
+        if ($block) {
+            $em->remove($block);
+            $em->flush();
+        }
+    }
+
+       // Ajout du message flash
+       $this->addFlash('debloquer', 'L\'utilisateur a bien été débloquer vous pouvez voir ces post ');
+    return $this->redirectToRoute('app_profile');
+}
+
 }

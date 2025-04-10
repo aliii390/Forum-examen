@@ -5,6 +5,36 @@
 {% endblock %}
 
 {% block body %}
+
+
+
+{#message d'erreur quand on bloque un utilisateur  #}
+	{% for message in app.flashes('debloquer') %}
+		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
+			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
+					                    flex items-center gap-3
+					                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+					                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+				<div class="flex-shrink-0">
+					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+					</svg>
+				</div>
+				<div class="flex-1">
+					<p class="text-sm sm:text-base text-green-700 font-medium">
+						{{ message }}
+					</p>
+				</div>
+				<button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-green-400 hover:text-green-600 transition-colors duration-200">
+					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+	{% endfor %}
+    {# fin du code pour le message d'erreur #}
+	
 	<div class="min-h-screen bg-gray-50">
 		<div class="container mx-auto px-4 py-8 lg:py-12">
 			<div
@@ -38,63 +68,64 @@
 
 							<!-- Stats rapides -->
 							<div class="mt-8 w-full grid grid-cols-2 gap-4">
-								 <div class="text-center p-4 bg-orange-50 rounded-xl">
+								<div class="text-center p-4 bg-orange-50 rounded-xl">
 									<span class="block text-2xl font-bold text-[#F48023]">128</span>
 									<span class="text-sm text-gray-600">Questions</span>
-								 </div>
-								 <div class="text-center p-4 bg-orange-50 rounded-xl">
-						            <span class="block text-2xl font-bold text-[#F48023]">1.2K</span>
-									  <span class="text-sm text-gray-600">Abonnés</span>
-									 </div>
 								</div>
+								<div class="text-center p-4 bg-orange-50 rounded-xl">
+									<span class="block text-2xl font-bold text-[#F48023]">1.2K</span>
+									<span class="text-sm text-gray-600">Abonnés</span>
+								</div>
+							</div>
 
-							<!-- Bouton Modifier -->{% block actionProfil %}
-						{% endblock %}
+							<!-- Bouton Modifier -->
+							{% block actionProfil %}{% endblock %}
 
 
+						</div>
 					</div>
-				</div>
 				</div>
 
 				<!-- Main Content -->
-					<div
-					class="lg:col-span-3">
-                    
-                    {% if app.user == profileUser %}
-                    <!-- Utilisateurs bloqués Section -->
-                    <div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8 mb-8">
-                        <h2 class="text-2xl font-bold text-gray-900 mb-6">Utilisateurs bloqués</h2>
-                        
-                        <div class="space-y-4">
-						{# le code pour voir les bloquez #}
-                            {% if users is defined and users|length > 0 %}
-                                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                                    {% for user in users %}
-                                        <div class="bg-gray-50 border border-gray-100 rounded-xl p-4 flex items-center justify-between">
-                                            <div class="flex items-center space-x-3">
-                                                <img class="w-10 h-10 rounded-full object-cover" src="{{ user.photo ? asset('uploads/uploads/' ~ user.photo) : asset('img/icon.jpg') }}" alt="Photo de {{ blockedUser.name }}">
-                                                <span class="font-medium text-gray-900">{{ user.name }}</span>
-                                            </div>
-                                            <button 
-                                                class="text-sm px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-300"
-                                                onclick="unblockUser('{{ user.id }}')"
-                                            >
-                                                Débloquer
-                                            </button>
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                <div class="text-center py-8 bg-gray-50 rounded-xl">
-                                    <p class="text-gray-500">Vous n'avez bloqué aucun utilisateur.</p>
-                                </div>
-                            {% endif %}
-                        </div>
-                    </div>
-                    {% endif %}
+				<div class="lg:col-span-3">
+
+					{% if app.user == profileUser %}
+						<!-- Utilisateurs bloqués Section -->
+						<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8 mb-8">
+							<h2 class="text-2xl font-bold text-gray-900 mb-6">Utilisateurs bloqués</h2>
+
+							<div
+								class="space-y-4">
+								{# le code pour voir les bloquez #}
+								{% if users is defined and users|length > 0 %}
+									<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+										{% for user in users %}
+											<div class="bg-gray-50 border border-gray-100 rounded-xl p-4 flex items-center justify-between">
+												<div class="flex items-center space-x-3">
+													<img class="w-10 h-10 rounded-full object-cover" src="{{ user.userBlocked.photo ? asset('uploads/uploads/' ~ user.userBlocked.photo) : asset('img/icon.jpg') }}" alt="Photo ">
+													<span class="font-medium text-gray-900">{{ user.userBlocked.name }}</span>
+												</div>
+												<form method="post" action="{{ path('app_unblock_user', { id: user.userBlocked.id }) }}" >
+													<input type="hidden" name="_token" value="{{ csrf_token('unblock' ~ user.userBlocked.id) }}">
+													<button class="text-sm px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-300">
+														Débloquer
+													</button>
+												</form>
+
+											</div>
+										{% endfor %}
+									</div>
+								{% else %}
+									<div class="text-center py-8 bg-gray-50 rounded-xl">
+										<p class="text-gray-500">Vous n'avez bloqué aucun utilisateur.</p>
+									</div>
+								{% endif %}
+							</div>
+						</div>
+					{% endif %}
 					{# fin du code  #}
-                    
-                    <!-- Questions Section -->
+
+					<!-- Questions Section -->
 					<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8">
 						<h2 class="text-2xl font-bold text-gray-900 mb-6">
 							{% if app.user == profileUser %}
@@ -170,37 +201,31 @@
 
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function () {
-            // Initialise highlight.js (une seule fois)
-            if (typeof hljs !== 'undefined') {
-                hljs.highlightAll();
-            }
-        });
-        
-        // Fonction pour débloquer un utilisateur
-        function unblockUser(userId) {
-            // Ici vous pouvez implémenter la logique AJAX pour débloquer un utilisateur
-            if (confirm('Êtes-vous sûr de vouloir débloquer cet utilisateur ?')) {
-                // Exemple de requête fetch
-                fetch('/user/unblock/' + userId, {
-                    method: 'POST',
-                    headers: {
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        _token: '{{ csrf_token("unblock_user") }}'
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Rechargez la page ou mettez à jour l'UI
-                        window.location.reload();
-                    }
-                });
-            }
-        }
+		document.addEventListener('DOMContentLoaded', function () { // Initialise highlight.js (une seule fois)
+if (typeof hljs !== 'undefined') {
+hljs.highlightAll();
+}
+});
+
+// Fonction pour débloquer un utilisateur
+function unblockUser(userId) { // Ici vous pouvez implémenter la logique AJAX pour débloquer un utilisateur
+if (confirm('Êtes-vous sûr de vouloir débloquer cet utilisateur ?')) { // Exemple de requête fetch
+fetch('/user/unblock/' + userId, {
+method: 'POST',
+headers: {
+'X-Requested-With': 'XMLHttpRequest',
+'Content-Type': 'application/json'
+},
+body: JSON.stringify(
+{_token: '{{ csrf_token("unblock_user") }}'}
+)
+}).then(response => response.json()).then(data => {
+if (data.success) { // Rechargez la page ou mettez à jour l'UI
+window.location.reload();
+}
+});
+}
+}
 	</script>
 
 {% endblock %}
