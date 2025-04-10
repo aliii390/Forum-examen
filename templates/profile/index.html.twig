@@ -32,22 +32,21 @@
 							<!-- Informations utilisateur -->
 							<div class="mt-6 text-center">
 								<h1 class="text-2xl sm:text-3xl font-bold text-gray-900">{{ profileUser.name }}</h1>
-								<p class="mt-2 text-gray-600 font-medium">Développeur Web</p>
 								<p class="mt-1 text-sm text-gray-500">Membre depuis
 									{{ profileUser.createdAt|date('d M Y') }}</p>
 							</div>
 
 							<!-- Stats rapides -->
-							{# <div class="mt-8 w-full grid grid-cols-2 gap-4">
-																						   <div class="text-center p-4 bg-orange-50 rounded-xl">
-																																																							                                <span class="block text-2xl font-bold text-[#F48023]">128</span>
-																																																							                                <span class="text-sm text-gray-600">Questions</span>
-																																																							                            </div>
-																																																							                            <div class="text-center p-4 bg-orange-50 rounded-xl">
-																																																							                                <span class="block text-2xl font-bold text-[#F48023]">1.2K</span>
-																																																							                                <span class="text-sm text-gray-600">Abonnés</span>
-																																																							                            </div>
-																																																							                        </div> #}
+							<div class="mt-8 w-full grid grid-cols-2 gap-4">
+								 <div class="text-center p-4 bg-orange-50 rounded-xl">
+									<span class="block text-2xl font-bold text-[#F48023]">128</span>
+									<span class="text-sm text-gray-600">Questions</span>
+								 </div>
+								 <div class="text-center p-4 bg-orange-50 rounded-xl">
+						            <span class="block text-2xl font-bold text-[#F48023]">1.2K</span>
+									  <span class="text-sm text-gray-600">Abonnés</span>
+									 </div>
+								</div>
 
 							<!-- Bouton Modifier -->{% block actionProfil %}
 						{% endblock %}

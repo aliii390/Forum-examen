@@ -19,3 +19,22 @@
 }
 
 /* popup pour ajoutez ou bloqué */
+
+
+
+/* pour le message flash quand on bloque un user */
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -2rem);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+    }
+}
+
+.animate-fade-in-down {
+    animation: fadeInDown 0.5s ease-out forwards;
+}

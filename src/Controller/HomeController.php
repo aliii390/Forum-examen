@@ -18,7 +18,15 @@ final class HomeController extends AbstractController
     public function index(PublicationRepository $publicationRepository , CategoryRepository $categoryRepository): Response
     {
         $user = $this->getUser();
-        $publication = $publicationRepository->findePublicationsBloquer($user);
+
+        // Si aucun utilisateur n'est connecté, on récupère toutes les publications
+        if (!$user) {
+            $publication = $publicationRepository->findAll();
+        } else {
+            $publication = $publicationRepository->findePublicationsBloquer($user);
+        }
+
+
         $category = $categoryRepository->findAll();
 
         return $this->render('home/index.html.twig', [
@@ -39,6 +47,9 @@ final class HomeController extends AbstractController
 
         $entityManager->persist($compteBloquer);
         $entityManager->flush();
+
+         // Ajout du message flash
+    $this->addFlash('saMarche', 'L\'utilisateur a bien été bloqué');
 
         return $this->redirectToRoute('app_home');
     }

@@ -20,7 +20,7 @@ function extendFormProgrammingLanguage() {
         console.log('Catégorie sélectionnée:', selectedValue);
 
         // Vérifiez si la valeur correspond à la catégorie "Programmation"
-        if (selectedValue === '3') { 
+        if (selectedValue === '2') { 
             langageField.style.display = 'block';
         } else {
             langageField.style.display = 'none';
