@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\CompteBloquer;
+use App\Entity\Publication;
 use App\Entity\User;
 use App\Form\UpdateInfoType;
 use App\Interfaces\UpdateProfileInterface;
@@ -40,6 +41,8 @@ final class ProfileController extends AbstractController
             // $plainPassword = $form->get('plainPassword')->getData(); 
             $email = $form->get('email')->getData();
 
+
+
             // le code pour upload une photo de profil 
             $photo = $form->get('photo')->getData();
 
@@ -50,8 +53,10 @@ final class ProfileController extends AbstractController
 
             // fin du code pour upload une photo
 
+
+
             $updateProfilService->updateProfile($user, $name, $email);
-            $this->addFlash('success', 'User updated successfully.');
+            $this->addFlash('success', 'Votre compte a bien été mis a jour.');
 
             return $this->redirectToRoute('app_profile');
         }
@@ -60,18 +65,23 @@ final class ProfileController extends AbstractController
         $publications = $publicationRepo->findBy(['user' => $user]);
 
 
+        // pour afficher le nombre de question quand on est connecter a notre compte
+            $nombreQuestion = $publicationRepo->count(['user'=>$user]);
+
+    
 
         return $this->render('profile/personal-profile.html.twig', [
             'profileUser' => $user,
             'updateForm' => $form->createView(),
             'publication' => $publications,
-            'users'=> $blockedUsers
+            'users'=> $blockedUsers,
+            'nombreQuestion'=> $nombreQuestion
         ]);
     }
 
 
     #[Route('/user/{name}', name: 'app_user_profile')]
-    public function connect(string $name, UserRepository $userRepository): Response
+    public function connect(string $name, UserRepository $userRepository, PublicationRepository $publicationRepo): Response
     {
 
         $user = $userRepository->findOneBy(['name' => $name]);
@@ -84,13 +94,34 @@ final class ProfileController extends AbstractController
             return $this->redirectToRoute('app_profile');
         }
 
+        // pour afficher le nombre de question quand on est deconnectez de  notre compte
+        $nombreQuestion = $publicationRepo->count(['user'=>$user]);
+
         $publications = $user->getPublications();
 
         return $this->render('profile/foreign-profile.html.twig', [
             'profileUser' => $user,
             'publication' => $publications,
+            'nombreQuestion'=> $nombreQuestion
         ]);
     }
+
+
+    // route pour supprimez une question 
+    #[Route('/post/{id}/delete', name: 'post_delete', methods: ['POST'])]
+    public function delete(Publication $publication, EntityManagerInterface $em, Request $request): Response
+    {
+        // Protection CSRF
+        if ($this->isCsrfTokenValid('delete_post_' . $publication->getId(), $request->request->get('_token'))) {
+            $em->remove($publication);
+            $em->flush();
+    
+            $this->addFlash('supprimer', 'Le post a bien été supprimé.');
+        }
+    
+        return $this->redirectToRoute('app_profile'); 
+    }
+
 
 
     // route pour voir tout les user bloquer
