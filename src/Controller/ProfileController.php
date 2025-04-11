@@ -154,9 +154,35 @@ public function unblock(User $user, Request $request, EntityManagerInterface $em
         }
     }
 
-       // Ajout du message flash
+       // message flash 
        $this->addFlash('debloquer', 'L\'utilisateur a bien été débloquer vous pouvez voir ces post ');
     return $this->redirectToRoute('app_profile');
 }
+
+
+
+// route pour supprimez le compte
+#[Route('/profile/supprimer/{id}', name: 'app_profile_supprimer')]
+public function supprimer(
+    User $user,
+    EntityManagerInterface $entityManager
+): Response {
+    /** @var User $currentUser */
+    $currentUser = $this->getUser();
+
+    // Vérifie que l'utilisateur connecté est le même que celui qu'on veut supprimer
+    if ($user !== $currentUser) {
+        $this->addFlash('danger', 'Vous n\'êtes pas autorisé à supprimer ce compte.');
+        return $this->redirectToRoute('app_profile');
+    }
+
+    $user->setDeletedAt(new \DateTimeImmutable());
+    $user->setRoles(['ROLE_DELETED']);
+    $entityManager->flush();
+
+    return $this->redirectToRoute('app_register');
+}
+
+
 
 }

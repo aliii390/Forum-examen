@@ -11,9 +11,9 @@
 	{% for message in app.flashes('debloquer') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
-										                    flex items-center gap-3
-										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+															                    flex items-center gap-3
+															                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+															                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
 				<div class="flex-shrink-0">
 					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -34,13 +34,13 @@
 	{% endfor %}
 	{# fin du code pour le message d'erreur #}
 
-		{#message d'erreur quand l'user supprime un post  #}
+	{#message d'erreur quand l'user supprime un post  #}
 	{% for message in app.flashes('supprimer') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
-										                    flex items-center gap-3
-										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+															                    flex items-center gap-3
+															                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+															                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
 				<div class="flex-shrink-0">
 					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -94,11 +94,13 @@
 
 							<!-- Stats rapides -->
 							<div class="mt-8 w-full grid grid-cols-2 gap-4">
+
+
 								<div class="text-center p-4 bg-orange-50 rounded-xl">
-							
+
 									<span class="block text-2xl font-bold text-[#F48023]">{{nombreQuestion}}</span>
 									<span class="text-sm text-gray-600">Questions</span>
-								
+
 								</div>
 								<div class="text-center p-4 bg-orange-50 rounded-xl">
 									<span class="block text-2xl font-bold text-[#F48023]">1.2K</span>
@@ -108,6 +110,17 @@
 
 							<!-- Bouton Modifier -->
 							{% block actionProfil %}{% endblock %}
+
+							
+							<!-- Bouton Supprimer le compte -->
+							{% if app.user == profileUser %}
+							<form method="post" action="{{ path('app_profile_supprimer', {id: profileUser.id}) }}" class="mt-6 w-full">
+								<input type="hidden" name="_token" value="{{ csrf_token('delete_account') }}">
+								<button type="submit" class="w-full px-4 py-2 text-sm sm:text-base font-semibold text-white bg-red-600 hover:bg-red-700 rounded-xl transition-all duration-300">
+									Supprimer le compte
+								</button>
+							</form>
+							{% endif %}
 
 
 						</div>
@@ -177,25 +190,27 @@
 													<p class="text-sm text-gray-500">{{ question.createdAt|date('d M Y à H:i') }}</p>
 												</div>
 											</div>
-											{% if app.user %}
-											<div class="flex items-center space-x-2 gap-2">
-												<span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">
-													{{ question.category.slug }}
-												</span>
-												<form method="post" action="{{ path('post_delete', {id: question.id}) }}"  style="display: inline;">
-													<input type="hidden" name="_token" value="{{ csrf_token('delete_post_' ~ question.id) }}">
-													<button class="btn btn-link p-0 m-0" style="border: none; background: none;">
-														<i class="fa-solid fa-trash" style="color: #db2424;"></i>
-													</button>
-												</form>
-											</div>
+											{# ce if c'est pour afficher supprimer le post #}
+											{% if app.user == profileUser %}
+												<div class="flex items-center space-x-2 gap-2">
+													<span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">
+														{{ question.category.slug }}
+													</span>
+													<form method="post" action="{{ path('post_delete', {id: question.id}) }}" style="display: inline;">
+														<input type="hidden" name="_token" value="{{ csrf_token('delete_post_' ~ question.id) }}">
+														<button class="btn btn-link p-0 m-0" style="border: none; background: none;">
+															<i class="fa-solid fa-trash" style="color: #db2424;"></i>
+														</button>
+													</form>
+												</div>
 											{% else %}
-											<div class="flex items-center space-x-2 gap-2">
-												<span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">
-													{{ question.category.slug }}
-												</span>
-											</div>
+												<div class="flex items-center space-x-2 gap-2">
+													<span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">
+														{{ question.category.slug }}
+													</span>
+												</div>
 											{% endif %}
+											{# fin du if #}
 										</div>
 									</div>
 
