@@ -125,19 +125,8 @@
 										<pre class="relative bg-gradient-to-br from-gray-900 to-gray-800 rounded-b-lg overflow-x-auto">
                                         <code class="language-{{ question.langage.name|lower }} block p-4 text-sm md:text-base text-gray-100 font-mono leading-relaxed">
                                             {{- question.description -}}
-                                        </code>
-                                        
-                                        
-                                        
-        
-    </pre> {# Numéros de ligne (visibles uniquement sur écrans moyens et grands) #} {# <div class="absolute top-0 left-0 hidden md:block">
-                                            {% set lines = question.description|split("\n") %}
-                                            <div class="pt-4 pr-4 text-right">
-                                            {% for i in 1..lines|length %}
-                                                <div class="text-xs text-gray-500 select-none leading-relaxed">{{ i }}</div>
-                                            {% endfor %}
-                                            </div>
-                                        </div> #}
+                                        </code>                                                                
+    									</pre>
 									</div>
 
 
