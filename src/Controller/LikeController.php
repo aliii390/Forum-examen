@@ -29,14 +29,14 @@ class LikeController extends AbstractController
         if ($postLiker) {
             // Si oui, on retire le like
             $entityManager->remove($postLiker);
-            $this->addFlash('success', 'Vous n\'aimez plus cette publication');
+            $this->addFlash('aimePlus', 'Vous n\'aimez plus cette publication');
         } else {
             // Si non, on ajoute le like
             $postLiker = new PostLiker();
             $postLiker->setUser($this->getUser());
             $postLiker->setPublication($publication);
             $entityManager->persist($postLiker);
-            $this->addFlash('success', 'Vous aimez cette publication');
+            $this->addFlash('aime', 'Vous aimez cette publication');
         }
 
         $entityManager->flush();
