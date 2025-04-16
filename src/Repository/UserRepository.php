@@ -33,20 +33,19 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+    // c'est pour la pagination pour si y'a trop de personne bloquer a voir apres 
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    //     public function findUsersBlockedBy($user)
+    //     {
+    //         return $this->createQueryBuilder('u')
+    //             ->innerJoin('u.compteBloquers', 'ub')
+    //             ->where('ub = :user')
+    //             ->setParameter('user', $user)
+    //             ->getQuery();
+    //     }
 
     //    public function findOneBySomeField($value): ?User
     //    {

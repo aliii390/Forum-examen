@@ -8,10 +8,13 @@ use App\Entity\Publication;
 use App\Entity\User;
 use App\Form\UpdateInfoType;
 use App\Interfaces\UpdateProfileInterface;
+use App\Repository\AjoutAmiRepository;
 use App\Repository\PublicationRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Contracts\Orm\EntityPaginatorInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,12 +23,18 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class ProfileController extends AbstractController
 {
+
+    // route pour quand l'user va voir son propre profile 
     #[Route('/profile', name: 'app_profile')]
     public function index(
         UpdateProfileInterface $updateProfilService,
         Request $request,
         FileUploader $fileUploader,
-        PublicationRepository $publicationRepo
+        PublicationRepository $publicationRepo,
+        EntityManagerInterface $entityManager,
+        // PaginatorInterface  $paginator, UserRepository $userRepository
+        AjoutAmiRepository $ajoutRepo
+        
     ): Response {
         /**
          * @var User $user
@@ -62,7 +71,7 @@ final class ProfileController extends AbstractController
 
 
             $updateProfilService->updateProfile($user, $name, $email);
-            $this->addFlash('success', 'Votre compte a bien été mis a jour.');
+            $this->addFlash('profileModifiez', 'Votre compte a bien été mis a jour.');
 
             return $this->redirectToRoute('app_profile');
         }
@@ -71,8 +80,25 @@ final class ProfileController extends AbstractController
         $publications = $publicationRepo->findBy(['user' => $user]);
 
 
-        // pour afficher le nombre de question quand on est connecter a notre compte
+        // pour afficher le nombre de question 
             $nombreQuestion = $publicationRepo->count(['user'=>$user]);
+            
+
+            // pour afficher le nombre d'abonner
+            $nombreAbonner = $ajoutRepo->count(['user'=> $user]);
+            // $nombreAbonner = $entityManager->getRepository(AjoutAmi::class)->count([
+            //     'userAjoutez' => $user
+            // ]);
+            // dd($nombreAbonner);
+
+            // $query = $userRepository->findUsersBlockedBy($user); // la méthode qu’on vient de créer
+
+            // $pagination = $paginator->paginate(
+            //     $query,
+            //     $request->query->getInt('page', 1),
+            //     5 // nombre d'éléments par page
+            // );
+            
 
     
 
@@ -82,13 +108,18 @@ final class ProfileController extends AbstractController
             'publication' => $publications,
             'users'=> $blockedUsers,
             'nombreQuestion'=> $nombreQuestion,
-            'amies' => $ajoutUser
+            'amies' => $ajoutUser,
+            'nombreAbonner'=>$nombreAbonner,
+            // 'pagination' => $pagination
+           
         ]);
+       
     }
 
 
+    // route pour quand l'user va voir le profil d'un autre user 
     #[Route('/user/{name}', name: 'app_user_profile')]
-    public function connect(string $name, UserRepository $userRepository, PublicationRepository $publicationRepo): Response
+    public function connect(string $name, UserRepository $userRepository, PublicationRepository $publicationRepo, EntityManagerInterface $entityManager , AjoutAmiRepository $ajoutRepo): Response
     {
 
         $user = $userRepository->findOneBy(['name' => $name]);
@@ -104,12 +135,16 @@ final class ProfileController extends AbstractController
         // pour afficher le nombre de question quand on est deconnectez de  notre compte
         $nombreQuestion = $publicationRepo->count(['user'=>$user]);
 
+       $nombreAbonner = $ajoutRepo->count(['user' =>$user]);
+        
+
         $publications = $user->getPublications();
 
         return $this->render('profile/foreign-profile.html.twig', [
             'profileUser' => $user,
             'publication' => $publications,
-            'nombreQuestion'=> $nombreQuestion
+            'nombreQuestion'=> $nombreQuestion,
+            'nombreAbonner'=> $nombreAbonner
         ]);
     }
 
@@ -137,7 +172,7 @@ final class ProfileController extends AbstractController
     {
         $users = $userRepository->findAll();
 
-        return $this->render('profile/users-list.html.twig', [
+        return $this->render('profile/index.html.twig', [
             'users' => $users
         ]);
     }
@@ -183,13 +218,12 @@ public function voirAmi(UserRepository $userRepository): Response
 
 // route pour supprimer un user 
 #[Route('/supprimer/{id}', name: 'app_user_supprimer', methods: ['POST'])]
-public function userSupprimer(User $user, Request $request, EntityManagerInterface $em): Response
+public function userSupprimer(User $user,Request $request, EntityManagerInterface $em): Response
 {
     if ($this->isCsrfTokenValid('supprimer' . $user->getId(), $request->request->get('_token'))) {
         // Supprimer l'entrée de blocage
         $block = $em->getRepository(AjoutAmi::class)->findOneBy([
             'userAjoutez' => $user,
-            // l'erreur c'est est ce que j'ai bien usersupprimer dans l'entity ajout ami 
             // Optionnel : 'author' => $this->getUser(),
         ]);
 
@@ -200,7 +234,8 @@ public function userSupprimer(User $user, Request $request, EntityManagerInterfa
     }
 
        // message flash 
-       $this->addFlash('supprimerAmi', 'L\'utilisateur a bien été supprimez');
+      
+       $this->addFlash('supprimerAmi', 'L\'utilisateur a bien été supprimez' );
     return $this->redirectToRoute('app_profile');
 }
 
