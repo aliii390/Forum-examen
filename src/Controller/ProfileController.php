@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\AjoutAmi;
 use App\Entity\CompteBloquer;
 use App\Entity\Publication;
 use App\Entity\User;
@@ -30,7 +31,12 @@ final class ProfileController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
+
+        // pour affichez toout les user qu'on a bloquez
         $blockedUsers = $user->getCompteBloquers();
+
+        // pour afficher tout les user qu'on a ajoutez 
+        $ajoutUser = $user->getAjoutAmis();
 
 
         $form = $this->createForm(UpdateInfoType::class, $user);
@@ -75,7 +81,8 @@ final class ProfileController extends AbstractController
             'updateForm' => $form->createView(),
             'publication' => $publications,
             'users'=> $blockedUsers,
-            'nombreQuestion'=> $nombreQuestion
+            'nombreQuestion'=> $nombreQuestion,
+            'amies' => $ajoutUser
         ]);
     }
 
@@ -160,6 +167,44 @@ public function unblock(User $user, Request $request, EntityManagerInterface $em
 }
 
 
+// route pour voir tout les amis ajoutez 
+
+
+#[Route('/ami', name: 'app_ami_list')]
+public function voirAmi(UserRepository $userRepository): Response
+{
+    $users = $userRepository->findAll();
+
+    // de base dans le render y'avais sa users-list.html.twig je comprend pas pk ?? 
+    return $this->render('profile/index.html.twig', [
+        'amies' => $users
+    ]);
+}
+
+// route pour supprimer un user 
+#[Route('/supprimer/{id}', name: 'app_user_supprimer', methods: ['POST'])]
+public function userSupprimer(User $user, Request $request, EntityManagerInterface $em): Response
+{
+    if ($this->isCsrfTokenValid('supprimer' . $user->getId(), $request->request->get('_token'))) {
+        // Supprimer l'entrée de blocage
+        $block = $em->getRepository(AjoutAmi::class)->findOneBy([
+            'userAjoutez' => $user,
+            // l'erreur c'est est ce que j'ai bien usersupprimer dans l'entity ajout ami 
+            // Optionnel : 'author' => $this->getUser(),
+        ]);
+
+        if ($block) {
+            $em->remove($block);
+            $em->flush();
+        }
+    }
+
+       // message flash 
+       $this->addFlash('supprimerAmi', 'L\'utilisateur a bien été supprimez');
+    return $this->redirectToRoute('app_profile');
+}
+
+
 
 // route pour supprimez le compte
 #[Route('/profile/supprimer/{id}', name: 'app_profile_supprimer')]
@@ -182,6 +227,7 @@ public function supprimer(
 
     return $this->redirectToRoute('app_register');
 }
+
 
 
 

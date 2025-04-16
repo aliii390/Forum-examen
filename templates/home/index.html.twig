@@ -6,7 +6,7 @@
 {% block body %}
 
 
-	{#message d'erreur quand on bloque un utilisateur  #}
+	{#message flash quand on bloque un utilisateur  #}
 	{% for message in app.flashes('saMarche') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
@@ -31,8 +31,9 @@
 			</div>
 		</div>
 	{% endfor %}
-    {# fin du code pour le message d'erreur #}
-	{#message d'erreur quand on aime plus un post  #}
+    {# fin du code  #}
+
+	{#message flash quand on aime plus un post  #}
 	{% for message in app.flashes('aimePlus') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-red-700 p-4 rounded-lg shadow-lg
@@ -57,7 +58,34 @@
 			</div>
 		</div>
 	{% endfor %}
-    {# fin du code pour quand on aime plus un post #}
+    {# fin du code  #}
+
+	{#message flash quand on ajoute un ami  #}
+	{% for message in app.flashes('ajoutMarche') %}
+		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
+			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
+					                    flex items-center gap-3
+					                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+					                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+				<div class="flex-shrink-0">
+					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+					</svg>
+				</div>
+				<div class="flex-1">
+					<p class="text-sm sm:text-base text-green-700 font-medium">
+						{{ message }}
+					</p>
+				</div>
+				<button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-green-400 hover:text-green-600 transition-colors duration-200">
+					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+	{% endfor %}
+    {# fin du code #}
 
 	<main
 		class="min-h-screen bg-gradient-to-b from-white to-gray-50 py-8 px-4 md:py-12 lg:py-16">
@@ -105,10 +133,10 @@
 											<div class="absolute w-3 h-3 bg-white transform rotate-45 -top-1 right-3"></div>
 											{# Contenu #}
 											<div class="flex flex-col gap-3">
-												<button class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="addUser('{{ question.user.id }}')">
+												<a href="{{path('app_ajout',{id: question.user.id})}}" class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="addUser('{{ question.user.id }}')">
 													<i class="fas fa-user-plus text-xs"></i>
 													<span>Ajouter</span>
-												</button>
+												</a>
 												<a href="{{path('app_block',{id: question.user.id})}}" class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="blockUser('{{ question.user.id }}')">
 													<i class="fas fa-ban text-xs"></i>
 													<span>Bloquer</span>
@@ -214,7 +242,7 @@
 	</main>
 
 	{# Modales pour le blocage et l'ajout d'utilisateur #}
-	<div id="add-user-modal" class="fixed inset-0  bg-opacity-50 z-50 flex items-center justify-center hidden">
+	{# <div id="add-user-modal" class="fixed inset-0  bg-opacity-50 z-50 flex items-center justify-center hidden">
 		<div class="bg-white rounded-lg p-6 shadow-xl w-full max-w-md transform transition-all duration-300 scale-95 opacity-0" id="add-user-content">
 			<div class="flex justify-between items-center mb-4">
 				<h3 class="text-lg font-medium text-gray-900">Ajouter en ami</h3>
@@ -232,9 +260,9 @@
 				</button>
 			</div>
 		</div>
-	</div>
+	</div> #}
 
-	<div id="block-user-modal" class="fixed inset-0  bg-opacity-50 z-50 flex items-center justify-center hidden">
+	{# <div id="block-user-modal" class="fixed inset-0  bg-opacity-50 z-50 flex items-center justify-center hidden">
 		<div class="bg-white rounded-lg p-6 shadow-xl w-full max-w-md transform transition-all duration-300 scale-95 opacity-0" id="block-user-content">
 			<div class="flex justify-between items-center mb-4">
 				<h3 class="text-lg font-medium text-gray-900">Bloquer l'utilisateur</h3>
@@ -252,7 +280,7 @@
 				</button>
 			</div>
 		</div>
-	</div>
+	</div> #}
 
 	<script>
 		let currentUserId = null;

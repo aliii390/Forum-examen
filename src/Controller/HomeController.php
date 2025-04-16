@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\AjoutAmi;
 use App\Entity\CompteBloquer;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
@@ -53,4 +54,31 @@ final class HomeController extends AbstractController
 
         return $this->redirectToRoute('app_home');
     }
+
+
+    // route pour ajoutez en ami
+    #[Route('/ajout/{id}', name: 'app_ajout', methods:['GET'])]
+    public function ajoute(int $id , EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+        $autreUser = $entityManager->getRepository(User::class)->find($id);
+
+        // Assuming you have an entity named CompteBloquer
+        $ajoutAmi = new AjoutAmi;
+        $ajoutAmi->setUser($user);
+        $ajoutAmi->setUserAjoutez($autreUser);
+
+        $entityManager->persist($ajoutAmi);
+        $entityManager->flush();
+
+         // Ajout du message flash
+    $this->addFlash('ajoutMarche', 'Vous aves bien ajoutez l user en ami');
+    // dd($user);
+
+        return $this->redirectToRoute('app_home');
+    }
+
+
+
+
 }

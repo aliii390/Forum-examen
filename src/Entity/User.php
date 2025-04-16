@@ -87,6 +87,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $deletedAt = null;
 
+    /**
+     * @var Collection<int, AjoutAmi>
+     */
+    #[ORM\OneToMany(targetEntity: AjoutAmi::class, mappedBy: 'user')]
+    private Collection $ajoutAmis;
+
  
 
   
@@ -108,6 +114,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->createdAt = new \DateTimeImmutable();
         $this->postLikers = new ArrayCollection();
         $this->compteBloquers = new ArrayCollection();
+        $this->ajoutAmis = new ArrayCollection();
        
     }
 
@@ -426,6 +433,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDeletedAt(?\DateTimeImmutable $deletedAt): static
     {
         $this->deletedAt = $deletedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AjoutAmi>
+     */
+    public function getAjoutAmis(): Collection
+    {
+        return $this->ajoutAmis;
+    }
+
+    public function addAjoutAmi(AjoutAmi $ajoutAmi): static
+    {
+        if (!$this->ajoutAmis->contains($ajoutAmi)) {
+            $this->ajoutAmis->add($ajoutAmi);
+            $ajoutAmi->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAjoutAmi(AjoutAmi $ajoutAmi): static
+    {
+        if ($this->ajoutAmis->removeElement($ajoutAmi)) {
+            // set the owning side to null (unless already changed)
+            if ($ajoutAmi->getUser() === $this) {
+                $ajoutAmi->setUser(null);
+            }
+        }
 
         return $this;
     }
