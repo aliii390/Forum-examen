@@ -131,7 +131,7 @@
 								</div>
 								<div class="text-center p-4 bg-orange-50 rounded-xl">
 									<span class="block text-2xl font-bold text-[#F48023]">{{ nombreAbonner }}</span>
-									<span class="text-sm text-gray-600">Abonnés</span>
+									<span class="text-sm text-gray-600">Abonnements</span>
 								</div>
 							</div>
 
@@ -198,7 +198,7 @@
 					{% if app.user == profileUser %}
 						<!-- Utilisateurs ajoutez Section -->
 						<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8 mb-8">
-							<h2 class="text-2xl font-bold text-gray-900 mb-6">Utilisateurs Ajoutez</h2>
+							<h2 class="text-2xl font-bold text-gray-900 mb-6">Abonnements</h2>
 
 							<div
 								class="space-y-4">
@@ -207,10 +207,10 @@
 									<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
 										{% for amie in amies %}
 											<div class="bg-gray-50 border border-gray-100 rounded-xl p-4 flex items-center justify-between">
-												<div class="flex items-center space-x-3">
+												<a class="flex items-center space-x-3" href="{{ path('app_user_profile', { name: amie.userAjoutez.name }) }}">
 													<img class="w-10 h-10 rounded-full object-cover" src="{{ amie.userAjoutez.photo ? asset('uploads/uploads/' ~ amie.userAjoutez.photo) : asset('img/icon.jpg') }}" alt="Photo ">
 													<span class="font-medium text-gray-900">{{ amie.userAjoutez.name }}</span>
-												</div>
+												</a>
 												<form method="post" action="{{ path('app_user_supprimer', { id: amie.userAjoutez.id }) }}">
 													<input type="hidden" name="_token" value="{{ csrf_token('supprimer' ~ amie.userAjoutez.id) }}">
 													<button class="text-sm px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-300">

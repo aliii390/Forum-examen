@@ -1,7 +1,27 @@
 {% extends 'profile/index.html.twig' %}
 
 {% block actionProfil %}
-	<button class="mt-8 w-full bg-[#F48023] hover:bg-[#E47013] text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
-		Ajoutez en Ami
-	</button>
+	{% if app.user  %}
+		{% if utilisateurConnectéLeSuis %}
+			{# <a href="{{ path('app_user_supprimer', { id: profileUser.id }) }}" class="mt-8 w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
+				Retirer des Abonnements
+			</a> #}
+			<form method="post" action="{{ path('app_user_supprimer', { id: profileUser.id }) }}">
+				<input type="hidden" name="_token" value="{{ csrf_token('supprimer' ~ profileUser.id) }}">
+				<button class="mt-8 w-full bg-red-600 hover:bg-red-700 text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
+					Retirer des Abonnements
+				</button>
+			</form>
+		{% else %}
+			<a href="{{ path('app_ajout', {id: profileUser.id}) }}" class="mt-8 w-full bg-[#F48023] hover:bg-[#E47013] text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
+				Ajoutez en Ami
+			</a>
+		{% endif %}
+	{% else %}
+		<a href="{{ path('app_register') }}" class="mt-8 w-full bg-[#F48023] hover:bg-[#E47013] text-white py-3 px-6 rounded-xl font-medium transition-all duration-300 transform hover:shadow-lg focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
+			se connectez pour ajoutez en ami
+		</a>
+	{% endif %}
+
+	{# {{path('app_ajout',{id: test.user.id})}} #}
 {% endblock %}
