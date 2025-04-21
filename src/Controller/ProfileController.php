@@ -223,23 +223,34 @@ final class ProfileController extends AbstractController
     #[Route('/supprimer/{id}', name: 'app_user_supprimer', methods: ['POST'])]
     public function userSupprimer(User $user, Request $request, EntityManagerInterface $em): Response
     {
+        // /** @var User $currentUser */
+        // $currentUser = $this->getUser();
+        
         if ($this->isCsrfTokenValid('supprimer' . $user->getId(), $request->request->get('_token'))) {
-            // Supprimer l'entrée de blocage
             $block = $em->getRepository(AjoutAmi::class)->findOneBy([
                 'userAjoutez' => $user,
-                // Optionnel : 'author' => $this->getUser(),
             ]);
-
+    
             if ($block) {
                 $em->remove($block);
                 $em->flush();
             }
         }
-
-        // message flash 
-
-        $this->addFlash('supprimerAmi', 'L\'utilisateur a bien été supprimez');
-        return $this->redirectToRoute('app_profile');
+    
+        $this->addFlash('supprimerAmi',   $user->getName() . ' a bien été supprimé de vos abonnements');
+        
+        // Récupérer le referer (page précédente)
+        $referer = $request->headers->get('referer');
+        
+        // Si la suppression vient de la page profile personnel
+        if (str_contains($referer, '/profile')) {
+            return $this->redirectToRoute('app_profile');
+        }
+        
+        // Sinon, rediriger vers le profil de l'utilisateur supprimé
+        return $this->redirectToRoute('app_user_profile', [
+            'name' => $user->getName()
+        ]);
     }
 
 

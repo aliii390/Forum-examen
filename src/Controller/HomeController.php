@@ -57,7 +57,7 @@ final class HomeController extends AbstractController
 
 
     // route pour ajoutez en ami
-    #[Route('/ajout/{id}', name: 'app_ajout', methods:['GET'])]
+    #[Route('/ajout/{id}', name: 'app_home_ajout', methods:['GET'])]
     public function ajoute(int $id , EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -72,10 +72,12 @@ final class HomeController extends AbstractController
         $entityManager->flush();
 
          // Ajout du message flash
-    $this->addFlash('ajoutMarche', 'Vous aves bien ajoutez l user en ami');
+    $this->addFlash('ajoutMarche', 'Vous avez bien ajouté ' . $autreUser->getName() . ' en ami');
     // dd($user);
 
-        return $this->redirectToRoute('app_home');
+    return $this->redirectToRoute('app_user_profile', [
+        'name' => $autreUser->getName()
+    ]);
     }
 
 
