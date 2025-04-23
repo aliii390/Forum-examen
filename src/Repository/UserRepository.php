@@ -33,6 +33,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
+
+    // Cette méthode sert à ajouter un nouvel utilisateur dans la base de données
+    public function add(User $user, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($user);
+
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     // c'est pour la pagination pour si y'a trop de personne bloquer a voir apres 
 
     //    /**

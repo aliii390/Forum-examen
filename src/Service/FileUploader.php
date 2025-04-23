@@ -16,6 +16,7 @@ class FileUploader
 
     }
     
+    // function qui me permet d'upload une photo 
     public function upload(UploadedFile $file, object $entity, string $fieldName, string $folder): string
     {
         $originalFilename = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
@@ -42,7 +43,8 @@ class FileUploader
         return $this->targetDirectory;
     }
 
-    private function removeOldFile(object $entity, string $fieldName, string $folder): void
+    // function qui me permet de supprimer la photo de profil 
+    public function removeOldFile(object $entity, string $fieldName, string $folder): void
     {
         $getter = 'get' . ucfirst($fieldName);
         $oldFile = $entity->$getter();

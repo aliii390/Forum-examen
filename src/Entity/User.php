@@ -11,9 +11,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé')]
-#[UniqueEntity(fields: ['name'], message: 'Ce nom est déjà utilisé')] // Ajoutez cette ligne
+// #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
+// #[UniqueEntity(fields: ['email'], message: 'Cet email est déjà utilisé')]
+// #[UniqueEntity(fields: ['name'], message: 'Ce nom est déjà utilisé')] // Ajoutez cette ligne
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -33,7 +33,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
+    #[ORM\Column(length: 255, nullable: true )]
     private ?string $password = null;
 
     #[ORM\Column(length: 255, nullable: true, unique: true)]
@@ -92,6 +92,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: AjoutAmi::class, mappedBy: 'user')]
     private Collection $ajoutAmis;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $googleId = null;
+
 
  
 
@@ -466,6 +470,20 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getGoogleId(): ?int
+    {
+        return $this->googleId;
+    }
+
+    public function setGoogleId(int $googleId): static
+    {
+        $this->googleId = $googleId;
+
+        return $this;
+    }
+
+  
    
 
   

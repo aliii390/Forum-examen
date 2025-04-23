@@ -1,0 +1,16 @@
+knpu_oauth2_client:
+    clients:
+        # configure your clients as described here: https://github.com/knpuniversity/oauth2-client-bundle#configuration
+
+        google:
+            type: google
+            client_id: '%env(GOOGLE_OAUTH_ID)%'
+            client_secret: '%env(GOOGLE_OAUTH_SECRET)%'
+            redirect_route: auth_oauth_check
+            redirect_params:
+                service: google
+            access_type: offline
+
+
+
+# ce dossier a ete créer quand j'ai lancer cette commande "composer require knpuniversity/oauth2-client-bundle"  c'est pour gérer plusieur client OAuth

@@ -309,4 +309,37 @@ final class ProfileController extends AbstractController
 
         return $this->redirectToRoute('app_user_profile', ['name' => $autreUser->getName()]);
     }
+
+
+
+    // route pour supprimer une photo de profil 
+  #[Route('/profil/supprimer-photo', name: 'app_user_supprimer_photo_profil')]
+public function deletePicture(
+    Request $request,
+    EntityManagerInterface $em,
+    // Security $security,
+    FileUploader $fileUploader
+): Response {
+    /**
+         * @var User $user
+         */
+    $user = $this->getUser();
+
+    if (!$user) {
+        throw $this->createAccessDeniedException();
+    }
+
+    // Suppression physique du fichier
+    $fileUploader->removeOldFile($user, 'photo', 'profile_pictures');
+
+    // Suppression du nom du fichier en BDD
+    $user->setPhoto(null);
+    $em->flush();
+
+    $this->addFlash('ppSuprimer', 'Votre photo de profil a bien été supprimée.');
+
+    return $this->redirectToRoute('app_profile');
+}
+
+
 }
