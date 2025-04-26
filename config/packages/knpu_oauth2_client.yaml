@@ -4,13 +4,16 @@ knpu_oauth2_client:
 
         google:
             type: google
-            client_id: '%env(GOOGLE_OAUTH_ID)%'
-            client_secret: '%env(GOOGLE_OAUTH_SECRET)%'
-            redirect_route: auth_oauth_check
-            redirect_params:
+            client_id: '%env(GOOGLE_OAUTH_ID)%' #id client (clé recuperer sur google console)
+            client_secret: '%env(GOOGLE_OAUTH_SECRET)%' # c'est ma clé a moi  (clé recuperer sur google console)
+            redirect_route: auth_oauth_check  #route ou l'utilisateur sera rediriger apres auth
+            redirect_params: ## Paramètres additionnels pour la redirection
                 service: google
-            access_type: offline
+            access_type: offline # Permet d'obtenir un refresh_token pour renouveler l'accès
 
 
 
-# ce dossier a ete créer quand j'ai lancer cette commande "composer require knpuniversity/oauth2-client-bundle"  c'est pour gérer plusieur client OAuth
+# ce fichier  a ete créer quand j'ai lancer cette commande "composer require knpuniversity/oauth2-client-bundle"  
+# ce fichier configure le bundle KnpUniversityOAuth2ClientBundle
+# il permet de gérer facilement l'authentification OAuth avec différents fournisseurs
+# pour ajouter d'autres providers (Facebook, GitHub...), ajoutez-les sous la section 'clients

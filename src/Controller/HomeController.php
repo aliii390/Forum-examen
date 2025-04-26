@@ -35,13 +35,15 @@ final class HomeController extends AbstractController
              'category'  => $category,
         ]);
     }
+
+    // route pour bloquer un user 
     #[Route('/block/{id}', name: 'app_block', methods:['GET'])]
     public function bloquer(int $id , EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $otherUser = $entityManager->getRepository(User::class)->find($id);
 
-        // Assuming you have an entity named CompteBloquer
+       
         $compteBloquer = new CompteBloquer;
         $compteBloquer->setUser($user);
         $compteBloquer->setUserBlocked($otherUser);
@@ -50,7 +52,7 @@ final class HomeController extends AbstractController
         $entityManager->flush();
 
          // Ajout du message flash
-    $this->addFlash('saMarche', 'L\'utilisateur a bien été bloqué');
+    $this->addFlash('userBloquer', 'L\'utilisateur a bien été bloqué');
 
         return $this->redirectToRoute('app_home');
     }
@@ -63,7 +65,7 @@ final class HomeController extends AbstractController
         $user = $this->getUser();
         $autreUser = $entityManager->getRepository(User::class)->find($id);
 
-        // Assuming you have an entity named CompteBloquer
+       
         $ajoutAmi = new AjoutAmi;
         $ajoutAmi->setUser($user);
         $ajoutAmi->setUserAjoutez($autreUser);

@@ -57,7 +57,6 @@ final class ProfileController extends AbstractController
             $email = $form->get('email')->getData();
 
 
-
             // le code pour upload une photo de profil 
             $photo = $form->get('photo')->getData();
 
@@ -67,8 +66,6 @@ final class ProfileController extends AbstractController
             }
 
             // fin du code pour upload une photo
-
-
 
             $updateProfilService->updateProfile($user, $name, $email);
             $this->addFlash('profileModifiez', 'Votre compte a bien été mis a jour.');
@@ -86,9 +83,6 @@ final class ProfileController extends AbstractController
 
         // pour afficher le nombre d'abonner
         $nombreAbonner = $ajoutRepo->count(['user' => $user]);
-        // $nombreAbonner = $entityManager->getRepository(AjoutAmi::class)->count([
-        //     'userAjoutez' => $user
-        // ]);
         // dd($nombreAbonner);
 
         // $query = $userRepository->findUsersBlockedBy($user); // la méthode qu’on vient de créer
@@ -98,9 +92,6 @@ final class ProfileController extends AbstractController
         //     $request->query->getInt('page', 1),
         //     5 // nombre d'éléments par page
         // );
-
-
-
 
         return $this->render('profile/personal-profile.html.twig', [
             'profileUser' => $user,
