@@ -28,15 +28,10 @@ class Commentaire
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    /**
-     * @var Collection<int, Reponse>
-     */
-    #[ORM\OneToMany(targetEntity: Reponse::class, mappedBy: 'commentaire')]
-    private Collection $reponses;
-
+ 
     public function __construct()
     {
-        $this->reponses = new ArrayCollection();
+       
     }
 
  
@@ -95,35 +90,7 @@ class Commentaire
         return $this;
     }
 
-    /**
-     * @return Collection<int, Reponse>
-     */
-    public function getReponses(): Collection
-    {
-        return $this->reponses;
-    }
-
-    public function addReponse(Reponse $reponse): static
-    {
-        if (!$this->reponses->contains($reponse)) {
-            $this->reponses->add($reponse);
-            $reponse->setCommentaire($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReponse(Reponse $reponse): static
-    {
-        if ($this->reponses->removeElement($reponse)) {
-            // set the owning side to null (unless already changed)
-            if ($reponse->getCommentaire() === $this) {
-                $reponse->setCommentaire(null);
-            }
-        }
-
-        return $this;
-    }
+  
 
    
 }

@@ -4,9 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Commentaire;
 use App\Entity\Publication;
-use App\Entity\Reponse;
 use App\Form\CommentaireType;
-use App\Form\ReponseType;
 use App\Repository\CommentaireRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,40 +34,35 @@ final class DetailController extends AbstractController
             return $this->redirectToRoute('app_detail', ['id' => $publication->getId()]);
         }
     
-        // Gestion des réponses
-        $reponse = new Reponse();
-        $formReponse = $this->createForm(ReponseType::class, $reponse);
-        $formReponse->handleRequest($request);
-    
-        if ($formReponse->isSubmitted() && $formReponse->isValid()) {
-            $commentaireId = $request->request->get('commentaire_id');
-            $commentaireParent = $commentaireRepo->find($commentaireId);
-    
-            if (!$commentaireParent) {
-                throw $this->createNotFoundException('Commentaire introuvable');
-            }
-    
-            $reponse->setUser($this->getUser());
-            $reponse->setCommentaire($commentaireParent);
-            $reponse->setCreatedAt(new \DateTimeImmutable());
-    
-            $entityManager->persist($reponse);
-            $entityManager->flush();
-    
-            $this->addFlash('success', 'Votre réponse a été ajoutée avec succès!');
-    
-            return $this->redirectToRoute('app_detail', ['id' => $publication->getId()]);
-        }
-    
-        // Récupération des commentaires avec leurs réponses
+        // Récupération des commentaires
         $commentaires = $commentaireRepo->findBy(['publication' => $publication]);
     
         return $this->render('detail/index.html.twig', [
             'publication' => $publication,
             'commentaireType' => $form->createView(),
             'commentaireFin' => $commentaires,
-            'reponseType' => $formReponse->createView(),
         ]);
     }
 
+
+
+
+    // route pour supprimer un commentaire 
+
+    #[Route('/commentaire/{id}/delete', name: 'commentaire_supprimer', methods: ['POST'])]
+    public function delete(Commentaire $commentaire, EntityManagerInterface $em, Request $request): Response
+    {
+        // Protection CSRF
+        if ($this->isCsrfTokenValid('delete_comment_' . $commentaire->getId(), $request->request->get('_token'))) {
+            $publicationId = $commentaire->getPublication()->getId();
+            $em->remove($commentaire);
+            $em->flush();
+    
+            $this->addFlash('commentaireSupprimer', 'Le commentaire a bien été supprimé.');
+        }
+    
+        return $this->redirectToRoute('app_detail', ['id' => $publicationId],);
+    }
+   
+// {{ path('app_detail', {'id': question.id}) }}
 }

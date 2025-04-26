@@ -63,11 +63,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Commentaire::class, mappedBy: 'user')]
     private Collection $commentaires;
 
-    /**
-     * @var Collection<int, Reponse>
-     */
-    #[ORM\OneToMany(targetEntity: Reponse::class, mappedBy: 'user')]
-    private Collection $reponses;
+    // /**
+    //  * @var Collection<int, Reponse>
+    //  */
+    // #[ORM\OneToMany(targetEntity: Reponse::class, mappedBy: 'user')]
+    // private Collection $reponses;
 
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt;
@@ -114,7 +114,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->categories = new ArrayCollection();
         $this->publications = new ArrayCollection();
         $this->commentaires = new ArrayCollection();
-        $this->reponses = new ArrayCollection();
         $this->createdAt = new \DateTimeImmutable();
         $this->postLikers = new ArrayCollection();
         $this->compteBloquers = new ArrayCollection();
@@ -323,35 +322,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Reponse>
-     */
-    public function getReponses(): Collection
-    {
-        return $this->reponses;
-    }
-
-    public function addReponse(Reponse $reponse): static
-    {
-        if (!$this->reponses->contains($reponse)) {
-            $this->reponses->add($reponse);
-            $reponse->setUser($this);
-        }
-
-        return $this;
-    }
-
-    public function removeReponse(Reponse $reponse): static
-    {
-        if ($this->reponses->removeElement($reponse)) {
-            // set the owning side to null (unless already changed)
-            if ($reponse->getUser() === $this) {
-                $reponse->setUser(null);
-            }
-        }
-
-        return $this;
-    }
+  
 
     public function getCreatedAt(): ?\DateTimeImmutable
     {
