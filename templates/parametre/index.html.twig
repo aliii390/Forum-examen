@@ -1,0 +1,219 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Paramètres de {{app.user.name}}{% endblock %}
+
+{% block body %}
+    {# ===== MESSAGES FLASH ===== #}
+    <div class="flash-messages">
+        {# Messages de succès pour déblocage d'utilisateur #}
+        {% for message in app.flashes('debloquer') %}
+            <div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
+                <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
+                            flex items-center gap-3
+                            min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+                            max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm sm:text-base text-green-700 font-medium">{{ message }}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-green-400 hover:text-green-600 transition-colors duration-200">
+                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        {% endfor %}
+
+        {# Messages de succès pour suppression d'ami #}
+        {% for message in app.flashes('supprimerAmi') %}
+            <div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
+                <div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
+                            flex items-center gap-3
+                            min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+                            max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+                    <div class="flex-shrink-0">
+                        <svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                        </svg>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-sm sm:text-base text-green-700 font-medium">{{ message }}</p>
+                    </div>
+                    <button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-green-400 hover:text-green-600 transition-colors duration-200">
+                        <svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {# ===== CONTENU PRINCIPAL ===== #}
+    <main class="container mx-auto px-4 py-8">
+        {# En-tête de la page #}
+        <section class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900">Paramètres du compte</h1>
+            <p class="text-gray-600 mt-2">Gérez vos relations et préférences</p>
+        </section>
+
+        {# Contenu principal avec onglets #}
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            {# Navigation par onglets #}
+            <div class="border-b border-gray-200">
+                <nav class="flex -mb-px">
+                    <a href="#" class="px-6 py-4 border-b-2  text-gray-500 font-medium">
+                        Gestion des relations
+                    </a>
+                    {# <a href="#" class="px-6 py-4 text-gray-500  hover:border-gray-300 border-b-2 border-transparent">
+                        Paramètres du profil
+                    </a> #}
+                </nav>
+            </div>
+
+            {# Contenu des onglets #}
+            <div class="p-6 lg:p-8">
+                {% if app.user == profileUser %}
+                    {# Section des utilisateurs bloqués #}
+                    <section class="mb-12">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Comptes bloqués</h2>
+                            <span class="text-sm bg-gray-100 text-gray-600 px-3 py-1 rounded-full">
+                                {% if users is defined %}{{ users|length }} utilisateur(s){% else %}0 utilisateur{% endif %}
+                            </span>
+                        </div>
+                        
+                        {% if users is defined and users|length > 0 %}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {% for user in users %}
+                                    <div class="bg-gray-50 border border-gray-100 rounded-xl p-4 flex items-center justify-between transition-all hover:shadow-md">
+                                        <div class="flex items-center space-x-3">
+                                            <img class="w-10 h-10 rounded-full object-cover" 
+                                                 src="{{ user.userBlocked.photo ? asset('uploads/uploads/' ~ user.userBlocked.photo) : asset('img/icon.jpg') }}" 
+                                                 alt="Photo de {{ user.userBlocked.name }}">
+                                            <span class="font-medium text-gray-900">{{ user.userBlocked.name }}</span>
+                                        </div>
+                                        <form method="post" action="{{ path('app_unblock_user', { id: user.userBlocked.id }) }}">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('unblock' ~ user.userBlocked.id) }}">
+                                            <button class="text-sm px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-300">
+                                                Débloquer
+                                            </button>
+                                        </form>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="bg-gray-50 rounded-xl p-8 text-center">
+                                <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+                                </svg>
+                                <p class="text-gray-500 text-lg">Vous n'avez bloqué aucun utilisateur.</p>
+                                <p class="text-gray-400 mt-2">Les utilisateurs bloqués n'auront pas accès à votre profil.</p>
+                            </div>
+                        {% endif %}
+                    </section>
+
+                    {# Section des abonnements #}
+                    <section class="mb-8">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-2xl font-bold text-gray-900">Abonnements</h2>
+                            <span class="text-sm bg-gray-100 text-gray-600 px-3 py-1 rounded-full">
+                                {% if amies is defined %}{{ amies|length }} abonnement(s){% else %}0 abonnement{% endif %}
+                            </span>
+                        </div>
+                        
+                        {% if amies is defined and amies|length > 0 %}
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {% for amie in amies %}
+                                    <div class="bg-gray-50 border border-gray-100 rounded-xl p-4 flex items-center justify-between transition-all hover:shadow-md">
+                                        <a class="flex items-center space-x-3 flex-1" href="{{ path('app_user_profile', { name: amie.userAjoutez.name }) }}">
+                                            <img class="w-10 h-10 rounded-full object-cover" 
+                                                 src="{{ amie.userAjoutez.photo ? asset('uploads/uploads/' ~ amie.userAjoutez.photo) : asset('img/icon.jpg') }}" 
+                                                 alt="Photo de {{ amie.userAjoutez.name }}">
+                                            <span class="font-medium text-gray-900">{{ amie.userAjoutez.name }}</span>
+                                        </a>
+                                        <form method="post" action="{{ path('app_user_supprimer', { id: amie.userAjoutez.id }) }}">
+                                            <input type="hidden" name="_token" value="{{ csrf_token('supprimer' ~ amie.userAjoutez.id) }}">
+                                            <button class="text-sm px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-300">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            <div class="bg-gray-50 rounded-xl p-8 text-center">
+                                <svg class="w-16 h-16 mx-auto text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                                </svg>
+                                <p class="text-gray-500 text-lg">Vous n'avez aucun abonnement</p>
+                                <p class="text-gray-400 mt-2">Suivez d'autres utilisateurs pour voir leur contenu dans votre fil d'actualité.</p>
+                            </div>
+                        {% endif %}
+                    </section>
+                {% endif %}
+
+                   {# Section du filtre des catégories #}
+                <section class="mt-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <h2 class="text-2xl font-bold text-gray-900">Filtrer par catégorie</h2>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+                        <div class="space-y-2 max-h-48 overflow-y-auto mb-6">
+                            {% for category in categories %}
+                            <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded">
+                                <input type="checkbox" class="category-filter-checkbox w-4 h-4 text-[#F48023] border-gray-300 rounded focus:ring-[#F48023]" 
+                                    value="">
+                                <span class="text-sm text-gray-700">{{category.name}}</span>
+                            </label>
+                         
+                            {% endfor %}
+                        </div>
+                        <div class="flex justify-between">
+                            <button id="reset-filter" class="text-sm text-gray-600 hover:text-gray-800 py-2 px-4">
+                                Réinitialiser
+                            </button>
+                            <button id="apply-filter" class="text-sm bg-[#F48023] hover:bg-[#E47013] text-white px-6 py-2 rounded-lg transition-colors">
+                                Appliquer
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    {# ===== JAVASCRIPT ===== #}
+    <script>
+     // Gestion des filtres par catégories
+        document.addEventListener('DOMContentLoaded', function() {
+            const resetFilterBtn = document.getElementById('reset-filter');
+            
+            if (resetFilterBtn) {
+                resetFilterBtn.addEventListener('click', function() {
+                    // Décocher toutes les cases
+                    document.querySelectorAll('.category-filter-checkbox').forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                });
+            }
+            
+            // Ajout d'une animation sur les boutons
+            document.querySelectorAll('button').forEach(button => {
+                button.addEventListener('click', function() {
+                    this.classList.add('scale-95');
+                    setTimeout(() => {
+                        this.classList.remove('scale-95');
+                    }, 150);
+                });
+            });
+        });
+    </script>
+{% endblock %}

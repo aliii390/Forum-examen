@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Form\UpdateInfoType;
 use App\Interfaces\UpdateProfileInterface;
 use App\Repository\AjoutAmiRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\PublicationRepository;
 use App\Repository\UserRepository;
 use App\Service\FileUploader;
@@ -32,8 +33,7 @@ final class ProfileController extends AbstractController
         FileUploader $fileUploader,
         PublicationRepository $publicationRepo,
         EntityManagerInterface $entityManager,
-        // PaginatorInterface  $paginator, UserRepository $userRepository
-        AjoutAmiRepository $ajoutRepo
+        AjoutAmiRepository $ajoutRepo,
 
     ): Response {
         /**
@@ -41,11 +41,16 @@ final class ProfileController extends AbstractController
          */
         $user = $this->getUser();
 
-        // pour affichez toout les user qu'on a bloquez
-        $blockedUsers = $user->getCompteBloquers();
+
 
         // pour afficher tout les user qu'on a ajoutez 
-        $ajoutUser = $user->getAjoutAmis();
+        // $ajoutUser = $user->getAjoutAmis();
+
+    
+     
+
+
+        
 
 
         $form = $this->createForm(UpdateInfoType::class, $user);
@@ -85,23 +90,18 @@ final class ProfileController extends AbstractController
         $nombreAbonner = $ajoutRepo->count(['user' => $user]);
         // dd($nombreAbonner);
 
-        // $query = $userRepository->findUsersBlockedBy($user); // la méthode qu’on vient de créer
-
-        // $pagination = $paginator->paginate(
-        //     $query,
-        //     $request->query->getInt('page', 1),
-        //     5 // nombre d'éléments par page
-        // );
+      
 
         return $this->render('profile/personal-profile.html.twig', [
             'profileUser' => $user,
             'updateForm' => $form->createView(),
             'publication' => $publications,
-            'users' => $blockedUsers,
+            // 'users' => $blockedUsers,
             'nombreQuestion' => $nombreQuestion,
-            'amies' => $ajoutUser,
+            // 'amies' => $ajoutUser,
             'nombreAbonner' => $nombreAbonner,
-            // 'pagination' => $pagination
+           
+          
 
         ]);
     }
@@ -160,89 +160,56 @@ final class ProfileController extends AbstractController
 
 
 
-    // route pour voir tout les user bloquer
-    #[Route('/users', name: 'app_users_list')]
-    public function showAllUsers(UserRepository $userRepository): Response
-    {
-        $users = $userRepository->findAll();
 
-        return $this->render('profile/index.html.twig', [
-            'users' => $users
-        ]);
-    }
-
-
-
-    // route pour débloquer un user 
-    #[Route('/unblock/{id}', name: 'app_unblock_user', methods: ['POST'])]
-    public function unblock(User $user, Request $request, EntityManagerInterface $em): Response
-    {
-        if ($this->isCsrfTokenValid('unblock' . $user->getId(), $request->request->get('_token'))) {
-            // Supprimer l'entrée de blocage
-            $block = $em->getRepository(CompteBloquer::class)->findOneBy([
-                'userBlocked' => $user,
-                // Optionnel : 'author' => $this->getUser(),
-            ]);
-
-            if ($block) {
-                $em->remove($block);
-                $em->flush();
-            }
-        }
-
-        // message flash 
-        $this->addFlash('debloquer', 'L\'utilisateur a bien été débloquer vous pouvez voir ces post ');
-        return $this->redirectToRoute('app_profile');
-    }
 
 
     // route pour voir tout les amis ajoutez 
 
 
-    #[Route('/ami', name: 'app_ami_list')]
-    public function voirAmi(UserRepository $userRepository): Response
-    {
-        $users = $userRepository->findAll();
+    // #[Route('/ami', name: 'app_ami_list')]
+    // public function voirAmi(UserRepository $userRepository): Response
+    // {
+    //     $users = $userRepository->findAll();
 
-        // de base dans le render y'avais sa users-list.html.twig je comprend pas pk ?? 
-        return $this->render('profile/index.html.twig', [
-            'amies' => $users
-        ]);
-    }
+    //     // de base dans le render y'avais sa users-list.html.twig je comprend pas pk ?? 
+    //     return $this->render('profile/index.html.twig', [
+    //         'amies' => $users
+    //     ]);
+    // }
 
     // route pour supprimer un user 
-    #[Route('/supprimer/{id}', name: 'app_user_supprimer', methods: ['POST'])]
-    public function userSupprimer(User $user, Request $request, EntityManagerInterface $em): Response
-    {
-        // /** @var User $currentUser */
-        // $currentUser = $this->getUser();
+    // #[Route('/supprimer/{id}', name: 'app_user_supprimer', methods: ['POST'])]
+    // public function userSupprimer(User $user, Request $request, EntityManagerInterface $em): Response
+    // {
+    //     // /** @var User $currentUser */
+    //     // $currentUser = $this->getUser();
         
-        if ($this->isCsrfTokenValid('supprimer' . $user->getId(), $request->request->get('_token'))) {
-            $block = $em->getRepository(AjoutAmi::class)->findOneBy([
-                'userAjoutez' => $user,
-            ]);
+    //     if ($this->isCsrfTokenValid('supprimer' . $user->getId(), $request->request->get('_token'))) {
+    //         $block = $em->getRepository(AjoutAmi::class)->findOneBy([
+    //             'userAjoutez' => $user,
+    //         ]);
     
-            if ($block) {
-                $em->remove($block);
-                $em->flush();
-            }
-        }
+    //         if ($block) {
+    //             $em->remove($block);
+    //             $em->flush();
+    //         }
+    //     }
     
-        $this->addFlash('supprimerAmi',   $user->getName() . ' a bien été supprimé de vos abonnements');
+    //     $this->addFlash('supprimerAmi',   $user->getName() . ' a bien été supprimé de vos abonnements');
         
-        // Récupérer le referer (page précédente)
-        $referer = $request->headers->get('referer');
+    //     // Récupérer le referer (page précédente)
+    //     $referer = $request->headers->get('referer');
         
-        // Si la suppression vient de la page profile personnel
-        if (str_contains($referer, '/profile')) {
-            return $this->redirectToRoute('app_profile');
-        }
+    //     // Si la suppression vient de la page profile personnel
+    //     if (str_contains($referer, '/profile')) {
+    //         return $this->redirectToRoute('app_profile');
+    //     }
         
-        // Sinon, rediriger vers le profil de l'utilisateur supprimé
-        return $this->redirectToRoute('app_user_profile', [
-            'name' => $user->getName()
-        ]);
-    }
+    //     // Sinon, rediriger vers le profil de l'utilisateur supprimé
+    //     return $this->redirectToRoute('app_user_profile', [
+    //         'name' => $user->getName()
+    //     ]);
+    // }
 
 
 
@@ -269,37 +236,37 @@ final class ProfileController extends AbstractController
     }
 
 
-    // route pour ajoutez en ami
-    #[Route('/ajout/{id}', name: 'app_ajout', methods: ['GET'])]
-    public function ajoute(int $id, EntityManagerInterface $entityManager, AjoutAmiRepository $ajoutAmiRepository, UserRepository $userRepository): Response
-    {
-        /** @var User $user */
-        $user = $this->getUser();
+    // // route pour ajoutez en ami
+    // #[Route('/ajout/{id}', name: 'app_ajout', methods: ['GET'])]
+    // public function ajoute(int $id, EntityManagerInterface $entityManager, AjoutAmiRepository $ajoutAmiRepository, UserRepository $userRepository): Response
+    // {
+    //     /** @var User $user */
+    //     $user = $this->getUser();
         
-        /** @var User $autreUser */
-        $autreUser = $userRepository->find($id);
+    //     /** @var User $autreUser */
+    //     $autreUser = $userRepository->find($id);
 
-        if (!$autreUser) {
-            throw $this->createNotFoundException('Utilisateur non trouvé.');
-        }
+    //     if (!$autreUser) {
+    //         throw $this->createNotFoundException('Utilisateur non trouvé.');
+    //     }
 
-        $dejaAbonné = $ajoutAmiRepository->findBy(['user' => $user, 'userAjoutez' => $autreUser]);
-        if ($dejaAbonné) {
-            $this->addFlash('ajoutMarche', 'Vous avez déjà ajouté l\'utilisateur en ami.');
-            return $this->redirectToRoute('app_user_profile', ['name' => $autreUser->getName()]);
-        }
+    //     $dejaAbonné = $ajoutAmiRepository->findBy(['user' => $user, 'userAjoutez' => $autreUser]);
+    //     if ($dejaAbonné) {
+    //         $this->addFlash('ajoutMarche', 'Vous avez déjà ajouté l\'utilisateur en ami.');
+    //         return $this->redirectToRoute('app_user_profile', ['name' => $autreUser->getName()]);
+    //     }
 
-        $ajoutAmi = new AjoutAmi();
-        $ajoutAmi->setUser($user);
-        $ajoutAmi->setUserAjoutez($autreUser);
+    //     $ajoutAmi = new AjoutAmi();
+    //     $ajoutAmi->setUser($user);
+    //     $ajoutAmi->setUserAjoutez($autreUser);
 
-        $entityManager->persist($ajoutAmi);
-        $entityManager->flush();
+    //     $entityManager->persist($ajoutAmi);
+    //     $entityManager->flush();
 
-        $this->addFlash('ajoutMarche', 'Vous avez bien ajouté l\'utilisateur en ami.');
+    //     $this->addFlash('ajoutMarche', 'Vous avez bien ajouté l\'utilisateur en ami.');
 
-        return $this->redirectToRoute('app_user_profile', ['name' => $autreUser->getName()]);
-    }
+    //     return $this->redirectToRoute('app_user_profile', ['name' => $autreUser->getName()]);
+    // }
 
 
 

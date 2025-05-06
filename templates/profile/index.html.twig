@@ -6,34 +6,6 @@
 
 {% block body %}
 
-
-	{#message flash quand on bloque un utilisateur  #}
-	{% for message in app.flashes('debloquer') %}
-		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
-			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
-																				                    flex items-center gap-3
-																				                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-																				                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
-				<div class="flex-shrink-0">
-					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
-						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-					</svg>
-				</div>
-				<div class="flex-1">
-					<p class="text-sm sm:text-base text-green-700 font-medium">
-						{{ message }}
-					</p>
-				</div>
-				<button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-green-400 hover:text-green-600 transition-colors duration-200">
-					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
-						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-					</svg>
-				</button>
-			</div>
-		</div>
-	{% endfor %}
-	{# fin du code  #}
-
 	{#message flash quand l'user supprime un post  #}
 	{% for message in app.flashes('supprimer') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
@@ -61,55 +33,32 @@
 	{% endfor %}
 	{# fin du code pour la suprimation d'un post #}
 
-	{#message flash quand on supprime une user de nos abonnées  #}
-	{% for message in app.flashes('supprimerAmi') %}
-		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
-			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
-																				                    flex items-center gap-3
-																				                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-																				                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
-				<div class="flex-shrink-0">
-					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
-						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-					</svg>
-				</div>
-				<div class="flex-1">
-					<p class="text-sm sm:text-base text-green-700 font-medium">
-						{{ message }}
-					</p>
-				</div>
-				<button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-green-400 hover:text-green-600 transition-colors duration-200">
-					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
-						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-					</svg>
-				</button>
-			</div>
-		</div>
-	{% endfor %}
-	{# fin du code  #}
-
 	<div class="min-h-screen bg-gray-50">
 		<div class="container mx-auto px-4 py-8 lg:py-12">
 			<div
-				class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+				class="grid grid-cols-1 lg:grid-cols-4 xl:grid-cols-4 gap-8">
 				<!-- Sidebar -->
-				<div class="lg:col-span-1">
-					<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8 sticky top-8">
+					
+				<div class="lg:col-span-1 xl:col-span-1">
+				
+					<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8 xl:p-8 sticky top-8">
+					{% if app.user == profileUser %}
+						<a href="{{ path('app_parametre',{id: profileUser.id}) }}">	<i class="fa-solid fa-gear" style="color: #000000;"></i></a> 
+							{% endif %}
 						<div
 							class="flex flex-col items-center">
+							
+						
+							
+						
+							
 							<!-- Photo de profil avec effet de hover -->
 							<div class="relative group">
 								<div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full overflow-hidden ring-4 ring-orange-100">
 									<img src="{{ profileUser.photo ? asset('uploads/uploads/' ~ profileUser.photo) : asset('img/icon.jpg') }}" alt="Photo de profil de {{ profileUser.name }}" class="w-full h-full object-cover transition duration-300 group-hover:scale-110">
 								</div>
 
-								{# {% if app.user == profileUser %}
-									<button onclick="openModal()" class="absolute bottom-0 right-0 bg-[#F48023] hover:bg-[#E47013] p-2 rounded-full text-white shadow-lg transition-all duration-300 transform hover:scale-110">
-										<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewbox="0 0 20 20" fill="currentColor">
-											<path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"/>
-										</svg>
-									</button>
-								{% endif %} #}
+							
 							</div>
 
 							<!-- Informations utilisateur -->
@@ -131,12 +80,14 @@
 								</div>
 								<div class="text-center p-4 bg-orange-50 rounded-xl">
 									<span class="block text-2xl font-bold text-[#F48023]">{{ nombreAbonner }}</span>
-									<span class="text-sm text-gray-600">Abonnements</span>
+									<span class="text-sm text-gray-600">Suivis</span>
 								</div>
 							</div>
 
-							<!-- Bouton Modifier -->
+							<!-- Actions selon le contexte du profil (modification, abonnement, etc.) -->
 							{% block actionProfil %}{% endblock %}
+
+							
 
 
 							<!-- Bouton Supprimer le compte -->
@@ -155,96 +106,33 @@
 				</div>
 
 				<!-- Main Content -->
-				<div class="lg:col-span-3">
+				<div class="lg:col-span-3 xl:col-span-3">
 
-					{% if app.user == profileUser %}
-						<!-- Utilisateurs bloqués Section -->
-						<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8 mb-8">
-							<h2 class="text-2xl font-bold text-gray-900 mb-6">Utilisateurs bloqués</h2>
-
-							<div
-								class="space-y-4">
-								{# le code pour voir les bloquez #}
-								{% if users is defined and users|length > 0 %}
-									<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-										{% for user in users %}
-											<div class="bg-gray-50 border border-gray-100 rounded-xl p-4 flex items-center justify-between">
-												<div class="flex items-center space-x-3">
-													<img class="w-10 h-10 rounded-full object-cover" src="{{ user.userBlocked.photo ? asset('uploads/uploads/' ~ user.userBlocked.photo) : asset('img/icon.jpg') }}" alt="Photo ">
-													<span class="font-medium text-gray-900">{{ user.userBlocked.name }}</span>
-												</div>
-												<form method="post" action="{{ path('app_unblock_user', { id: user.userBlocked.id }) }}">
-													<input type="hidden" name="_token" value="{{ csrf_token('unblock' ~ user.userBlocked.id) }}">
-													<button class="text-sm px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-300">
-														Débloquer
-													</button>
-												</form>
-
-											</div>
-										{% endfor %}
-									</div>
-								{% else %}
-									<div class="text-center py-8 bg-gray-50 rounded-xl">
-										<p class="text-gray-500">Vous n'avez bloqué aucun utilisateur.</p>
-									</div>
-								{% endif %}
-							</div>
-						</div>
-					{% endif %}
+				
 					{# fin du code  #}
 					
-				<div class="lg:col-span-3">
-
-					{% if app.user == profileUser %}
-						<!-- Utilisateurs ajoutez Section -->
-						<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8 mb-8">
-							<h2 class="text-2xl font-bold text-gray-900 mb-6">Abonnements</h2>
-
-							<div
-								class="space-y-4">
-								{# le code pour voir les amis ajoutez #}
-								{% if amies is defined and amies|length > 0 %}
-									<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-										{% for amie in amies %}
-											<div class="bg-gray-50 border border-gray-100 rounded-xl p-4 flex items-center justify-between">
-												<a class="flex items-center space-x-3" href="{{ path('app_user_profile', { name: amie.userAjoutez.name }) }}">
-													<img class="w-10 h-10 rounded-full object-cover" src="{{ amie.userAjoutez.photo ? asset('uploads/uploads/' ~ amie.userAjoutez.photo) : asset('img/icon.jpg') }}" alt="Photo ">
-													<span class="font-medium text-gray-900">{{ amie.userAjoutez.name }}</span>
-												</a>
-												<form method="post" action="{{ path('app_user_supprimer', { id: amie.userAjoutez.id }) }}">
-													<input type="hidden" name="_token" value="{{ csrf_token('supprimer' ~ amie.userAjoutez.id) }}">
-													<button class="text-sm px-3 py-1 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg transition-colors duration-300">
-														Supprimer
-													</button>
-												</form>
-
-											</div>
-										{% endfor %}
-									</div>
-								{% else %}
-									<div class="text-center py-8 bg-gray-50 rounded-xl">
-										<p class="text-gray-500">Vous avez ajoutez personne </p>
-									</div>
-								{% endif %}
-							</div>
-						</div>
-					{% endif %}
+		
 					{# fin du code  #}
 
 					<!-- Questions Section -->
-					<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8">
-						<h2 class="text-2xl font-bold text-gray-900 mb-6">
-							{% if app.user == profileUser %}
-								Vos
-							{% else %}
-								Les
-							{% endif %}
-							questions</h2>
+					<div class="bg-white rounded-2xl shadow-sm p-6 lg:p-8 xl:p-8">
+						<div class="flex items-center justify-between mb-6">
+							<h2 class="text-2xl font-bold text-gray-900">
+								{% if app.user == profileUser %}
+									Vos
+								{% else %}
+									Les
+								{% endif %}
+								questions
+							</h2>
+							
+					
+						</div>
 
-						<div class="space-y-6">
+						<div class="space-y-6" id="questions-container">
 							{% for question in publication %}
 								<article
-									class="bg-white border border-gray-100 rounded-xl overflow-hidden ">
+									class="bg-white border border-gray-100 rounded-xl overflow-hidden question-item" data-category="{{ question.category.id }}">
 									<!-- Header -->
 									<div class="p-6 border-b border-gray-50">
 										<div class="flex items-center justify-between">
@@ -310,10 +198,14 @@
 									</div>
 								</article>
 							{% else %}
-								<div class="text-center py-12">
+								<div class="text-center py-12" id="no-questions-message">
 									<p class="text-gray-500">Vous n'avez pas encore posé de questions.</p>
 								</div>
 							{% endfor %}
+							
+							<div class="text-center py-12 hidden" id="no-filtered-questions-message">
+								<p class="text-gray-500">Aucune question ne correspond aux filtres sélectionnés.</p>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -323,34 +215,14 @@
 
 
 	<script>
-		document.addEventListener('DOMContentLoaded', function () { // Initialise highlight.js (une seule fois)
-if (typeof hljs !== 'undefined') {
-hljs.highlightAll();
-}
-});
-
-// Fonction pour débloquer un utilisateur
-{# {
-# function unblockUser(userId) { // Ici vous pouvez implémenter la logique AJAX pour débloquer un utilisateur
-if (confirm('Êtes-vous sûr de vouloir débloquer cet utilisateur ?')) { // Exemple de requête fetch
-fetch('/user/unblock/' + userId, {
-method: 'POST',
-headers: {
-'X-Requested-With': 'XMLHttpRequest',
-'Content-Type': 'application/json'
-},
-body: JSON.stringify(
-{_token: '{{ csrf_token("unblock_user") }}'}
-)
-}).then(response => response.json()).then(data => {
-if (data.success) { // Rechargez la page ou mettez à jour l'UI
-window.location.reload();
-}
-});
-}
-}
-#
-} #}
+	{# le dom  c'est un évenement qui ce déclanche lorsque le fichier Html est entièrement analyser  #}
+		document.addEventListener('DOMContentLoaded', function () { 
+			// Initialise highlight.js (une seule fois)
+			if (typeof hljs !== 'undefined') {
+				hljs.highlightAll();
+			}
+			
+			
 	</script>
 
 {% endblock %}
