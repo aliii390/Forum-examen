@@ -52,7 +52,7 @@ final class HomeController extends AbstractController
         $entityManager->flush();
 
          // Ajout du message flash
-    $this->addFlash('userBloquer', 'L\'utilisateur a bien été bloqué');
+    $this->addFlash('userBloquer',    $otherUser->getName() . ' a bien été bloqué');
 
         return $this->redirectToRoute('app_home');
     }
