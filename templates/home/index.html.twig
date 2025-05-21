@@ -10,9 +10,9 @@
 	{% for message in app.flashes('userBloquer') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
-					                    flex items-center gap-3
-					                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-					                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+										                    flex items-center gap-3
+										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
 				<div class="flex-shrink-0">
 					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -31,15 +31,15 @@
 			</div>
 		</div>
 	{% endfor %}
-    {# fin du code  #}
+	{# fin du code  #}
 
 	{#message flash quand on aime plus un post  #}
 	{% for message in app.flashes('aimePlus') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-red-700 p-4 rounded-lg shadow-lg
-					                    flex items-center gap-3
-					                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-					                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+										                    flex items-center gap-3
+										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
 				<div class="flex-shrink-0">
 					<svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -58,15 +58,15 @@
 			</div>
 		</div>
 	{% endfor %}
-    {# fin du code  #}
+	{# fin du code  #}
 
 	{#message flash quand on ajoute un ami  #}
 	{% for message in app.flashes('ajoutMarche') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
-					                    flex items-center gap-3
-					                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-					                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+										                    flex items-center gap-3
+										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
 				<div class="flex-shrink-0">
 					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -85,7 +85,7 @@
 			</div>
 		</div>
 	{% endfor %}
-    {# fin du code #}
+	{# fin du code #}
 
 	<main
 		class="min-h-screen bg-gradient-to-b from-white to-gray-50 py-8 px-4 md:py-12 lg:py-16">
@@ -121,8 +121,9 @@
 									<p class="text-sm text-gray-500">{{question.createdAt|date('d M Y à H:i')}}</p>
 								</div>
 
-								<div class="relative">
-								{# button pour bloquer ajoutez ou bloquer #}
+								<div
+									class="relative">
+									{# button pour bloquer ajoutez ou bloquer #}
 									<button class="h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-200" onclick="togglePopup(event)" aria-label="Options">
 										<i class="fa-solid fa-ellipsis text-gray-700 hover:text-[#F48023]"></i>
 									</button>
@@ -206,27 +207,28 @@
 							{% endif %}
 
 							{# Catégorie et nombre de likes #}
+							{# L'utilisateur a-t-il liké ? #}
+							{% set hasLiked = question.postLikers|filter(pl => pl.user == app.user)|length > 0 %}
+
 							<div class="flex items-center justify-between mb-6">
 								<span class="inline-block bg-gray-100 text-gray-700 px-3 py-1.5 rounded-lg text-xs">{{ question.category.name }}</span>
-								<span class="text-sm text-gray-500">
-								<form action="{{ path('app_like', {'id': question.id}) }}" method="POST" class="inline">
-								<button type="submit" class="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-200 text-gray-500 ">
-									<i class="fas fa-heart text-red-500 mr-1"></i>
-									<span>{{ question.postLikers|length }}</span>
+
+								<button class="like-btn flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-gray-100 transition-all duration-200" data-id="{{ question.id }}" data-liked="{{ hasLiked ? '1' : '0' }}">
+									<i class="fas fa-heart mr-1 {{ hasLiked ? 'text-red-500' : 'text-neutral-600' }}"></i>
+									<span id="like-count-{{ question.id }}">{{ question.postLikers|length }}</span>
 									j'aime
-								</span>
 								</button>
-								</form>
 							</div>
+
 
 							{# Actions: J'aime et En savoir plus #}
 							<div class="flex items-center justify-between">
 
 								<a href="{{ path('app_detail', {'id': question.id}) }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5
-										                                    font-medium text-white bg-[#F48023] hover:bg-[#e67620]
-										                                    rounded-lg transition-all duration-300
-										                                    transform hover:scale-105 hover:shadow-md
-										                                    focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
+																				                                    font-medium text-white bg-[#F48023] hover:bg-[#e67620]
+																				                                    rounded-lg transition-all duration-300
+																				                                    transform hover:scale-105 hover:shadow-md
+																				                                    focus:outline-none focus:ring-2 focus:ring-[#F48023] focus:ring-opacity-50">
 									<span>En savoir plus</span>
 									<svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewbox="0 0 24 24" stroke="currentColor">
 										<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
@@ -240,9 +242,8 @@
 		</div>
 	</main>
 
-	
 
-	<script>
+		<script>
 		let currentUserId = null;
 
 function togglePopup(event) {
@@ -372,6 +373,45 @@ hljs.highlightAll();
 });
 
 
+
+//requet ajax pour les like 
+
+
+document.querySelectorAll('.like-btn').forEach(button => {
+	button.addEventListener('click', async (e) => {
+		e.preventDefault();
+
+		const publicationId = button.dataset.id;
+		const heartIcon = button.querySelector('i');
+		const likeCount = document.getElementById(`like-count-${publicationId}`);
+
+		const response = await fetch(`/like/${publicationId}`, {
+			method: 'POST',
+			headers: {
+				'X-Requested-With': 'XMLHttpRequest',
+				'Content-Type': 'application/json'
+			}
+		});
+
+		const data = await response.json();
+
+		if (data.likes !== undefined) {
+			likeCount.textContent = data.likes;
+
+			// Toggle l'état du like
+			const liked = button.dataset.liked === '1';
+			if (liked) {
+				heartIcon.classList.remove('text-red-500');
+				heartIcon.classList.add('text-white');
+				button.dataset.liked = '0';
+			} else {
+				heartIcon.classList.remove('text-white');
+				heartIcon.classList.add('text-red-500');
+				button.dataset.liked = '1';
+			}
+		}
+	});
+});
 
 	</script>
 {% endblock %}

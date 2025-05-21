@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\AjoutAmi;
 use App\Entity\CompteBloquer;
+use App\Entity\Publication;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
 use App\Repository\PublicationRepository;
@@ -84,5 +85,6 @@ final class HomeController extends AbstractController
 
 
 
+  
 
 }
