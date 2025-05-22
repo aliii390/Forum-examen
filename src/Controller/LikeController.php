@@ -15,9 +15,12 @@ class LikeController extends AbstractController
     #[Route('/like/{id}', name: 'app_like', methods: ['POST'])]
 public function like(Publication $publication, EntityManagerInterface $entityManager): JsonResponse
 {
-    if (!$this->getUser()) {
+      $user = $this->getUser();
+
+    if (!$user) {
         return new JsonResponse(['error' => 'Non connecté'], 403);
     }
+
 
     $postLikerRepo = $entityManager->getRepository(PostLiker::class);
 
