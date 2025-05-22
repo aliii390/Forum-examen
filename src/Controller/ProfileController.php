@@ -235,36 +235,36 @@ final class ProfileController extends AbstractController
 
 
     // // route pour ajoutez en ami
-    // #[Route('/ajout/{id}', name: 'app_ajout', methods: ['GET'])]
-    // public function ajoute(int $id, EntityManagerInterface $entityManager, AjoutAmiRepository $ajoutAmiRepository, UserRepository $userRepository): Response
-    // {
-    //     /** @var User $user */
-    //     $user = $this->getUser();
+    #[Route('/ajout/{id}', name: 'app_ajout', methods: ['GET'])]
+    public function ajoute(int $id, EntityManagerInterface $entityManager, AjoutAmiRepository $ajoutAmiRepository, UserRepository $userRepository): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
         
-    //     /** @var User $autreUser */
-    //     $autreUser = $userRepository->find($id);
+        /** @var User $autreUser */
+        $autreUser = $userRepository->find($id);
 
-    //     if (!$autreUser) {
-    //         throw $this->createNotFoundException('Utilisateur non trouvé.');
-    //     }
+        if (!$autreUser) {
+            throw $this->createNotFoundException('Utilisateur non trouvé.');
+        }
 
-    //     $dejaAbonné = $ajoutAmiRepository->findBy(['user' => $user, 'userAjoutez' => $autreUser]);
-    //     if ($dejaAbonné) {
-    //         $this->addFlash('ajoutMarche', 'Vous avez déjà ajouté l\'utilisateur en ami.');
-    //         return $this->redirectToRoute('app_user_profile', ['name' => $autreUser->getName()]);
-    //     }
+        $dejaAbonné = $ajoutAmiRepository->findBy(['user' => $user, 'userAjoutez' => $autreUser]);
+        if ($dejaAbonné) {
+            $this->addFlash('ajoutMarche', 'Vous avez déjà ajouté l\'utilisateur en ami.');
+            return $this->redirectToRoute('app_user_profile', ['name' => $autreUser->getName()]);
+        }
 
-    //     $ajoutAmi = new AjoutAmi();
-    //     $ajoutAmi->setUser($user);
-    //     $ajoutAmi->setUserAjoutez($autreUser);
+        $ajoutAmi = new AjoutAmi();
+        $ajoutAmi->setUser($user);
+        $ajoutAmi->setUserAjoutez($autreUser);
 
-    //     $entityManager->persist($ajoutAmi);
-    //     $entityManager->flush();
+        $entityManager->persist($ajoutAmi);
+        $entityManager->flush();
 
-    //     $this->addFlash('ajoutMarche', 'Vous avez bien ajouté l\'utilisateur en ami.');
+        $this->addFlash('ajoutMarche', 'Vous avez bien ajouté l\'utilisateur en ami.');
 
-    //     return $this->redirectToRoute('app_user_profile', ['name' => $autreUser->getName()]);
-    // }
+        return $this->redirectToRoute('app_user_profile', ['name' => $autreUser->getName()]);
+    }
 
 
 

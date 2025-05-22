@@ -59,6 +59,32 @@
 		</div>
 	{% endfor %}
 	{# fin du code  #}
+	{#message flash quand on essaye d'ajouter un user mais qu'on est pas connecter #}
+	{% for message in app.flashes('connectAjout') %}
+		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
+			<div class="bg-green-50 border-l-4 border-red-700 p-4 rounded-lg shadow-lg
+										                    flex items-center gap-3
+										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+				<div class="flex-shrink-0">
+					<svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+					</svg>
+				</div>
+				<div class="flex-1">
+					<p class="text-sm sm:text-base text-red-700 font-medium">
+						{{ message }}
+					</p>
+				</div>
+				<button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-red-700 hover:text-red-700 transition-colors duration-200">
+					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+	{% endfor %}
+	{# fin du code  #}
 
 	{#message flash quand on ajoute un ami  #}
 	{% for message in app.flashes('ajoutMarche') %}
@@ -116,7 +142,7 @@
 
 								<div class="flex-1">
 									<a href="{{path('app_user_profile', {'name': question.user.name})}}">
-										<h3 class="text-lg sm:text-xl font-medium text-gray-800">{{ question.user.name }}</h3>
+										<h3 class="text-lg sm:text-xl font-medium text-gray-800 hover:text-sky-700">{{ question.user.name }}</h3>
 									</a>
 									<p class="text-sm text-gray-500">{{question.createdAt|date('d M Y à H:i')}}</p>
 								</div>
@@ -207,7 +233,9 @@
 							{% endif %}
 
 							{# Catégorie et nombre de likes #}
-							{# L'utilisateur a-t-il liké ? #}
+
+
+							{# Vérifie si l'utilisateur connecté fait partie des PostLikers de la question (donc s'il a liké) #}
 							{% set hasLiked = question.postLikers|filter(pl => pl.user == app.user)|length > 0 %}
 
 							<div class="flex items-center justify-between mb-6">
@@ -221,7 +249,6 @@
 							</div>
 
 
-							{# Actions: J'aime et En savoir plus #}
 							<div class="flex items-center justify-between">
 
 								<a href="{{ path('app_detail', {'id': question.id}) }}" class="inline-flex items-center justify-center gap-2 px-4 py-2.5

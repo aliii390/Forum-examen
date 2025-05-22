@@ -53,15 +53,15 @@
 				<div class="relative w-24 h-24 mb-4">
 					<img src="{{ publication.user.photo ? asset('uploads/uploads/' ~ publication.user.photo) : asset('img/icon.jpg') }}" alt="Photo de profil de {{ publication.user.name }}" class="w-full h-full rounded-full object-cover">
 				</div>
-				<h2 class="text-xl font-medium mb-2">{{publication.user.name}}</h2>
-				<div class="flex items-center text-amber-500 mb-4">
-					<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24" stroke="none">
+				<h2 class="text-xl font-medium mb-2" >{{publication.user.name}}</h2>
+				<div class="flex items-center mb-4 ">
+					{# <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24" stroke="none">
 						<path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.2-6.3 4.2 2.3-7.1-6-4.5h7.6z"/>
-					</svg>
+					</svg> #}
 
 
 					<a href="{{path('app_user_profile', {'name': publication.user.name})}}">
-						<span class="ml-2 font-medium">Voir le Profil</span>
+						<span class="ml-2 font-medium hover:text-sky-700">Voir le Profil</span>
 					</a>
 				</div>
 			</div>
@@ -80,10 +80,10 @@
 						<img src="{{ publication.user.photo ? asset('uploads/uploads/' ~ publication.user.photo) : asset('img/icon.jpg') }}" alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
 
 						<div>
-							<div class="font-medium ">
-							<a href="{{path('app_user_profile', {'name': publication.user.name})}}">{{publication.user.name}} </a>
 							
-							</div>
+							<a  class="font-medium hover:text-sky-700" href="{{path('app_user_profile', {'name': publication.user.name})}}">{{publication.user.name}} </a>
+							
+						
 							<div class="text-gray-500 text-sm">12 November 2020 19:35</div>
 						</div>
 					</div>

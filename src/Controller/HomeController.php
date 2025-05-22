@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Attribute\Route;
 final class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(PublicationRepository $publicationRepository , CategoryRepository $categoryRepository): Response
+    public function index(PublicationRepository $publicationRepository, CategoryRepository $categoryRepository): Response
     {
         $user = $this->getUser();
 
@@ -32,19 +32,19 @@ final class HomeController extends AbstractController
         $category = $categoryRepository->findAll();
 
         return $this->render('home/index.html.twig', [
-             'publication' => $publication,
-             'category'  => $category,
+            'publication' => $publication,
+            'category'  => $category,
         ]);
     }
 
     // route pour bloquer un user 
-    #[Route('/block/{id}', name: 'app_block', methods:['GET'])]
-    public function bloquer(int $id , EntityManagerInterface $entityManager): Response
+    #[Route('/block/{id}', name: 'app_block', methods: ['GET'])]
+    public function bloquer(int $id, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $otherUser = $entityManager->getRepository(User::class)->find($id);
 
-       
+
         $compteBloquer = new CompteBloquer;
         $compteBloquer->setUser($user);
         $compteBloquer->setUserBlocked($otherUser);
@@ -52,39 +52,43 @@ final class HomeController extends AbstractController
         $entityManager->persist($compteBloquer);
         $entityManager->flush();
 
-         // Ajout du message flash
-    $this->addFlash('userBloquer',    $otherUser->getName() . ' a bien été bloqué');
+        // Ajout du message flash
+        $this->addFlash('userBloquer',    $otherUser->getName() . ' a bien été bloqué');
 
         return $this->redirectToRoute('app_home');
     }
 
 
     // route pour ajoutez en ami
-    #[Route('/ajout/{id}', name: 'app_home_ajout', methods:['GET'])]
-    public function ajoute(int $id , EntityManagerInterface $entityManager): Response
+    #[Route('/ajout/{id}', name: 'app_home_ajout', methods: ['GET'])]
+    public function ajoute(int $id, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $autreUser = $entityManager->getRepository(User::class)->find($id);
 
-       
-        $ajoutAmi = new AjoutAmi;
-        $ajoutAmi->setUser($user);
-        $ajoutAmi->setUserAjoutez($autreUser);
 
-        $entityManager->persist($ajoutAmi);
-        $entityManager->flush();
+        if ($user) {
+            $ajoutAmi = new AjoutAmi;
+            $ajoutAmi->setUser($user);
+            $ajoutAmi->setUserAjoutez($autreUser);
 
-         // Ajout du message flash
-    $this->addFlash('ajoutMarche', 'Vous avez bien ajouté ' . $autreUser->getName() . ' en ami');
-    // dd($user);
+            $entityManager->persist($ajoutAmi);
+            $entityManager->flush();
 
-    return $this->redirectToRoute('app_user_profile', [
-        'name' => $autreUser->getName()
-    ]);
+            // Ajout du message flash
+            $this->addFlash('ajoutMarche', 'Vous avez bien ajouté ' . $autreUser->getName() . ' en ami');
+            return $this->redirectToRoute('app_user_profile', [
+                'name' => $autreUser->getName()
+            ]);
+        } else {
+            $this->addFlash('connectAjout', 'connectez vous pour ajoutez en ami ');
+            return $this->redirectToRoute('app_home');
+        }
+
+
+
+        // dd($user);
+
+
     }
-
-
-
-  
-
 }
