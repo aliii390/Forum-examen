@@ -71,53 +71,71 @@
 
 
 		<!-- Main Post Container -->
-		<div
-			class="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
-			<!-- Post Header with User Info -->
+		<div class="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
 			<div class="p-4 md:p-6">
-				<div class="flex items-start justify-between">
+				<!-- Post Header -->
+				<div class="flex items-start justify-between mb-4">
 					<div class="flex items-center">
-						<img src="{{ publication.user.photo ? asset('uploads/uploads/' ~ publication.user.photo) : asset('img/icon.jpg') }}" alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
-
+						<img src="{{ publication.user.photo ? asset('uploads/uploads/' ~ publication.user.photo) : asset('img/icon.jpg') }}" 
+							alt="User Avatar" 
+							class="w-10 h-10 rounded-full mr-3">
 						<div>
-							
-							<a  class="font-medium hover:text-sky-700" href="{{path('app_user_profile', {'name': publication.user.name})}}">{{publication.user.name}} </a>
-							
-						
-							<div class="text-gray-500 text-sm">12 November 2020 19:35</div>
+							<a class="font-medium hover:text-sky-700" 
+								href="{{path('app_user_profile', {'name': publication.user.name})}}">
+								{{publication.user.name}}
+							</a>
+							<div class="text-gray-500 text-sm">
+								{{ publication.createdAt|date('d/m/Y à H:i') }}
+							</div>
 						</div>
 					</div>
-					<button class="text-gray-400 hover:text-gray-600">
-						<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewbox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"/>
-						</svg>
-					</button>
+
+					<!-- Options Button -->
+					<div class="relative">
+						<button class="h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-200" 
+							onclick="togglePopup(event)" 
+							aria-label="Options">
+							<i class="fa-solid fa-ellipsis text-gray-700 hover:text-[#F48023]"></i>
+						</button>
+						<div class="popup hidden absolute z-10 bg-white shadow-xl rounded-lg p-3 -right-2 mt-1 w-36">
+							<div class="relative">
+								<div class="absolute w-3 h-3 bg-white transform rotate-45 -top-1 right-3"></div>
+								<div class="flex flex-col gap-3">
+									<a href="{{path('app_detail_ajout',{id: publication.user.id})}}" 
+										class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1">
+										<i class="fas fa-user-plus text-xs"></i>
+										<span>Ajouter</span>
+									</a>
+									<a href="{{path('app_detail_block',{id: publication.user.id})}}" 
+										class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1">
+										<i class="fas fa-ban text-xs"></i>
+										<span>Bloquer</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
 				</div>
 
-				<!-- Post Title -->
+				<!-- Post Content -->
+				<div class="space-y-4">
+					<h1 class="text-2xl font-bold">{{publication.title}}</h1>
+					
+					{% if publication.category.name == 'Programmation' and publication.langage %}
+						<pre class="bg-gray-900 rounded-lg overflow-x-auto">
+							<code class="language-{{ publication.langage.name|lower }} block p-4 text-sm text-gray-100 font-mono leading-relaxed">
+								{{- publication.description -}}
+							</code>
+						</pre>
+					{% else %}
+						<p class="text-gray-800">{{publication.description}}</p>
+					{% endif %}
 
-				<h1 class="text-xl font-bold mt-4 mb-3">{{publication.title}}
-				</h1>
-				{# rajout de la couleur syntax #}
-				{% if publication.category.name == 'Programmation' and publication.langage %}
-					<pre class="mb-6 bg-gray-900 rounded-lg overflow-x-auto">
-											<code class="language-{{ publication.langage.name|lower }} block p-4 text-sm text-gray-100 font-mono leading-relaxed">
-												{{- publication.description -}}
-											</code>
-										</pre>
-				{% else %}
-					<!-- First Paragraph -->
-					<p class="text-gray-800 mb-4">
-						{{publication.description}}
-					</p>
-				{% endif %}
-				{# fin #}
-
-
-				<!-- Tags -->
-				<div class="flex flex-wrap gap-2 mt-6">
-					<span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">{{publication.category.name}}</span>
-
+					<div class="flex flex-wrap gap-2">
+						<span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-md text-sm">
+							{{publication.category.name}}
+						</span>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -137,7 +155,7 @@
 							<div class="flex-1">
 								<div class="flex items-center justify-between mb-2">
 									<a class="font-medium" href="{{path('app_user_profile', {'name': comment.user.name})}}">{{comment.user.name}} </a>
-									<span class="text-gray-500 text-sm">{{ comment.createdAt|date('d M Y à H:i') }}</span>
+									<span class="text-gray-500 text-sm">{{ comment.createdAt|date('d/m/Y à H:i') }}</span>
 									{% if app.user and app.user == comment.user %}
 										<form method="post" action="{{ path('commentaire_supprimer', {'id': comment.id}) }}" >
 											<input type="hidden" name="_token" value="{{ csrf_token('delete_comment_' ~ comment.id) }}">
@@ -199,5 +217,80 @@
 		</div>
 	</section>
 
+
+<script>
+
+// Gestion des modales
+function addUser(userId) {
+currentUserId = userId;
+openModal('add-user-modal');
+}
+
+function blockUser(userId) {
+currentUserId = userId;
+openModal('block-user-modal');
+}
+
+function openModal(modalId) {
+const modal = document.getElementById(modalId);
+const content = document.getElementById(modalId + '-content');
+
+modal.classList.remove('hidden');
+modal.classList.add('flex');
+
+setTimeout(() => {
+content.classList.remove('scale-95', 'opacity-0');
+content.classList.add('scale-100', 'opacity-100');
+}, 50);
+}
+
+function closeModal(modalId) {
+const modal = document.getElementById(modalId);
+const content = document.getElementById(modalId + '-content');
+
+content.classList.remove('scale-100', 'opacity-100');
+content.classList.add('scale-95', 'opacity-0');
+
+setTimeout(() => {
+modal.classList.remove('flex');
+modal.classList.add('hidden');
+}, 300);
+}
+
+// Fonction pour gérer l'affichage du popup
+function togglePopup(event) {
+    const button = event.currentTarget;
+    const popup = button.nextElementSibling;
+    
+    // Toggle la classe hidden
+    popup.classList.toggle('hidden');
+    
+    // Ajoute une petite animation
+    if (!popup.classList.contains('hidden')) {
+        setTimeout(() => {
+            popup.style.opacity = '1';
+            popup.style.transform = 'translateY(0)';
+        }, 10);
+    } else {
+        popup.style.opacity = '0';
+        popup.style.transform = 'translateY(-10px)';
+    }
+    
+    // Empêche la propagation du clic
+    event.stopPropagation();
+}
+
+// Ferme le popup quand on clique ailleurs sur la page
+document.addEventListener('click', function(event) {
+    const popups = document.querySelectorAll('.popup');
+    popups.forEach(popup => {
+        if (!popup.contains(event.target) && !event.target.matches('button[onclick="togglePopup(event)"]')) {
+            popup.classList.add('hidden');
+            popup.style.opacity = '0';
+            popup.style.transform = 'translateY(-10px)';
+        }
+    });
+});
+</script>
 
 {% endblock %}

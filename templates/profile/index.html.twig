@@ -64,8 +64,8 @@
 							<!-- Informations utilisateur -->
 							<div class="mt-6 text-center">
 								<h1 class="text-2xl sm:text-3xl font-bold text-gray-900">{{ profileUser.name }}</h1>
-								<p class="mt-1 text-sm text-gray-500">Membre depuis
-									{{ profileUser.createdAt|date('d M Y') }}</p>
+								<p class="mt-1 text-sm text-gray-500">Membre depuis le
+									{{ profileUser.createdAt|date('d/m/Y') }}</p>
 							</div>
 
 							<!-- Stats rapides -->
@@ -140,7 +140,7 @@
 												<img class="w-12 h-12 rounded-full object-cover ring-2 ring-[#F48023]/20" src="{{ question.user.photo ? asset('uploads/uploads/' ~ question.user.photo) : asset('img/icon.jpg') }}" alt="Photo de {{ question.user.name }}">
 												<div>
 													<h3 class="font-semibold text-gray-900">{{ question.user.name }}</h3>
-													<p class="text-sm text-gray-500">{{ question.createdAt|date('d M Y à H:i') }}</p>
+													<p class="text-sm text-gray-500">{{ question.createdAt|date('d/m/Y à H:i') }}</p>
 												</div>
 											</div>
 											{# ce if c'est pour afficher supprimer le post #}
@@ -198,14 +198,23 @@
 									</div>
 								</article>
 							{% else %}
+								{% if app.user == profileUser %}
 								<div class="text-center py-12" id="no-questions-message">
 									<p class="text-gray-500">Vous n'avez pas encore posé de questions.</p>
 								</div>
+								{% else %}
+								<div class="text-center py-12" id="no-questions-message">
+									<p class="text-gray-500">Il n'a  pas encore posé de questions.</p>
+								</div>
+								
+								{% endif %}
+								
+								
 							{% endfor %}
-							
+{# 							
 							<div class="text-center py-12 hidden" id="no-filtered-questions-message">
 								<p class="text-gray-500">Aucune question ne correspond aux filtres sélectionnés.</p>
-							</div>
+							</div> #}
 						</div>
 					</div>
 				</div>
