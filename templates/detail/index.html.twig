@@ -38,8 +38,111 @@
 	{# fin du message flash #}
 
 
+{#message flash quand on essaye d'ajouter un user mais qu'on est pas connecter #}
+	{% for message in app.flashes('connectAjoutDetail') %}
+		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
+			<div class="bg-green-50 border-l-4 border-red-700 p-4 rounded-lg shadow-lg
+										                    flex items-center gap-3
+										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+				<div class="flex-shrink-0">
+					<svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+					</svg>
+				</div>
+				<div class="flex-1">
+					<p class="text-sm sm:text-base text-red-700 font-medium">
+						{{ message }}
+					</p>
+				</div>
+				<button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-red-700 hover:text-red-700 transition-colors duration-200">
+					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+	{% endfor %}
+	{# fin du code  #}
+	{#message flash quand on essaye d'ajouter un user mais qu'on est pas connecter #}
+	{% for message in app.flashes('userBloquerDetailPasConnectez') %}
+		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
+			<div class="bg-green-50 border-l-4 border-red-700 p-4 rounded-lg shadow-lg
+										                    flex items-center gap-3
+										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+				<div class="flex-shrink-0">
+					<svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+					</svg>
+				</div>
+				<div class="flex-1">
+					<p class="text-sm sm:text-base text-red-700 font-medium">
+						{{ message }}
+					</p>
+				</div>
+				<button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-red-700 hover:text-red-700 transition-colors duration-200">
+					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+	{% endfor %}
+	{# fin du code  #}
+{#message flash quand on essaye d'ajouter un user mais qu'on est pas connecter #}
+	{% for message in app.flashes('commentaire') %}
+		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
+			<div class="bg-green-50 border-l-4 border-red-700 p-4 rounded-lg shadow-lg
+										                    flex items-center gap-3
+										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+				<div class="flex-shrink-0">
+					<svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+					</svg>
+				</div>
+				<div class="flex-1">
+					<p class="text-sm sm:text-base text-red-700 font-medium">
+						{{ message }}
+					</p>
+				</div>
+				<button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-red-700 hover:text-red-700 transition-colors duration-200">
+					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+	{% endfor %}
+	{# fin du code  #}
 
-
+{#message flash quand on bloque un utilisateur quand on est connecter #}
+	{% for message in app.flashes('userBloquerConenctez') %}
+		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
+			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
+										                    flex items-center gap-3
+										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+				<div class="flex-shrink-0">
+					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+					</svg>
+				</div>
+				<div class="flex-1">
+					<p class="text-sm sm:text-base text-green-700 font-medium">
+						{{ message }}
+					</p>
+				</div>
+				<button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-green-400 hover:text-green-600 transition-colors duration-200">
+					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
+						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+					</svg>
+				</button>
+			</div>
+		</div>
+	{% endfor %}
+	{# fin du code  #}
 
 
 
@@ -101,13 +204,13 @@
 							<div class="relative">
 								<div class="absolute w-3 h-3 bg-white transform rotate-45 -top-1 right-3"></div>
 								<div class="flex flex-col gap-3">
-									<a href="{{path('app_detail_ajout',{id: publication.user.id})}}" 
-										class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1">
+									<a href="{{path('app_detail_ajout',{id: publication.user.id, 'redirectionApresAjoutPasConnecter': publication.id})}}" 
+										class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="addUser('{{ publication.user.id }}')" >
 										<i class="fas fa-user-plus text-xs"></i>
 										<span>Ajouter</span>
 									</a>
-									<a href="{{path('app_detail_block',{id: publication.user.id})}}" 
-										class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1">
+									<a href="{{path('app_detail_block',{id: publication.user.id, 'redirectionApresBloquerPasConnectez': publication.id})}}" 
+										class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="blockUser('{{ publication.user.id }}')">
 										<i class="fas fa-ban text-xs"></i>
 										<span>Bloquer</span>
 									</a>

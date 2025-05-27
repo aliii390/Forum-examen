@@ -117,17 +117,15 @@ final class ParametreController extends AbstractController
         $this->addFlash('supprimerAmi',   $user->getName() . ' a bien été supprimé de vos abonnements');
         
         // Récupérer le referer (page précédente)
-        $referer = $request->headers->get('referer');
+        // $referer = $request->headers->get('referer');
         
-        // Si la suppression vient de la page profile personnel
-        if (str_contains($referer, '/parametre')) {
-            return $this->redirectToRoute('app_parametre');
-        }
+        // // Si la suppression vient de la page profile personnel
+        // if (str_contains($referer, '/parametre')) {
+        //     return $this->redirectToRoute('app_parametre');
+        // }
         
         // Sinon, rediriger vers le profil de l'utilisateur supprimé
-        return $this->redirectToRoute('app_user_profile', [
-            'name' => $user->getName()
-        ]);
+        return $this->redirectToRoute('app_parametre');
     }
 
 }

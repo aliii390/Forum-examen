@@ -9,6 +9,7 @@ use App\Entity\Publication;
 use App\Entity\User;
 use App\Form\CommentaireType;
 use App\Repository\CommentaireRepository;
+use App\Repository\PublicationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -32,7 +33,7 @@ final class DetailController extends AbstractController
             $entityManager->persist($commentaire);
             $entityManager->flush();
     
-            $this->addFlash('success', 'Votre commentaire a été ajouté avec succès!');
+            $this->addFlash('commentaire', 'Votre commentaire a été ajouté avec succès!');
     
             return $this->redirectToRoute('app_detail', ['id' => $publication->getId()]);
         }
@@ -71,11 +72,16 @@ final class DetailController extends AbstractController
 
 
   // route pour ajoutez en ami
-    #[Route('/ajout/{id}', name: 'app_detail_ajout', methods: ['GET'])]
-    public function ajoute(int $id, EntityManagerInterface $entityManager): Response
+    #[Route('/detailAjout/{id}', name: 'app_detail_ajout', methods: ['GET'])]
+    public function ajoute(int $id, EntityManagerInterface $entityManager, Request $request ): Response
     {
         $user = $this->getUser();
         $autreUser = $entityManager->getRepository(User::class)->find($id);
+        $publicationId = $request->query->get('redirectionApresAjoutPasConnecter');
+        
+        
+        // dd( $publication);
+          
 
 
         if ($user) {
@@ -92,12 +98,13 @@ final class DetailController extends AbstractController
                 'name' => $autreUser->getName()
             ]);
         } else {
-            $this->addFlash('connectAjout', 'connectez vous pour ajoutez en ami ');
-            return $this->redirectToRoute('app_home');
+            $this->addFlash('connectAjoutDetail', 'connectez vous pour ajoutez '. $autreUser->getName(). ' en abonnements');
+            return $this->redirectToRoute('app_detail', ['id'=> $publicationId]);
+           
         }
 
 
-
+ 
         // dd($user);
 
     }
@@ -106,28 +113,29 @@ final class DetailController extends AbstractController
 
 
      // route pour bloquer un user 
-    #[Route('/block/{id}', name: 'app_detail_block', methods: ['GET'])]
-    public function bloquer(int $id, EntityManagerInterface $entityManager, Publication $publication): Response
+    #[Route('/detailBlock/{id}', name: 'app_detail_block', methods: ['GET'])]
+    public function bloquer(int $id ,EntityManagerInterface $entityManager, Request $request ): Response
     {
         $user = $this->getUser();
-        $otherUser = $entityManager->getRepository(User::class)->find($id);
+        $autreUser = $entityManager->getRepository(User::class)->find($id);
+        $publicationId = $request->query->get('redirectionApresBloquerPasConnectez');
 
 
         if($user){
              $compteBloquer = new CompteBloquer;
         $compteBloquer->setUser($user);
-        $compteBloquer->setUserBlocked($otherUser);
+        $compteBloquer->setUserBlocked($autreUser);
 
         $entityManager->persist($compteBloquer);
         $entityManager->flush();
 
         // Ajout du message flash
-        $this->addFlash('userBloquer',    $otherUser->getName() . ' a bien été bloqué');
+        $this->addFlash('userBloquerConenctez',    $autreUser->getName() . ' a bien été bloqué');
 
-        return $this->redirectToRoute('app_detail' );
+        return $this->redirectToRoute('app_detail', ['id' => $publicationId] );
         }else{
-        $this->addFlash('userBloquer',  'connectez vous pour bloquez un utilisateur');
-        return $this->redirectToRoute('app_detail' );
+        $this->addFlash('userBloquerDetailPasConnectez',  'connectez vous pour bloquez '. $autreUser->getName());
+        return $this->redirectToRoute('app_detail', ['id'=> $publicationId]);
         }
 
 

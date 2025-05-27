@@ -9,7 +9,6 @@ use App\Entity\Publication;
 use App\Entity\User;
 use App\Repository\CategoryRepository;
 use App\Repository\PublicationRepository;
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -40,24 +39,28 @@ final class HomeController extends AbstractController
     }
 
     // route pour bloquer un user 
-    #[Route('/block/{id}', name: 'app_block', methods: ['GET'])]
+    #[Route('/block/{id}', name: 'app_home_block', methods: ['GET'])]
     public function bloquer(int $id, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-        $otherUser = $entityManager->getRepository(User::class)->find($id);
+        $autreUser = $entityManager->getRepository(User::class)->find($id);
+
+        if ($user) {
+            $compteBloquer = new CompteBloquer;
+            $compteBloquer->setUser($user);
+            $compteBloquer->setUserBlocked($autreUser);
+            $entityManager->persist($compteBloquer);
+            $entityManager->flush();
 
 
-        $compteBloquer = new CompteBloquer;
-        $compteBloquer->setUser($user);
-        $compteBloquer->setUserBlocked($otherUser);
+            // Ajout du message flash
+            $this->addFlash('userBloquer',    $autreUser->getName() . ' a bien été bloqué');
 
-        $entityManager->persist($compteBloquer);
-        $entityManager->flush();
-
-        // Ajout du message flash
-        $this->addFlash('userBloquer',    $otherUser->getName() . ' a bien été bloqué');
-
-        return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_home');
+        } else {
+            $this->addFlash('connectBloquer', 'connectez vous pour bloquer ' . $autreUser->getName());
+            return $this->redirectToRoute('app_home');
+        }
     }
 
 
@@ -83,7 +86,7 @@ final class HomeController extends AbstractController
                 'name' => $autreUser->getName()
             ]);
         } else {
-            $this->addFlash('connectAjout', 'connectez vous pour ajoutez en ami ');
+            $this->addFlash('connectAjout', 'connectez vous pour ajoutez '. $autreUser->getName() . ' dans vos abonnements');
             return $this->redirectToRoute('app_home');
         }
 
@@ -93,48 +96,48 @@ final class HomeController extends AbstractController
 
 
 
-        
+
 
     }
 
 
     // route pour liker des post 
-     #[Route('/like/{id}', name: 'app_like', methods: ['POST'])]
-public function like(Publication $publication, EntityManagerInterface $entityManager): JsonResponse
-{
-      $user = $this->getUser();
+    #[Route('/like/{id}', name: 'app_like', methods: ['POST'])]
+    public function like(Publication $publication, EntityManagerInterface $entityManager): JsonResponse
+    {
+        $user = $this->getUser();
 
-    if (!$user) {
-        return new JsonResponse(['error' => 'Non connecté'], 403);
+        if (!$user) {
+            return new JsonResponse(['error' => 'Non connecté'], 403);
+        }
+
+
+        $postLikerRepo = $entityManager->getRepository(PostLiker::class);
+
+        $postLiker = $postLikerRepo->findOneBy([
+            'user' => $this->getUser(),
+            'publication' => $publication
+        ]);
+
+        if ($postLiker) {
+            $entityManager->remove($postLiker);
+            // $message = 'Like retiré';
+        } else {
+            $postLiker = new PostLiker();
+            $postLiker->setUser($this->getUser());
+            $postLiker->setPublication($publication);
+            $entityManager->persist($postLiker);
+            // $message = 'Like ajouté';
+        }
+
+        $entityManager->flush();
+
+        // Compter les likes
+        $likeCount = $postLikerRepo->count(['publication' => $publication]);
+
+        return new JsonResponse([
+            'likes' => $likeCount,
+            // 'message' => $message
+        ]);
     }
-
-
-    $postLikerRepo = $entityManager->getRepository(PostLiker::class);
-
-    $postLiker = $postLikerRepo->findOneBy([
-        'user' => $this->getUser(),
-        'publication' => $publication
-    ]);
-
-    if ($postLiker) {
-        $entityManager->remove($postLiker);
-        // $message = 'Like retiré';
-    } else {
-        $postLiker = new PostLiker();
-        $postLiker->setUser($this->getUser());
-        $postLiker->setPublication($publication);
-        $entityManager->persist($postLiker);
-        // $message = 'Like ajouté';
-    }
-
-    $entityManager->flush();
-
-    // Compter les likes
-    $likeCount = $postLikerRepo->count(['publication' => $publication]);
-
-    return new JsonResponse([
-        'likes' => $likeCount,
-        // 'message' => $message
-    ]);
-}
 }
