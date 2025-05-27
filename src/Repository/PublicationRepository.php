@@ -54,4 +54,14 @@ class PublicationRepository extends ServiceEntityRepository
     //         ->getQuery()
     //         ->getResult();
     // }
+
+
+     public function findPostOrdre(): array
+    {
+        return $this->createQueryBuilder('p')
+            
+            ->orderBy('p.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 }

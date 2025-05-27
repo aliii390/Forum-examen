@@ -24,7 +24,7 @@ final class HomeController extends AbstractController
 
         // Si aucun utilisateur n'est connecté, on récupère toutes les publications
         if (!$user) {
-            $publication = $publicationRepository->findAll();
+            $publication = $publicationRepository->findPostOrdre();
         } else {
             $publication = $publicationRepository->findePublicationsBloquer($user);
         }
