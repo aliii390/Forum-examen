@@ -63,5 +63,6 @@ class PublicationRepository extends ServiceEntityRepository
             ->orderBy('p.createdAt', 'DESC')
             ->getQuery()
             ->getResult();
+            
     }
 }
