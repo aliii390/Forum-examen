@@ -44,11 +44,12 @@ final readonly class OAuthRegistrationService
         // Attribution de l'email et de l'ID Google
         $user->setEmail($resourceOwner->getEmail())
         ->setName($resourceOwner->getName())
+        ->setPhoto($resourceOwner->getAvatar())
       
         // ->setPhoto($resourceOwner->getPhoto())
         ->setGoogleId((int) $resourceOwner->getId());
      
-        // Génération d'un mot de passe aléatoire de 32 caractères (16 bytes convertis en hexadécimal)
+        // Génération d'un mot de passe aléatoire de 32 caractères 
         $randomPassword = bin2hex(random_bytes(16));
         // Hashage du mot de passe pour sécurisation
         $hashedPassword = $this->passwordHasher->hashPassword($user, $randomPassword);
