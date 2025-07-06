@@ -128,4 +128,6 @@ final class ParametreController extends AbstractController
         return $this->redirectToRoute('app_parametre');
     }
 
+    // route pour le filtrage 
+
 }

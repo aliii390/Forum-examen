@@ -21,7 +21,8 @@ class UserCrudController extends AbstractCrudController
         return [
             IdField::new('id'),
             TextField::new('name'),
-            TextEditorField::new('email'),
+            TextField::new('email'),
+            
         ];
     }
     
