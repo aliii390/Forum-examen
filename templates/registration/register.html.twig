@@ -8,38 +8,6 @@
 {% block body %}
 
 
-{# message flash pour savoir si le mail existe déja ou pas  #}
-	{% for message in app.flashes('mailExistant') %}
-		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
-			<div class="bg-green-50 border-l-4 border-red-700 p-4 rounded-lg shadow-lg
-										                    flex items-center gap-3
-										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
-				<div class="flex-shrink-0">
-					<svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
-						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
-					</svg>
-				</div>
-				<div class="flex-1">
-					<p class="text-sm sm:text-base text-red-700 font-medium">
-						{{ message }}
-					</p>
-				</div>
-				<button onclick="this.parentElement.parentElement.remove()" class="flex-shrink-0 text-red-700 hover:text-red-700 transition-colors duration-200">
-					<svg class="h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
-						<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
-					</svg>
-				</button>
-			</div>
-		</div>
-	{% endfor %}
-
-
-
-
-
-
-
 
 	<div class="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-8">
 		<div class="w-full max-w-md bg-white shadow-md rounded-lg border border-slate-200">
