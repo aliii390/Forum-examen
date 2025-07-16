@@ -60,11 +60,13 @@
 <div id="overlay" class="fixed inset-0 bg-black opacity-0 pointer-events-none transition-opacity duration-300 z-40"></div>
 
 {# Header principal #}
-<header class="bg-[#FDEDD5] py-3 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-7xl mx-auto flex items-center justify-between">
+
+
+<header class="bg-[#FDEDD5] w-full" style="min-height: 64px;">
+    <div class="max-w-7xl mx-auto flex items-center justify-between px-4 sm:px-6 lg:px-8" style="height: 64px;">
         {# Logo #}
-        <a href="{{ path('app_home') }}" class="flex-shrink-0">
-            <img src="{{ asset('img/Logo.png') }}" alt="Logo" class="w-28 sm:w-32">
+        <a href="{{ path('app_home') }}" class="flex-shrink-0 flex items-center h-full">
+            <img src="{{ asset('img/forum.png') }}" alt="Logo" class="h-10 sm:h-12 lg:h-16 w-auto object-contain">
         </a>
 
     
