@@ -38,25 +38,11 @@ final class ProfileController extends AbstractController
          * @var User $user
          */
         $user = $this->getUser();
-
-
-
-        // pour afficher tout les user qu'on a ajoutez 
-        // $ajoutUser = $user->getAjoutAmis();
-
-    
-     
-
-
-        
-
-
         $form = $this->createForm(UpdateInfoType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $name = $form->get('name')->getData();
-            // $plainPassword = $form->get('plainPassword')->getData(); 
             $email = $form->get('email')->getData();
 
 
@@ -64,6 +50,7 @@ final class ProfileController extends AbstractController
             $photo = $form->get('photo')->getData();
 
             if ($photo) {
+                
                 $postPhoto = $fileUploader->upload($photo, $user, 'photo', 'uploads');
                 $user->setPhoto($postPhoto);
             }
