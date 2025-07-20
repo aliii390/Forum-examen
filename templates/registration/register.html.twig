@@ -79,9 +79,9 @@
 						{{ form_label(registrationForm.agreeTerms, "J'accepte les conditions d'utilisation", {'label_attr': {'class': 'font-medium text-slate-700'}}) }}
 						<p class="text-slate-500">
 							En créant un compte, vous acceptez nos
-							<a href="#" class="text-orange-600 hover:text-orange-500">Conditions d'utilisation</a>
+							<a href="{{path('app_condition')}}" class="text-orange-600 hover:text-orange-500">Conditions d'utilisation</a>
 							et
-							<a href="#" class="text-orange-600 hover:text-orange-500">politique de confidentialité</a>.
+							<a href="{{path('app_politique')}}" class="text-orange-600 hover:text-orange-500">politique de confidentialité</a>.
 						</p>
 					</div>
 				</div>

@@ -8,15 +8,13 @@
 {% block body %}
 
 
-
-
-{# message flash quand on supprime un commentaire #}
-{% for message in app.flashes('commentaireSupprimer') %}
+	{# message flash quand on supprime un commentaire #}
+	{% for message in app.flashes('commentaireSupprimer') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
-					                    flex items-center gap-3
-					                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-					                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+															                    flex items-center gap-3
+															                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+															                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
 				<div class="flex-shrink-0">
 					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -38,13 +36,13 @@
 	{# fin du message flash #}
 
 
-{#message flash quand on essaye d'ajouter un user mais qu'on est pas connecter #}
+	{#message flash quand on essaye d'ajouter un user mais qu'on est pas connecter #}
 	{% for message in app.flashes('connectAjoutDetail') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-red-700 p-4 rounded-lg shadow-lg
-										                    flex items-center gap-3
-										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+																				                    flex items-center gap-3
+																				                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+																				                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
 				<div class="flex-shrink-0">
 					<svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -68,9 +66,9 @@
 	{% for message in app.flashes('userBloquerDetailPasConnectez') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-red-700 p-4 rounded-lg shadow-lg
-										                    flex items-center gap-3
-										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+																				                    flex items-center gap-3
+																				                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+																				                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
 				<div class="flex-shrink-0">
 					<svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -90,13 +88,13 @@
 		</div>
 	{% endfor %}
 	{# fin du code  #}
-{#message flash quand on essaye d'ajouter un user mais qu'on est pas connecter #}
+	{#message flash quand on essaye d'ajouter un user mais qu'on est pas connecter #}
 	{% for message in app.flashes('commentaire') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-red-700 p-4 rounded-lg shadow-lg
-										                    flex items-center gap-3
-										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+																				                    flex items-center gap-3
+																				                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+																				                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
 				<div class="flex-shrink-0">
 					<svg class="h-5 w-5 text-red-700" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -117,13 +115,13 @@
 	{% endfor %}
 	{# fin du code  #}
 
-{#message flash quand on bloque un utilisateur quand on est connecter #}
+	{#message flash quand on bloque un utilisateur quand on est connecter #}
 	{% for message in app.flashes('userBloquerConenctez') %}
 		<div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 animate-fade-in-down">
 			<div class="bg-green-50 border-l-4 border-green-400 p-4 rounded-lg shadow-lg
-										                    flex items-center gap-3
-										                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
-										                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
+																				                    flex items-center gap-3
+																				                    min-w-[280px] sm:min-w-[320px] md:min-w-[384px]
+																				                    max-w-[90vw] sm:max-w-[400px] md:max-w-[448px]">
 				<div class="flex-shrink-0">
 					<svg class="h-5 w-5 text-green-400" xmlns="http://www.w3.org/2000/svg" viewbox="0 0 20 20" fill="currentColor">
 						<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
@@ -145,7 +143,6 @@
 	{# fin du code  #}
 
 
-
 	<section
 		class="max-w-4xl mx-auto p-4 md:p-6">
 
@@ -156,11 +153,12 @@
 				<div class="relative w-24 h-24 mb-4">
 					<img src="{{ publication.user.photo ? asset('uploads/uploads/' ~ publication.user.photo) : asset('img/icon.jpg') }}" alt="Photo de profil de {{ publication.user.name }}" class="w-full h-full rounded-full object-cover">
 				</div>
-				<h2 class="text-xl font-medium mb-2" >{{publication.user.name}}</h2>
-				<div class="flex items-center mb-4 ">
+				<h2 class="text-xl font-medium mb-2">{{publication.user.name}}</h2>
+				<div
+					class="flex items-center mb-4 ">
 					{# <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewbox="0 0 24 24" stroke="none">
-						<path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.2-6.3 4.2 2.3-7.1-6-4.5h7.6z"/>
-					</svg> #}
+																<path d="M12 2l2.4 7.4H22l-6 4.5 2.3 7.1-6.3-4.2-6.3 4.2 2.3-7.1-6-4.5h7.6z"/>
+															</svg> #}
 
 
 					<a href="{{path('app_user_profile', {'name': publication.user.name})}}">
@@ -175,16 +173,14 @@
 
 		<!-- Main Post Container -->
 		<div class="bg-white rounded-lg shadow-md mb-6 overflow-hidden">
-			<div class="p-4 md:p-6">
+			<div
+				class="p-4 md:p-6">
 				<!-- Post Header -->
 				<div class="flex items-start justify-between mb-4">
 					<div class="flex items-center">
-						<img src="{{ publication.user.photo ? asset('uploads/uploads/' ~ publication.user.photo) : asset('img/icon.jpg') }}" 
-							alt="User Avatar" 
-							class="w-10 h-10 rounded-full mr-3">
+						<img src="{{ publication.user.photo ? asset('uploads/uploads/' ~ publication.user.photo) : asset('img/icon.jpg') }}" alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
 						<div>
-							<a class="font-medium hover:text-sky-700" 
-								href="{{path('app_user_profile', {'name': publication.user.name})}}">
+							<a class="font-medium hover:text-sky-700" href="{{path('app_user_profile', {'name': publication.user.name})}}">
 								{{publication.user.name}}
 							</a>
 							<div class="text-gray-500 text-sm">
@@ -195,22 +191,18 @@
 
 					<!-- Options Button -->
 					<div class="relative">
-						<button class="h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-200" 
-							onclick="togglePopup(event)" 
-							aria-label="Options">
+						<button class="h-8 w-8 rounded-full flex items-center justify-center hover:bg-gray-100 transition-colors duration-200" onclick="togglePopup(event)" aria-label="Options">
 							<i class="fa-solid fa-ellipsis text-gray-700 hover:text-[#F48023]"></i>
 						</button>
 						<div class="popup hidden absolute z-10 bg-white shadow-xl rounded-lg p-3 -right-2 mt-1 w-36">
 							<div class="relative">
 								<div class="absolute w-3 h-3 bg-white transform rotate-45 -top-1 right-3"></div>
 								<div class="flex flex-col gap-3">
-									<a href="{{path('app_detail_ajout',{id: publication.user.id, 'redirectionApresAjoutPasConnecter': publication.id})}}" 
-										class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="addUser('{{ publication.user.id }}')" >
+									<a href="{{path('app_detail_ajout',{id: publication.user.id, 'redirectionApresAjoutPasConnecter': publication.id})}}" class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="addUser('{{ publication.user.id }}')">
 										<i class="fas fa-user-plus text-xs"></i>
 										<span>Ajouter</span>
 									</a>
-									<a href="{{path('app_detail_block',{id: publication.user.id, 'redirectionApresBloquerPasConnectez': publication.id})}}" 
-										class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="blockUser('{{ publication.user.id }}')">
+									<a href="{{path('app_detail_block',{id: publication.user.id, 'redirectionApresBloquerPasConnectez': publication.id})}}" class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="blockUser('{{ publication.user.id }}')">
 										<i class="fas fa-ban text-xs"></i>
 										<span>Bloquer</span>
 									</a>
@@ -223,7 +215,7 @@
 				<!-- Post Content -->
 				<div class="space-y-4">
 					<h1 class="text-2xl font-bold">{{publication.title}}</h1>
-					
+
 					{% if publication.category.name == 'Programmation' and publication.langage %}
 						<pre class="bg-gray-900 rounded-lg overflow-x-auto">
 							<code class="language-{{ publication.langage.name|lower }} block p-4 text-sm text-gray-100 font-mono leading-relaxed">
@@ -257,10 +249,11 @@
 
 							<div class="flex-1">
 								<div class="flex items-center justify-between mb-2">
-									<a class="font-medium" href="{{path('app_user_profile', {'name': comment.user.name})}}">{{comment.user.name}} </a>
+									<a class="font-medium" href="{{path('app_user_profile', {'name': comment.user.name})}}">{{comment.user.name}}
+									</a>
 									<span class="text-gray-500 text-sm">{{ comment.createdAt|date('d/m/Y à H:i') }}</span>
 									{% if app.user and app.user == comment.user %}
-										<form method="post" action="{{ path('commentaire_supprimer', {'id': comment.id}) }}" >
+										<form method="post" action="{{ path('commentaire_supprimer', {'id': comment.id}) }}">
 											<input type="hidden" name="_token" value="{{ csrf_token('delete_comment_' ~ comment.id) }}">
 											<button type="submit" class="btn btn-danger">
 												<i class="fa-solid fa-trash-can" style="color: #ff0000;"></i>
@@ -321,9 +314,9 @@
 	</section>
 
 
-<script>
+	<script>
 
-// Gestion des modales
+		// Gestion des modales
 function addUser(userId) {
 currentUserId = userId;
 openModal('add-user-modal');
@@ -362,38 +355,38 @@ modal.classList.add('hidden');
 
 // Fonction pour gérer l'affichage du popup
 function togglePopup(event) {
-    const button = event.currentTarget;
-    const popup = button.nextElementSibling;
-    
-    // Toggle la classe hidden
-    popup.classList.toggle('hidden');
-    
-    // Ajoute une petite animation
-    if (!popup.classList.contains('hidden')) {
-        setTimeout(() => {
-            popup.style.opacity = '1';
-            popup.style.transform = 'translateY(0)';
-        }, 10);
-    } else {
-        popup.style.opacity = '0';
-        popup.style.transform = 'translateY(-10px)';
-    }
-    
-    // Empêche la propagation du clic
-    event.stopPropagation();
+const button = event.currentTarget;
+const popup = button.nextElementSibling;
+
+// Toggle la classe hidden
+popup.classList.toggle('hidden');
+
+// Ajoute une petite animation
+if (! popup.classList.contains('hidden')) {
+setTimeout(() => {
+popup.style.opacity = '1';
+popup.style.transform = 'translateY(0)';
+}, 10);
+} else {
+popup.style.opacity = '0';
+popup.style.transform = 'translateY(-10px)';
+}
+
+// Empêche la propagation du clic
+event.stopPropagation();
 }
 
 // Ferme le popup quand on clique ailleurs sur la page
-document.addEventListener('click', function(event) {
-    const popups = document.querySelectorAll('.popup');
-    popups.forEach(popup => {
-        if (!popup.contains(event.target) && !event.target.matches('button[onclick="togglePopup(event)"]')) {
-            popup.classList.add('hidden');
-            popup.style.opacity = '0';
-            popup.style.transform = 'translateY(-10px)';
-        }
-    });
+document.addEventListener('click', function (event) {
+const popups = document.querySelectorAll('.popup');
+popups.forEach(popup => {
+if (!popup.contains(event.target) && ! event.target.matches('button[onclick="togglePopup(event)"]')) {
+popup.classList.add('hidden');
+popup.style.opacity = '0';
+popup.style.transform = 'translateY(-10px)';
+}
 });
-</script>
+});
+	</script>
 
 {% endblock %}
