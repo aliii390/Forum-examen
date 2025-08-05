@@ -190,11 +190,11 @@
 											<div class="absolute w-3 h-3 bg-white transform rotate-45 -top-1 right-3"></div>
 											{# Contenu #}
 											<div class="flex flex-col gap-3">
-												<a href="{{path('app_home_ajout',{id: question.user.id})}}" class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="addUser('{{ question.user.id }}')">
+												<a href="{{path('app_post_ajout',{id: question.user.id})}}" class="text-sm text-gray-700 hover:text-[#F48023] flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="addUser('{{ question.user.id }}')">
 													<i class="fas fa-user-plus text-xs"></i>
 													<span>Ajouter</span>
 												</a>
-												<a href="{{path('app_home_block',{id: question.user.id})}}" class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="blockUser('{{ question.user.id }}')">
+												<a href="{{path('app_post_block',{id: question.user.id})}}" class="text-sm text-gray-700 hover:text-red-500 flex items-center gap-2 w-full text-left transition-colors duration-200 py-1" onclick="blockUser('{{ question.user.id }}')">
 													<i class="fas fa-ban text-xs"></i>
 													<span>Bloquer</span>
 												</a>

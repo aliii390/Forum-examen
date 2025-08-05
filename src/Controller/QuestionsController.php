@@ -60,7 +60,7 @@ final class QuestionsController extends AbstractController
            $entityManager->persist($question);
            $entityManager->flush();
            
-           return $this->redirectToRoute('app_home');
+           return $this->redirectToRoute('app_post');
         }
 
         return $this->render('questions/index.html.twig', [

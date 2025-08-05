@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue sur Forum{% endblock %}
+
+{% block body %}
+<main class="min-h-screen bg-gray-50 flex flex-col">
+    <section class="flex flex-col items-center justify-center flex-1 px-4 py-12 sm:px-6 lg:px-8">
+        <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4 text-center">
+            Bienvenue sur Forum
+        </h1>
+        <p class="text-base sm:text-lg md:text-xl text-gray-600 mb-8 text-center max-w-2xl">
+            Rejoignez la communauté, partagez vos idées, posez vos questions et trouvez des réponses sur notre forum moderne et convivial.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4">
+            <a href="{{ path('app_register') }}" class="px-6 py-3 rounded-md bg-[#F48023] text-white font-semibold hover:bg-orange-700 transition text-center">
+                S'inscrire
+                {# #F48023 #}
+            </a>
+            <a href="{{ path('app_post') }}" class="px-6 py-3 rounded-md bg-white border border-[#F48023] text-[#F48023] font-semibold hover:bg-blue-50 transition text-center">
+                Voir les publications
+            </a>
+        </div>
+    </section>
+    <section class="bg-white py-8 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="flex flex-col items-center text-center">
+                <svg class="w-12 h-12 text-blue-500 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-5.13a4 4 0 11-8 0 4 4 0 018 0zm6 8v2a2 2 0 01-2 2H5a2 2 0 01-2-2v-2a6 6 0 0112 0z"/>
+                </svg>
+                <h3 class="font-semibold text-lg mb-2">Communauté active</h3>
+                <p class="text-gray-500">Discutez avec des membres passionnés et obtenez de l'aide rapidement.</p>
+            </div>
+            <div class="flex flex-col items-center text-center">
+                <svg class="w-12 h-12 text-green-500 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                </svg>
+                <h3 class="font-semibold text-lg mb-2">Réponses rapides</h3>
+                <p class="text-gray-500">Posez vos questions et recevez des réponses en un rien de temps.</p>
+            </div>
+            <div class="flex flex-col items-center text-center">
+                <svg class="w-12 h-12 text-purple-500 mb-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M8 10h.01M12 10h.01M16 10h.01M21 16v-2a4 4 0 00-3-3.87M3 16v-2a4 4 0 013-3.87m9-5.13a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+                <h3 class="font-semibold text-lg mb-2">Sujets variés</h3>
+                <p class="text-gray-500">Participez à des discussions sur de nombreux sujets d'actualité.</p>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

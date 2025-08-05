@@ -17,7 +17,12 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class HomeController extends AbstractController
 {
-    #[Route('/', name: 'app_home')]
+
+ 
+
+
+
+    #[Route('/post', name: 'app_post')]
     public function index(PublicationRepository $publicationRepository, CategoryRepository $categoryRepository): Response
     {
         $user = $this->getUser();
@@ -39,7 +44,7 @@ final class HomeController extends AbstractController
     }
 
     // route pour bloquer un user 
-    #[Route('/block/{id}', name: 'app_home_block', methods: ['GET'])]
+    #[Route('/block/{id}', name: 'app_post_block', methods: ['GET'])]
     public function bloquer(int $id, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -56,16 +61,16 @@ final class HomeController extends AbstractController
             // Ajout du message flash
             $this->addFlash('userBloquer',    $autreUser->getName() . ' a bien été bloqué');
 
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_post');
         } else {
             $this->addFlash('connectBloquer', 'connectez vous pour bloquer ' . $autreUser->getName());
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_post');
         }
     }
 
 
     // route pour ajoutez en ami
-    #[Route('/ajout/{id}', name: 'app_home_ajout', methods: ['GET'])]
+    #[Route('/ajout/{id}', name: 'app_post_ajout', methods: ['GET'])]
     public function ajoute(int $id, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -87,7 +92,7 @@ final class HomeController extends AbstractController
             ]);
         } else {
             $this->addFlash('connectAjout', 'connectez vous pour ajoutez '. $autreUser->getName() . ' dans vos abonnements');
-            return $this->redirectToRoute('app_home');
+            return $this->redirectToRoute('app_post');
         }
 
 
